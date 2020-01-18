@@ -1,0 +1,74 @@
+Three Shuffles and a Draw
+A Three Shuffles and a Draw célja az összes kártya elhelyezése az alapra.
+A kártyákat táblára osztják, 16 zsetonnal, 3 kártyával, az ászok már az alapra vannak helyezve. A játék kezdetén mind az 52 kártya felfelé fordul, és 16 kártya (a teljes kitettségű kártya minden zseton tetején) áll a játékos rendelkezésére.
+A rendelkezésre álló kártyákat az alapra lehet emelni, öltöny szerint növekvő sorrendben, vagy teljesen kitett kártyákra, öltöny szerint csökkenő sorrendben.
+A játék során az üres zsetonok elvesznek a játékhoz. Miután az összes lehetséges játékot megtették az alapra, az asztalra hagyott kártyákat átszervezték és újra osztották ki, egyenként 3-as osztásban. A megosztott zsetonok száma attól függ, hogy hány kártyát hagytak a táblában. Két átrendezés megengedett.
+Ezenkívül a játékos a játék során bármikor megkaphat egy döntet, ahol bármilyen eltemetett kártyát megválaszthatnak az alapra vagy az asztalra történő lejátszáshoz. A Döntetlen lehetőséget nyújt arra, hogy a kritikus kártya elérhető legyen játékra.
+A játéknak vége az utolsó shuffle és a Draw megszervezése után, amikor semmiféle további mozdulat nem tehető a foudan. A játék akkor nyer, ha az összes kártyát az alapra megtöltötték.
+
+Fejjel lefele Piramis
+Ez az érdekes táblázat nagyjából olyan, mint a Klondike, de kétszintes játék.
+A táblát az ábrán látható módon kell elrendezni, minden kártya felfelé. Minden oszlopban, balról jobbra, különböző számú kártya van. Az első 1 kártyát, második 3 kártyát, harmadik 5 kártyát, negyedik 7 kártyát, ötödik 9 kártyát, hatodik 10 kártyát, hetedik 8 kártyát, nyolcadik 6 kártyát, kilencedik 4 kártyát és tizedik 2 kártyát tartalmaz.
+Csak a teljesen exponált kártyák játszhatók le. A kártyákat és szekvenciákat a Tableau-n belül mozgathatjuk, mint a Klondike-ban, de a szekvenciák nem oszthatók fel. A királyokat üres helyekre költöztethetem, és az alapot ászról királyra építhetik fel.
+Mivel az összes kártya felfelé néződik, egy kicsit nehezebb megnézni a mozgatható sorozatokat, de a számítógépesnek ezt kell vigyáznia. Az állományból származó üzlet 3-szoros, mint a normál Klondike esetében.
+
+Skorpió
+A Skorpió szokatlan abban a tekintetben, hogy nincs raktárkészlete, hulladékhalma vagy alapja. Az összes kártyát a játék kezdetén a táblára osztják, except 3 kártya esetén, amelyek képezik a "merci" -t. A "merci" bármikor lejátszható, a játékos belátása szerint,
+A cél az, hogy a kártyákat csökkenő sorrendben öltözzük (királyt ászig).
+Kizárólag ostobaságon kitett kártyákra lehet játszani, ugyanolyan színű csökkenő kártyákkal.
+A 4 darab hart, ha látható, a teljesen exponált 5 darabon játszható. Amikor a 4 kölyköt áthelyezik az 5-ösre, akkor az összes alatta lévő kártya is mozog. Egy ászon semmilyen kártyát nem lehet játszani. Az arccal lefelé mutató kártya elérhetővé válik, amikor kitetté válik.
+A játék akkor ér véget, ha nem lehet kártyákat játszani, vagy ha az elvégzett játék nem javítja a siker esélyét. Akkor nyerik, ha az összes kártyát csökkenő sorrendben helyezik Kkingtől ászig, öltönyként.
+
+Super Scorpion
+Ez egy kétszintes játék, amely hasonlóan játszik a Scorpionhoz. Nincs alap - a játék célja az, hogy a kártyákat öltöny szerint egymás után helyezze a táblára. A játék akkor nyer, ha mind a nyolc kosztüm sorozat megfelelő sorrendbe került
+Ez a játék különbözik a Scorpiontól négy alapvető játékban:
+1. Két pakliban játsszák.
+2. A működő tableu kissé eltér, részben a kiegészítő fedélzet miatt.
+3. Itt van egy kéz, amelyből további kártyákat osztanak ki, ahogyan a játékos kívánja.
+4. A kártyákat kézből az oszlopok aljára osztják fel egymás után.
+
+Piramis
+A Piramis célja, hogy az összes kártyát törölje az asztallapból, a készletből és a hulladékhalomból.
+28 kártyát egy piramis alakú táblába osztanak. Kivéve egy kivételt, csak a teljesen exponált kártyák állnak rendelkezésre a játékhoz. A kártyákat a képernyőből eltávolítják olyan párosítással, amelyek összesen 13 pontot kapnak, kivéve a királyt, aki egyedül áll. Tekintse meg a kézikönyvet az egyes kártyák pontértékeihez.
+Minden kártyát, kivéve a királyt, párosan távolítják el:
+Q-A, J-2, 10-3, 9-4, 8-5, 7-6.
+A játék legtöbbször mindkét kártyának rendelkezésre kell állnia. Ha azonban a kártyák közül az egyetlen a párját takarja, akkor a két kártyát együtt lehet eltávolítani.
+Az asztalon lévő kártyákat párosíthatjuk más asztali kártyákkal, a készletben vagy a hulladékban lévő kártyákkal. A kártyákat a készletből származó hulladék halomra osztják el, ha nincs más játék, vagy a játékos saját belátása szerint.
+A játéknak vége, amikor nincs készletkártya a készletben, nincs több szabadon álló pár. A játék akkor nyert, amikor minden kártya párosítva volt.
+
+La Nivernaise
+Ez egy kétszintes pasziánsz játék, szokatlan táblával és alapozással. A La Nivernaise célja a mind a nyolc alapozó cölöp áthelyezése.
+Az alaplapok mindkét oldalán levő négy kártya részét képezi a táblának, és Flanksnak hívják. Ezt a területet kártyatartó területként használják, és az átváltások nem befolyásolják. A képernyő bal alsó részén található az alapanyag, jobbra pedig 6 oszlop, egyenként 4 felfelé néző kártyával, úgynevezett vonallal, amely alkotja a táblázat egyenlegét. A játék kezdetén az ász pikk mindig a bal felső oldalán van.
+A játék során minden színben egy ászot játsszanak a legfelső alap sorba, míg a minden színben egy királyt az alsó alap sorba. Ezután a kártyákat az alapítványhoz növekvő sorrendben (ász a királyhoz) kell játszani a felső sorban, és csökkenő rangot (király ász) az alsó sorban.
+Bármelyik Flank kártya játszható az alapra. Kizárólag a rendelkezésre álló vonalkártyákat lehet betölteni az alapra, vagy kitölteni a szegélyeken.
+A játéknak vége, amikor nincs visszaváltás, és egyetlen kártya sem mozgatható a Flanksba vagy az Alapítványba. A játék akkor nyer, amikor az összes kártyát áthelyezték az Alapítványba.
+
+Golf
+A Golf célja az összes kártya eltávolítása a tábláról. Az eltávolított kártyákat a készlet jobb oldalán lévő hulladékhalomba helyezik. A táblázat 35 kártyát tartalmaz (7 kereszt és 5 le). Csak teljesen kitett kártyák játszhatók, beleértve a hulladékhalom felső kártyáját is.
+A kártyákat emelkedő vagy csökkenő sorrendben, az öntvénytől függetlenül, növelik vagy csökkenő sorrendben mozgatják a tablóról a hulladékhalomba. Ebben az esetben 2 kivétel van: csak egy 2-en lehet játszani egy ászon, és a játék király után ér véget. A kártyát meg kell osztani a készletből, hogy újra megkezdhesse a játékot. A királynők nem játszhatók királyokon.
+
+Klondike
+A Klondike a pasziánsz közül a legnépszerűbb. A Klondike célja, hogy az összes kártyát az alapítványhoz viszi az emelési sorrendben.
+28 kártyát osztanak egy 7 korszerű asztalra. Az első oszlop 1 kártyát tartalmaz, a második 2 kártyát, a harmadik 3 kártyát stb. Amikor a játék megkezdődik, a 7 oszlopban szereplő összes kártyát arccal lefelé kell osztani, kivéve minden oszlopban egy teljesen megvilágított kártyát. A kártyáknak rendelkezésre kell állniuk ahhoz, hogy lejátszhassák a táblát vagy a szökőkútot.
+A kártyákat egymás mellett játsszák, az alulról csökkenő sorrendben, váltakozva piros és fekete színben - az öltöny adagja nem számít. Amikor egy oszlop megüresedett, csak a királyt lehet áthelyezni a térbe. A lefelé nézett kártyák akkor kerülnek kitéve, amikor a játék során elérhetővé válnak.
+A kártyákat az alapítványnak az asztalról vagy a hulladékhalomból növekvő sorrendben játsszák, öltöny alapján.
+Játék közben, a játékos mérlegelése alapján, a kártyákat a készletből a 3-as csoportba osztják el. Csak a teljesen kitett kártya használható játékra. -ha a készletet kimerítik, a hulladékhalomban lévő kártyákat visszajuttatják az újrahasznosítandó készletbe.
+A játéknak vége, amikor nem lehet mozdulatokat játszani a Founadtionba. A gami akkor nyer, amikor az összes kártyát áthelyezték a Founadtionba.
+
+Negyven tolvaj
+Ez egy kétszintes pasziánsz játék, amelyben az a cél, hogy az összes kártyát az alapra helyezzék.
+Amikor a játék kezdődik, mindegyik oszlopban 10 oszlop van, 4 felfelé néző kártyával - nincsenek lefelé fordított kártyák. A fennmaradó 64 kártya teszi ki az állományt. A hulladékhalom az állománytól jobbra található.
+A táblázatban a teljesen kitett kártyákat csak öltönyökkel csökkenő sorrendben játsszák. A futások csoportként mozgathatók, ha rendelkezésre állnak. Ha egy oszlop megüresedett, bármely rendelkezésre álló kártya vagy futtatás áthelyezhető benne.
+A kártyákat az asztalig játsszák az alapra, az alapanyagok és a hulladék halmaza növekvő sorrendben van, öltöny szerint (ász a királyhoz). Ugyanazon öltöny elérhető futtatása, amely növekvő sorrendben játszható le az alapítványnak, csoportként áthelyezhető az alapítványba.
+A játék során, a játékos megítélése szerint, a kártyákat kirakják a készletre, és az előzőleg kitett kártyát egyenként a hulladékhalomba helyezik. Vigyázzon az újonnan megfordult készletre, és a teljesen kitett hulladékkártya játékhoz elérhető. Az állományt csak egyszer vizsgálják felül.
+A játék véget ért, amikor a készlet üres, és a játékkal nem lehet több játékot folytatni. A játék akkor nyer, ha az összes kártyát áthelyezték az alapra.
+
+Sós alacsony
+Ez egy érdekes kétszintes játék, ahol a királynőket dobják el a játék során.
+Indítsa el a játékot azáltal, hogy a pikk királyt bal oldali asztal helyzetbe helyezi. A kártyákat a kezével felfelé fordítva tedd a királyra az ábra szerint, amíg meg nem jelenik egy király vagy ász.
+Az ászokat az alapra lehet helyezni, mivel azok kitéve vannak az üzlet során, és azonnal lejátszhatók.
+A királyokat az alsó Tebleau sorba helyezzük. Az összes többi kártyát a követett király alá helyezik, hacsak nem játszhatók le a kitett alapon ászon.
+Az üzlet befejezése után az ász és az összes többi kártya, amelyet az üzlet során játszottak, az alapzási sorban van, és az összes király a táblázat alsó sorában látható.
+Az alapot ászról jackig építik fel, függetlenül az alkalmazástól. a sikeresen befejezett játék 8 jack sorozatot és 8 király sorát mutatja.
+Miután az összes kártyát a szökőkútra vagy a táblára osztották el, egy csupasz királyt (az egyik nem tartalmaz kártya alatt ti) szóközként játsszon, és minden rendelkezésre álló kártya áthelyezhető a helyre. Az egyes "király oszlopok" alján lévő "elérhető kártyák" vannak.
+Ebben a játékban a rendelkezésre álló kártyák "terekbe" vagy az alapokra mozognak. A kártyákat semmilyen módon nem mozgathatják a tablón belül.
