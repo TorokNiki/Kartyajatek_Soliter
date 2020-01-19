@@ -1,4 +1,4 @@
-package game;
+package backEnd.domain;
 
 public enum Style implements Comparable<Style>{
     HEARTS(1,"Hearts",'H'),

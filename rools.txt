@@ -1,27 +1,27 @@
 3-shuffel and draw
 The goal of Three Shuffles and a Draw is to move all of the cards to the foundation.
-The cards are dealt into a tableau with 16 stacks of 3 cards each with the aces already moved to the foundation. When the game begins, all 52 cards are face-up, with 16 cards( the fully exposed card on top of each stack) available to the player.
+The cards are dealt into a tableau with 16 stacks of 3 cards each with the aces already moved to the foundation. When the backEnd begins, all 52 cards are face-up, with 16 cards( the fully exposed card on top of each stack) available to the player.
 Available cards can be played to the foundation in ascending order by suit, or onto fully exposed cards in descending order by suit.
 During play, empty stacks are lost to play. After all possible plays have been made to the foundation, the cards left in the tableau are reshuffled and dealt out again in stacks of 3 each. The number of stacks dealt will depend on the number of cards remaining in the tableau. Two reshuffles are permitted.
-In addition, the player gets one Draw at any time during the game, where any buried card may be chosen to be played to the foundation or tableau. The Draw provides an opportunity to make a critical card available for play.
-The game is over after the final shuffle and the Draw been taken, when no futher moves can be made to the foudation. The game is won when all of the cards have been played to the foundation.
+In addition, the player gets one Draw at any time during the backEnd, where any buried card may be chosen to be played to the foundation or tableau. The Draw provides an opportunity to make a critical card available for play.
+The backEnd is over after the final shuffle and the Draw been taken, when no futher moves can be made to the foudation. The backEnd is won when all of the cards have been played to the foundation.
 
 Upside-Down Pyramid
-This interesting tableau plays much like Klondike but is two-deck game.
+This interesting tableau plays much like Klondike but is two-deck backEnd.
 The tableau is laid out as shown with all cards face up. Each column, from left to right, has a different number of cards in it. The first contains 1 card, second 3 cards, third 5 cards, fourth 7 cards, fifth 9 cards, sixth 10 cards, seventh 8 cards, eighth 6 cards, ninth 4 cards and tenth 2 cards.
 Only fully-exposed cards are available to be played on. Cards and sequences may be moved within the Tableau as in Klondike, but sequences may not be split. Kings can me moved to empty spaces, and the foundation is built up from ace to king by suit.
 Because all cards are faced-up, it is a little more difficult to see the sequences that can be moved, but the comuter should take care of that. The deal from the stock is 3 at a time as in normal Klondike.
 
 Scorpion
-Scorpion is unusual in that it does not have a Stock, waste pile or foundation. All of the cards are dealt to the tableau at the beginning of the game, eexcept for 3 cards which make up the "merci". The "merci" may be played at any time, at the discretion of the player.
+Scorpion is unusual in that it does not have a Stock, waste pile or foundation. All of the cards are dealt to the tableau at the beginning of the backEnd, eexcept for 3 cards which make up the "merci". The "merci" may be played at any time, at the discretion of the player.
 The goal is to arrang the cards in descending order by suit(king to ace).
 Only folly exposed cards can me played upon, by descending cards of the same suit.
 The 4 of harts, if visible, can be played on a fully exposed 5 of harts. When the 4 of harts is moved to the 5, all cards below it in the tableau move, too. No cards may be played on an ace. A facedown card becomes available when it become exposed.
-The game is over when no cards can be played, or when the plays that be made do not improve the chance for success. It is won when all of the cards are placed in descending order from Kking to ace, by suit.
+The backEnd is over when no cards can be played, or when the plays that be made do not improve the chance for success. It is won when all of the cards are placed in descending order from Kking to ace, by suit.
 
 Super Scorpion
-This is a two-deck game that plays much like Scorpion. There is no foundation-the objective of the game is to put the cards in sequence by suit within the tableau. The game is won when all eight suit sequences have been put in proper order
-This game different from Scorpion in four basic wasy:
+This is a two-deck backEnd that plays much like Scorpion. There is no foundation-the objective of the backEnd is to put the cards in sequence by suit within the tableau. The backEnd is won when all eight suit sequences have been put in proper order
+This backEnd different from Scorpion in four basic wasy:
 1. It is played whit two decks.
 2. The opering tableu is somewhat different, in part due to the additional deck.
 3. There us a hand from which additional cards are dealt as the player desires.
@@ -34,14 +34,14 @@ All cards but the king are removed in pairs:
 Q-A , J-2, 10-3, 9-4, 8-5, 7-6.
 Most of the time both cards must be available to make a play. However, when a card is the only one covering it's pair, the two cards may be removed together.
 Cards in the tableau may be paired with other tableau cards, with cards in the stock or in the waste pile. Cards are dealt to the waste pile from the stock when there are no other plays available, or at the discretion of the player.
-The game is over when there are no move cards in the stock there are no more exposed pairs available. The game has been won when all cards have been paired.
+The backEnd is over when there are no move cards in the stock there are no more exposed pairs available. The backEnd has been won when all cards have been paired.
 
 La Nivernaise
-This is a two-deck solitaire game whith an unusual tableau and Foundation. the goal of La Nivernaise is to move all of the 8 foundation piles.
-The four cards on either side of the foundation piles are part of the tableau and are called the Flanks. This area is used as a holding area for cards, and is not affected by the redeals. At the bottom left of the screen is the stock and to the right are 6 columns of 4 face-up cards each, called the Line, which makes up the balance of the tableau. When the game begins, the Ace of spades is always in the upper lept flank.
+This is a two-deck solitaire backEnd whith an unusual tableau and Foundation. the goal of La Nivernaise is to move all of the 8 foundation piles.
+The four cards on either side of the foundation piles are part of the tableau and are called the Flanks. This area is used as a holding area for cards, and is not affected by the redeals. At the bottom left of the screen is the stock and to the right are 6 columns of 4 face-up cards each, called the Line, which makes up the balance of the tableau. When the backEnd begins, the Ace of spades is always in the upper lept flank.
 During play, one ace of each suit is played to the top foundation row, while one king of each suit is played to the bottom foundation row. Cards are then played to the foundation in ascending rank(ace to king) in the top row, and descending rank (king to ace) in the bottom row.
 Any of the Flank cards can be played to the foundation. Only available Line cards can be plajed to the fondation or used to fill empty spaces in the Flanks.
-The game is over when there are no redeals left and no cards can be moved to the Flanks or the Foundation. The game is won when all of the cards have been moved to the Founation.
+The backEnd is over when there are no redeals left and no cards can be moved to the Flanks or the Foundation. The backEnd is won when all of the cards have been moved to the Founation.
 
 Golf
 The goal od Golf is to remove all of the cards from the board. The removed cards are placed in waste pile to the right of the stock. The tableau contains of 35 cards(7 across and 5 down). Only fully exposed cards are available for play, including the top card of the waste pile.
@@ -49,26 +49,26 @@ Cards are moved from the tableau to the waste pile in ascending or descending or
 
 Klondike
 Klondike is the most popular from Solitaire. The goal of Klondike is to move all of cards to the Foundation, in ascending order by suit.
-28 cards are dealt into a tableau of 7 coiumns. The first column contains 1 card, the second 2 cards, the third 3 cards, ect... When the game begins all of the cards in the 7 columns are dealt facedown, except for one fully exposed card in each column. Cards must be available to be played to the tableau or the founadtion.
+28 cards are dealt into a tableau of 7 coiumns. The first column contains 1 card, the second 2 cards, the third 3 cards, ect... When the backEnd begins all of the cards in the 7 columns are dealt facedown, except for one fully exposed card in each column. Cards must be available to be played to the tableau or the founadtion.
 Cards are played on each other whithin the tableau in descending order, alternating red and black-the suit dose not matter. When a column becomes vacant, only a king may be moved int the space. The facedown cards are exposed as they become available during play.
 Cards are played to the Foundation from the tableau or the waste pile in ascending order, by suit.
 During play, at the player's discreation, cards are dealt from the stock to the pile in group of 3. Only the fully exposed card is available for play. -when the stock is exhauused the cards in the waste pile are returned to the stock to be redealt.
-The game is over when no move plays can be made to the Founadtion. The gami is won when all cards have been moved to the Founadtion.
+The backEnd is over when no move plays can be made to the Founadtion. The gami is won when all cards have been moved to the Founadtion.
 
 Forty Thieves
-This is a two-deck solitaire game in which the goal is to move all of the cards to the foundation.
-When the game begins there are 10 columns of 4 face-up cards in each of the columns- there are no facedown cards. The remaining 64 cards make up the stock. The waste pile is to the right of the stock.
+This is a two-deck solitaire backEnd in which the goal is to move all of the cards to the foundation.
+When the backEnd begins there are 10 columns of 4 face-up cards in each of the columns- there are no facedown cards. The remaining 64 cards make up the stock. The waste pile is to the right of the stock.
 In the tableau, fully exposed cards are played in decsending order by suit only. Runs may be moved as a group when available. When a column becom vacant, any available card or run can be moved into it.
 Cards are played to the foundation from the tableau, the stock and waste pile is ascending order, by suit(ace to king). Available runs of the same suit, playable to the fondation in ascending order, can be moved to the foundation as a group.
 During play, at the player's discretion, cards are exposed on the stock, with the previously exposed stock card being dealt to the waste pile, one at a time. Bothe the newly turned stock and the fully exposed waste pile card are available for play. The stock is only reviwed once.
-The game is over when the stock is empty and no more plays can be made to the foudation. The game is won when all cards have been moved to the foundation.
+The backEnd is over when the stock is empty and no more plays can be made to the foudation. The backEnd is won when all cards have been moved to the foundation.
 
 Salic Low
-This is an interesting two-deck game where the queens are discarded during the play.
-Begin the game by placing a king of spades in the left hand tableau position. Deal cards from the hand face-up on the king as shown until a nother king or ace appears.
+This is an interesting two-deck backEnd where the queens are discarded during the play.
+Begin the backEnd by placing a king of spades in the left hand tableau position. Deal cards from the hand face-up on the king as shown until a nother king or ace appears.
 Aces can be placed on the foundation as they are exposed during the deal, and are immediately playable upon.
 Kings are placed in the lower Tebleau row. All other cards are placed below the king they follow unless they are playable upon the exposed foundation ace.
 When the deal is completed, all aces and any other cards that were played during the deal are in the fondation row, and all kings are shown in the bottom row of the tableau.
-The foundation is built up from the ace to jack regardless of suit. the successful finished game shows a row of 8 jacks, and a row of 8 kings.
+The foundation is built up from the ace to jack regardless of suit. the successful finished backEnd shows a row of 8 jacks, and a row of 8 kings.
 After all the cards have been dealt to the founadtion or tableau, a bare king(one whit no cards below ti) is played as a space and any available card may be moved into the space. Cards at the bottom of each "King columns" are "available cards".
-In this game available cards move to "spaces" or to the foundation. Cards are not moved around within the tableau in any way.
+In this backEnd available cards move to "spaces" or to the foundation. Cards are not moved around within the tableau in any way.

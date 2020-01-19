@@ -1,4 +1,4 @@
-package game;
+package backEnd.domain;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,32 +11,15 @@ public class Card extends ImageView {
     private Rank rank;
     private Style color;
     private Image front, back;
-    // private boolean movable;
-//    private ImageView imageView;
+    private Card cardOnIt;
 
-    public Card(int id,Rank rank, Style color) {
-        this.id=id;
+
+    public Card(int id, Rank rank, Style color) {
+        this.id = id;
         this.name = rank + " of " + color;
         this.rank = rank;
         this.color = color;
-        //this.movable = true;
-//        this.imageView=new ImageView();
     }
-
-    //    public void  setImageView(boolean lookUp, double width, double height, double x, double y, EventHandler<MouseEvent> pressed, EventHandler<MouseEvent> dragged){
-//        this.setImage(lookUp ? front : back);
-//        this.setFitWidth(width);
-//        this.setFitHeight(height);
-//        this.setLayoutX(x);
-//        this.setLayoutY(y);
-//        this.setPreserveRatio(true);
-//        this.setOnMousePressed(pressed);
-//        this.setOnMouseDragged(dragged);
-//    }
-//    public ImageView getImageView() {
-//        return imageView;
-//    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -103,5 +86,13 @@ public class Card extends ImageView {
 
     public void setBack(Image back) {
         this.back = back;
+    }
+
+    public Card getCardOnIt() {
+        return cardOnIt;
+    }
+
+    public void setCardOnIt(Card cardOnIt) {
+        this.cardOnIt = cardOnIt;
     }
 }

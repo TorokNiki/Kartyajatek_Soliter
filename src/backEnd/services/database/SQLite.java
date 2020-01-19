@@ -1,4 +1,4 @@
-package game;
+package backEnd.services.database;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

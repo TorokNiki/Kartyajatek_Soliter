@@ -1,7 +1,9 @@
-package game;
+package backEnd.services.factory;
 
+import backEnd.domain.Card;
+import backEnd.domain.Rank;
+import backEnd.domain.Style;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +46,4 @@ public class DeckFactory {
         deck.addAll(simpleImageDeck());
         return deck;
     }
-    //Collections.shuffle
 }
