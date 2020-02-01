@@ -3,44 +3,40 @@ package frontEnd;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.factory.DeckFactory;
+import backEnd.services.game.Menu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ControllerUDP implements Initializable {
     public Pane pnlGameSpace, pnlApplication;
+    public Pane upsideDownPyramid, threeShufflesAndADraw, scorpion, superScorpion, salicLaw, pyramid, laNivernaise, klondike, fortyThieves;
     public MenuBar menubControls;
     public TextField textScore;
+    public Scene application;
     public MenuItem menuClose, UndoLastMove, showScoreBoard, startNewTure, restartCurrentTure, startNewGame, endCurrentTure, autoFinish, changeCardLook, changeCardBackLook, changeBeckgroungColor, menuGameRoles;
     public double orgSceneX, orgSceneY;
     public double orgTranslateX, orgTranslateY;
     public int currentScore, score;
-    public List<Card> doubleDeck;
+    public List<Card> doubleDeck, deck, vastPile;
+    public ImageView deckHolder;
+    public boolean firstStart;
 
     EventHandler<MouseEvent> imageViewOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
@@ -84,53 +80,27 @@ public class ControllerUDP implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentScore = 0;
         score = 0;
-        menuClose.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent t) {
-                System.exit(0);
-            }
-        });
-        menuGameRoles.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) {
-                File pdfFile = new File("..\\Kartyajatek_Soliter\\src\\resources\\rools.pdf");
-                if (pdfFile.exists()) {
-                    if (Desktop.isDesktopSupported()) {
-                        try {
-                            Desktop.getDesktop().open(pdfFile);
-                        } catch (IOException e) {
-
-                            e.printStackTrace();
-                        }
-                    } else {
-                        System.out.println("Awt Desktop is not supported!");
-                    }
-                } else {
-                    System.out.println("File is not exists!");
-                }
-
-            }
-        });
+//        deckHolder.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                showDeck();
+//            }
+//        });
+//        startNewGame.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//               new Menu().startNext(actionEvent);
+//              Stage currentStage = (Stage) pnlGameSpace.getScene().getWindow();
+//              currentStage.close();
+//            }
+//        });
+        firstStart = false;
         doubleDeck = new DeckFactory().doubleDeck();
+        deck = new ArrayList<>();
+        vastPile = new ArrayList<>();
         placeCardsOnBoard();
     }
 
-    public void Indit(ActionEvent actionEvent) {
-        try {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("threeShuffelsAndADraw.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Tarsasjatek");
-            stage.setScene(new Scene(root1));
-            stage.show();
-
-        } catch (IOException e) {
-            System.err.println("Az ablakot nem lehet megnyitni!\n" + e);
-        }
-
-//        Stage currentStage = (Stage) btnJatekInditasa.getScene().getWindow();
-//        currentStage.close();
-    }
 
     public void placeCardsOnBoard() {
         emptySpace(15, 2);
@@ -155,7 +125,10 @@ public class ControllerUDP implements Initializable {
             card.setPreserveRatio(true);
             pnlGameSpace.getChildren().add(card);
         }
-        Collections.shuffle(doubleDeck);
+        if (!firstStart) {
+            Collections.shuffle(doubleDeck);
+            firstStart = true;
+        }
         int actual = 0;
         Card card = null;
         for (int i = 0; i < 5; i++) {
@@ -181,6 +154,7 @@ public class ControllerUDP implements Initializable {
             card = null;
         }
         for (int i = 0; i <= 40; i++) {
+            deck.add(doubleDeck.get(actual));
             doubleDeck.get(actual).setFitWidth(70);
             doubleDeck.get(actual).setFitHeight(110);
             doubleDeck.get(actual).setLayoutX(((i * 0.005) * doubleDeck.get(actual).getFitWidth()) + 5);
@@ -188,7 +162,14 @@ public class ControllerUDP implements Initializable {
             doubleDeck.get(actual).setImage(doubleDeck.get(actual).getBack());
 //            doubleDeck.get(actual).setOnMousePressed(imageViewOnMousePressedEventHandler);
 //            doubleDeck.get(actual).setOnMouseDragged(imageViewOnMouseDraggedEventHandler);
+            doubleDeck.get(actual).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    showDeck();
+                }
+            });
             pnlGameSpace.getChildren().add(doubleDeck.get(actual));
+
             actual++;
         }
 
@@ -220,39 +201,58 @@ public class ControllerUDP implements Initializable {
         }
     }
 
-    private void win() {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("Gratulálok Nyertél");
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
-        ImageView trophy = new ImageView();
-        Image picture = new Image("./resources/img/trophy.png");
-        trophy.setImage(picture);
-        trophy.setFitHeight(500);
-        trophy.setFitWidth(400);
-        grid.add(trophy, 0, 0);
-        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(picture);
-        dialog.getDialogPane().setContent(grid);
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-
-    }
-
-    private void score() {
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.setTitle("Jellenlegi pont állás");
-        alert.setHeaderText(null);
-        String output = String.format("Őssz pontszám: %d\nMost elért pontszám: %d", score, currentScore);
-        alert.setContentText(output);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        Image icon = new Image("./resources/img/cards/icon/ace-of-spades.png");
-        stage.getIcons().add(icon);
-        alert.getButtonTypes().add(ButtonType.OK);
-        alert.showAndWait();
+    private void showDeck() {
+        if (deck.size() > 0) {
+            for (int i = 0; i < 3; i++) {
+                vastPile.add(deck.get(i));
+                vastPile.get(i).getFront();
+                vastPile.get(i).setOnMousePressed(imageViewOnMousePressedEventHandler);
+                vastPile.get(i).setOnMousePressed(imageViewOnMouseDraggedEventHandler);
+                vastPile.get(i).setFitWidth(70);
+                vastPile.get(i).setLayoutY(15);
+                vastPile.get(i).setLayoutX(55);
+                deck.remove(i);
+            }
+        } else {
+            for (int i = 0; i < vastPile.size(); i++) {
+                deck.add(vastPile.get(i));
+                deck.get(i).getBack();
+                deck.get(i).setFitWidth(70);
+                deck.get(i).setLayoutY(15);
+                deck.get(i).setLayoutX(5);
+                vastPile.remove(i);
+            }
+        }
     }
 
 
+    public void nextGame(ActionEvent actionEvent) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("config/threeShuffelsAndADraw.fxml"));
+        new Menu().startNext(actionEvent, fxmlLoader);
+
+        Stage currentStage = (Stage) menubControls.getScene().getWindow();
+        currentStage.close();
+
+    }
+
+    public void start(ActionEvent actionEvent) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("config/upsideDownPyramid.fxml"));
+        new Menu().startNext(actionEvent, fxmlLoader);
+
+        Stage currentStage = (Stage) menubControls.getScene().getWindow();
+        currentStage.close();
+        //Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+    }
+
+    public void exit(ActionEvent actionEvent) {
+        System.exit(0);
+    }
+
+    public void rules(ActionEvent actionEvent) {
+        new Menu().openRools();
+    }
+
+    public void restart(ActionEvent actionEvent) {
+        //placeCardsOnBoard();
+    }
 }

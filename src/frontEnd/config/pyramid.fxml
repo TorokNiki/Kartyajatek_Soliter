@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Label?>
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontEnd.ControllerP" >
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontEnd.ControllerP">
     <children>
 
-        <Pane fx:id="pnlGameSpace" layoutX="-2.0" layoutY="27.0" prefHeight="601.0" prefWidth="801.0" style="-fx-background-color: lightblue;">
-            <children>
-
-            </children>
-        </Pane>
+        <Pane fx:id="pnlGameSpace" layoutX="-2.0" layoutY="27.0" prefHeight="601.0" prefWidth="801.0" style="-fx-background-color: lightblue;" />
         <MenuBar fx:id="menubControls" layoutY="2.0" prefHeight="26.0" prefWidth="800.0">
             <menus>
                 <Menu mnemonicParsing="false" text="Fájl">
