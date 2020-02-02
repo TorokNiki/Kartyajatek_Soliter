@@ -3,31 +3,36 @@ package backEnd.services.game;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.factory.DeckFactory;
-import frontEnd.Controller;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class UpsideDownPyramid {
-    public List<Card> doubleDeck, deck, vastPile;
+    public List<Card> doubleDeck;
+    public Stack<Card> deck, vastPile;
     public double orgSceneX, orgSceneY;
     public double orgTranslateX, orgTranslateY;
+    public int index;
 
     EventHandler<MouseEvent> imageViewOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
 
                 @Override
                 public void handle(MouseEvent t) {
-                    orgSceneX = t.getSceneX();
-                    orgSceneY = t.getSceneY();
-                    orgTranslateX = ((ImageView) (t.getSource())).getTranslateX();
-                    orgTranslateY = ((ImageView) (t.getSource())).getTranslateY();
+                    Card source = (Card) (t.getSource());
+                    if (source.isFaceup()) {
+                        orgSceneX = t.getSceneX();
+                        orgSceneY = t.getSceneY();
+
+                        orgTranslateX = source.getTranslateX();
+                        orgTranslateY = source.getTranslateY();
+                    }
                 }
             };
     EventHandler<MouseEvent> imageViewOnMouseDraggedEventHandler =
@@ -35,23 +40,25 @@ public class UpsideDownPyramid {
 
                 @Override
                 public void handle(MouseEvent t) {
-
-                    double offsetX = t.getSceneX() - orgSceneX;
-                    double offsetY = t.getSceneY() - orgSceneY;
-                    double newTranslateX = orgTranslateX + offsetX;
-                    double newTranslateY = orgTranslateY + offsetY;
-
                     Card source = (Card) (t.getSource());
-                    recursiveTranslate(source, newTranslateX, newTranslateY);
-                    source.setTranslateX(newTranslateX);
-                    source.setTranslateY(newTranslateY);
+                    if (source.isFaceup()) {
+                        double offsetX = t.getSceneX() - orgSceneX;
+                        double offsetY = t.getSceneY() - orgSceneY;
+                        double newTranslateX = orgTranslateX + offsetX;
+                        double newTranslateY = orgTranslateY + offsetY;
+
+                        recursiveTranslate(source, newTranslateX, newTranslateY);
+                        source.setTranslateX(newTranslateX);
+                        source.setTranslateY(newTranslateY);
+                    }
                 }
             };
 
     public UpsideDownPyramid(Pane panel) {
         doubleDeck = new DeckFactory().doubleDeck();
-        deck = new ArrayList<>();
-        vastPile = new ArrayList<>();
+        deck = new Stack<>();
+        vastPile = new Stack<>();
+        index = 0;
         placeCardsOnBoard(panel);
     }
 
@@ -80,8 +87,7 @@ public class UpsideDownPyramid {
 
         for (int i = 2; i < 10; i++) {
             Card card = ase[i - 2];
-            card.setImage(card.getFront());
-            card.setFitWidth(70);
+            card.flippCard();
             card.setLayoutX((i * card.getFitWidth() + i * 10) + 5);
             card.setLayoutY(10);
             card.setPreserveRatio(true);
@@ -113,34 +119,38 @@ public class UpsideDownPyramid {
             card = null;
         }
         for (int i = 0; i <= 40; i++) {
-            deck.add(doubleDeck.get(actual));
-            doubleDeck.get(actual).setFitWidth(70);
-            doubleDeck.get(actual).setFitHeight(110);
-            doubleDeck.get(actual).setLayoutX(((i * 0.005) * doubleDeck.get(actual).getFitWidth()) + 5);
+            deck.addElement(doubleDeck.get(actual));
+            doubleDeck.get(actual).setLayoutX(((i * 0.002) * doubleDeck.get(actual).getFitWidth()) + 5);
             doubleDeck.get(actual).setLayoutY(10);
-            doubleDeck.get(actual).setImage(doubleDeck.get(actual).getBack());
-//            doubleDeck.get(actual).setOnMousePressed(imageViewOnMousePressedEventHandler);
-//            doubleDeck.get(actual).setOnMouseDragged(imageViewOnMouseDraggedEventHandler);
-            doubleDeck.get(actual).setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    showDeck(panel);
-                }
-            });
+            doubleDeck.get(actual).flippCard();
+            doubleDeck.get(actual).flippCard();
             panel.getChildren().add(doubleDeck.get(actual));
 
             actual++;
         }
+        ImageView emptyDeck = new ImageView();
+        Image img = new Image("/resources/img/emptyCardSlot.png");
+        emptyDeck.setImage(img);
+        emptyDeck.setFitWidth(85);
+        emptyDeck.setFitHeight(110);
+        emptyDeck.setLayoutX(5);
+        emptyDeck.setLayoutY(10);
+        emptyDeck.setOpacity(0);
+        emptyDeck.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                showDeck();
+            }
+        });
+        panel.getChildren().add(emptyDeck);
 
 
     }
 
     private int placeCards(int actual, int i, int j, Pane panel) {
-        doubleDeck.get(actual).setFitWidth(70);
-        doubleDeck.get(actual).setFitHeight(110);
         doubleDeck.get(actual).setLayoutX((i * doubleDeck.get(actual).getFitWidth() + i * 10) + 5);
         doubleDeck.get(actual).setLayoutY(j * 25 + 110);
-        doubleDeck.get(actual).setImage(doubleDeck.get(actual).getFront());
+        doubleDeck.get(actual).flippCard();
         doubleDeck.get(actual).setOnMousePressed(imageViewOnMousePressedEventHandler);
         doubleDeck.get(actual).setOnMouseDragged(imageViewOnMouseDraggedEventHandler);
         panel.getChildren().add(doubleDeck.get(actual));
@@ -160,28 +170,27 @@ public class UpsideDownPyramid {
         }
     }
 
-    private void showDeck(Pane panel) {
-        if (deck.size() > 0) {
-            for (int i = 0; i < 3; i++) {
-                vastPile.add(deck.get(i));
-                vastPile.get(i).getFront();
-                vastPile.get(i).setOnMousePressed(imageViewOnMousePressedEventHandler);
-                vastPile.get(i).setOnMousePressed(imageViewOnMouseDraggedEventHandler);
-                vastPile.get(i).setFitWidth(70);
-                vastPile.get(i).setLayoutY(15);
-                vastPile.get(i).setLayoutX(55);
-                deck.remove(i);
-                panel.getChildren().add(vastPile.get(i));
+    private void showDeck() {
+        if (!deck.empty()) {
+            int db = Math.min(deck.size(), 3);
+            for (int i = 0; i < db; i++) {
+                Card actual = deck.pop();
+                actual.flippCard();
+                actual.setOnMousePressed(imageViewOnMousePressedEventHandler);
+                actual.setOnMouseDragged(imageViewOnMouseDraggedEventHandler);
+                actual.setLayoutY(10);
+                actual.setX(80);
+                vastPile.push(actual);
             }
         } else {
-            for (int i = 0; i < vastPile.size(); i++) {
-                deck.add(vastPile.get(i));
-                deck.get(i).getBack();
-                deck.get(i).setFitWidth(70);
-                deck.get(i).setLayoutY(15);
-                deck.get(i).setLayoutX(5);
-                vastPile.remove(i);
-                panel.getChildren().add(deck.get(i));
+            int i =0;
+            while (vastPile.size()!=0){
+                Card actual = vastPile.pop();
+                actual.flippCard();
+                actual.setX(((i * 0.002) * actual.getFitWidth()) + 5);
+                actual.setLayoutY(10);
+                deck.push(actual);
+                i++;
             }
         }
     }

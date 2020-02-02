@@ -34,6 +34,8 @@ public class DeckFactory {
                 Image back = new Image("./resources/img/cards/hatlap/blue.png");
                 card.setFront(img);
                 card.setBack(back);
+                card.setFitHeight(110);
+                card.setFitWidth(70);
                 deck.add(card);
                 this.index++;
             }
