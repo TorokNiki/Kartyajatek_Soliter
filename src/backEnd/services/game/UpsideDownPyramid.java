@@ -18,7 +18,6 @@ public class UpsideDownPyramid {
     public Stack<Card> deck, vastPile;
     public double orgSceneX, orgSceneY;
     public double orgTranslateX, orgTranslateY;
-    public int index;
 
     EventHandler<MouseEvent> imageViewOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
@@ -58,7 +57,6 @@ public class UpsideDownPyramid {
         doubleDeck = new DeckFactory().doubleDeck();
         deck = new Stack<>();
         vastPile = new Stack<>();
-        index = 0;
         placeCardsOnBoard(panel);
     }
 

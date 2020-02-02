@@ -53,4 +53,6 @@ public class Main extends Application {
     public void setScore(TextField score) {
         this.score = score;
     }
+
+
 }

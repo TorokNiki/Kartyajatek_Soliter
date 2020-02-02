@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 public class SQLite {
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:C://sqlite/SSSIT.db";
+        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/score.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -23,7 +23,7 @@ public class SQLite {
 
     public static void createNewDatabase(String fileName) {
 
-        String url = "jdbc:sqlite:C:/sqlite/" + fileName;
+        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/" + fileName;
 
         try {
             Connection conn = DriverManager.getConnection(url);
@@ -39,7 +39,7 @@ public class SQLite {
     }
 
     public static void createNewTable() {
-        String url = "jdbc:sqlite:C://sqlite/SSSIT.db";
+        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/score.db";
         String sql = "CREATE TABLE IF NOT EXISTS winners (\n"
                 + " id integer PRIMARY KEY,\n"
                 + " name text NOT NULL,\n"

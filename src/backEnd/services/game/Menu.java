@@ -1,5 +1,6 @@
 package backEnd.services.game;
 
+import frontEnd.Main;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.MenuBar;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Menu {
+    private static Stage secondery;
     public static javafx.scene.control.MenuBar getMenuBar(Stage primaryStage) {
         javafx.scene.control.MenuBar menuBar = new MenuBar();
         javafx.scene.control.Menu file = new javafx.scene.control.Menu("Fájl");
@@ -32,16 +34,18 @@ public class Menu {
     }
 
     private static void setMenuItemsFile(javafx.scene.control.Menu menu) {
+        secondery=new Stage();
         javafx.scene.control.MenuItem miUndoLastMove = new javafx.scene.control.MenuItem("Utolsó lépés visszavonása");
         javafx.scene.control.MenuItem miShowScoreBoard = new javafx.scene.control.MenuItem("Eredménytábla");
         javafx.scene.control.MenuItem miExit = new MenuItem("Bezár");
         miExit.setOnAction(o -> System.exit(0));
-        miShowScoreBoard.setOnAction(o -> new Alerts().scoreBoard());
+        miShowScoreBoard.setOnAction(o -> new ScoreBoard(secondery));
         menu.getItems().addAll(miUndoLastMove, miShowScoreBoard, miExit);
     }
 
     private static void setMenuItemsTure(javafx.scene.control.Menu menu) {
         MenuItem miStartNewTure = new MenuItem("Új Túra inditása");
+        //miStartNewTure.setOnAction(o-> new Main().start();
         MenuItem miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");
         MenuItem miStartNewGame = new MenuItem("Új játék indítása");
         MenuItem miEndCurrentTure = new MenuItem("Túra befejezése");
@@ -50,9 +54,13 @@ public class Menu {
     }
 
     private static void setMenuItemsOptions(javafx.scene.control.Menu menu) {
+        secondery= new Stage();
         MenuItem miChangeCardLook = new MenuItem("Kártya kinézete");
+        miChangeCardLook.setOnAction(o->new ChangeDeckLook(secondery));
         MenuItem miChangeCardBack = new MenuItem("Kártya hátlapja");
+        miChangeCardBack.setOnAction(o->new ChangeCardBack(secondery));
         MenuItem miChangeBackgroundColour = new MenuItem("Játékterület szine");
+        miChangeBackgroundColour.setOnAction(o->new ChangeBackgroundColour(secondery));
         menu.getItems().addAll(miChangeCardLook, miChangeCardBack, miChangeBackgroundColour);
     }
 
