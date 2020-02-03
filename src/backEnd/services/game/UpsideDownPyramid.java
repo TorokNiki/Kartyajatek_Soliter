@@ -18,6 +18,7 @@ public class UpsideDownPyramid {
     public Stack<Card> deck, vastPile;
     public double orgSceneX, orgSceneY;
     public double orgTranslateX, orgTranslateY;
+    public ImageView emptyDeck;
 
     EventHandler<MouseEvent> imageViewOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
@@ -62,6 +63,7 @@ public class UpsideDownPyramid {
 
     public void recursiveTranslate(Card source, double newTranslateX, double newTranslateY) {
         Card cardOnIt = source.getCardOnIt();
+        source.toFront();
         if (cardOnIt != null) {
             cardOnIt.setTranslateX(newTranslateX);
             cardOnIt.setTranslateY(newTranslateY);
@@ -126,7 +128,7 @@ public class UpsideDownPyramid {
 
             actual++;
         }
-        ImageView emptyDeck = new ImageView();
+        emptyDeck = new ImageView();
         Image img = new Image("/resources/img/emptyCardSlot.png");
         emptyDeck.setImage(img);
         emptyDeck.setFitWidth(85);
@@ -178,6 +180,7 @@ public class UpsideDownPyramid {
                 actual.setOnMouseDragged(imageViewOnMouseDraggedEventHandler);
                 actual.setLayoutY(10);
                 actual.setX(80);
+                actual.toFront();
                 vastPile.push(actual);
             }
         } else {
@@ -187,9 +190,11 @@ public class UpsideDownPyramid {
                 actual.flippCard();
                 actual.setX(((i * 0.002) * actual.getFitWidth()) + 5);
                 actual.setLayoutY(10);
+                //actual.toBack();
                 deck.push(actual);
                 i++;
             }
+            emptyDeck.toFront();
         }
     }
 
