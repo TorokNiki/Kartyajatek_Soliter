@@ -4,10 +4,12 @@ import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.factory.DeckFactory;
 import javafx.event.EventHandler;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +31,9 @@ public class UpsideDownPyramid {
                     if (source.isFaceup()) {
                         orgSceneX = t.getSceneX();
                         orgSceneY = t.getSceneY();
-
+//                        DropShadow shadow = new DropShadow();
+//                        shadow.setColor(Color.GRAY);
+//                        source.setEffect(shadow);
                         orgTranslateX = source.getTranslateX();
                         orgTranslateY = source.getTranslateY();
                     }
@@ -50,6 +54,7 @@ public class UpsideDownPyramid {
                         recursiveTranslate(source, newTranslateX, newTranslateY);
                         source.setTranslateX(newTranslateX);
                         source.setTranslateY(newTranslateY);
+                        //source.setEffect(null);
                     }
                 }
             };
@@ -64,6 +69,9 @@ public class UpsideDownPyramid {
     public void recursiveTranslate(Card source, double newTranslateX, double newTranslateY) {
         Card cardOnIt = source.getCardOnIt();
         source.toFront();
+        DropShadow shadow = new DropShadow();
+        shadow.setColor(Color.GRAY);
+        source.setEffect(shadow);
         if (cardOnIt != null) {
             cardOnIt.setTranslateX(newTranslateX);
             cardOnIt.setTranslateY(newTranslateY);
