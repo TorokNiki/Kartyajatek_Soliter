@@ -2,14 +2,13 @@ package backEnd.services.game;
 
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
+import backEnd.services.MouseGestures;
 import backEnd.services.factory.DeckFactory;
 import javafx.event.EventHandler;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,66 +17,19 @@ import java.util.Stack;
 public class UpsideDownPyramid {
     public List<Card> doubleDeck;
     public Stack<Card> deck, vastPile;
-    public double orgSceneX, orgSceneY;
-    public double orgTranslateX, orgTranslateY;
     public ImageView emptyDeck;
+    public MouseGestures mg;
 
-    EventHandler<MouseEvent> imageViewOnMousePressedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
-                    Card source = (Card) (t.getSource());
-                    if (source.isFaceup()) {
-                        orgSceneX = t.getSceneX();
-                        orgSceneY = t.getSceneY();
-//                        DropShadow shadow = new DropShadow();
-//                        shadow.setColor(Color.GRAY);
-//                        source.setEffect(shadow);
-                        orgTranslateX = source.getTranslateX();
-                        orgTranslateY = source.getTranslateY();
-                    }
-                }
-            };
-    EventHandler<MouseEvent> imageViewOnMouseDraggedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
-                    Card source = (Card) (t.getSource());
-                    if (source.isFaceup()) {
-                        double offsetX = t.getSceneX() - orgSceneX;
-                        double offsetY = t.getSceneY() - orgSceneY;
-                        double newTranslateX = orgTranslateX + offsetX;
-                        double newTranslateY = orgTranslateY + offsetY;
-
-                        recursiveTranslate(source, newTranslateX, newTranslateY);
-                        source.setTranslateX(newTranslateX);
-                        source.setTranslateY(newTranslateY);
-                        //source.setEffect(null);
-                    }
-                }
-            };
 
     public UpsideDownPyramid(Pane panel) {
+        mg= new MouseGestures();
         doubleDeck = new DeckFactory().doubleDeck();
         deck = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard(panel);
     }
 
-    public void recursiveTranslate(Card source, double newTranslateX, double newTranslateY) {
-        Card cardOnIt = source.getCardOnIt();
-        source.toFront();
-        DropShadow shadow = new DropShadow();
-        shadow.setColor(Color.GRAY);
-        source.setEffect(shadow);
-        if (cardOnIt != null) {
-            cardOnIt.setTranslateX(newTranslateX);
-            cardOnIt.setTranslateY(newTranslateY);
-            recursiveTranslate(cardOnIt, newTranslateX, newTranslateY);
-        }
-    }
+
 
     public void placeCardsOnBoard(Pane panel) {
         emptySpace(15, 2, panel);
@@ -159,8 +111,7 @@ public class UpsideDownPyramid {
         doubleDeck.get(actual).setLayoutX((i * doubleDeck.get(actual).getFitWidth() + i * 10) + 5);
         doubleDeck.get(actual).setLayoutY(j * 25 + 110);
         doubleDeck.get(actual).flippCard();
-        doubleDeck.get(actual).setOnMousePressed(imageViewOnMousePressedEventHandler);
-        doubleDeck.get(actual).setOnMouseDragged(imageViewOnMouseDraggedEventHandler);
+        mg.MouseGestures(doubleDeck.get(actual));
         panel.getChildren().add(doubleDeck.get(actual));
         return actual;
     }
@@ -184,10 +135,8 @@ public class UpsideDownPyramid {
             for (int i = 0; i < db; i++) {
                 Card actual = deck.pop();
                 actual.flippCard();
-                actual.setOnMousePressed(imageViewOnMousePressedEventHandler);
-                actual.setOnMouseDragged(imageViewOnMouseDraggedEventHandler);
-                actual.setLayoutY(10);
-                actual.setX(80);
+                mg.MouseGestures(actual);
+                actual.relocate(80,10);
                 actual.toFront();
                 vastPile.push(actual);
             }
@@ -196,9 +145,7 @@ public class UpsideDownPyramid {
             while (vastPile.size()!=0){
                 Card actual = vastPile.pop();
                 actual.flippCard();
-                actual.setX(((i * 0.002) * actual.getFitWidth()) + 5);
-                actual.setLayoutY(10);
-                //actual.toBack();
+                actual.relocate(((i * 0.002) * actual.getFitWidth()) + 5,10);
                 deck.push(actual);
                 i++;
             }

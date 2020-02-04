@@ -1,5 +1,7 @@
 package backEnd.services.game;
 
+import backEnd.domain.Back;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,19 +14,24 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class ChangeCardBack {
     private Pane deckLook;
     private ListView select;
     private Label lblInstruction;
     private Button ok,cancel;
     private ImageView look;
+    private  List<Back> tmp;
 
     public ChangeCardBack(Stage secondery) {
+        tmp= Back.getBackList();
         Group root = new Group(deckLook());
         secondery.getIcons().add(new Image("./resources/img/ace.png"));
         secondery.setTitle("Kártyák hátának a kiválasztása");
         secondery.setScene(new Scene(root, 600, 400));
         secondery.setResizable(false);
+        addItems();
         secondery.show();
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -38,6 +45,14 @@ public class ChangeCardBack {
                 secondery.close();
             }
         });
+        select.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                int selectedIndex =select.getSelectionModel().getSelectedIndex();
+                look.setImage(new Image(tmp.get(selectedIndex).getPicture()));
+            }
+        });
+
     }
 
     private Pane deckLook(){
@@ -70,11 +85,21 @@ public class ChangeCardBack {
         look= new ImageView();
         look.setLayoutX(300);
         look.setLayoutY(100);
-        look.setFitHeight(150);
-        look.setFitWidth(200);
+        look.setFitHeight(220);
+        look.setFitWidth(140);
 
         deckLook.getChildren().addAll(select,lblInstruction,ok,cancel,look);
 
         return deckLook;
     }
+    private void addItems(){
+        for (int i = 0; i < tmp.size(); i++) {
+            select.getItems().add(tmp.get(i).getName());
+        }
+    }
+    private void setImage(){
+        ObservableList selectedIndices =
+                select.getSelectionModel().getSelectedIndices();
+    }
+
 }
