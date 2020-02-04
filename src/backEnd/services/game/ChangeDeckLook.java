@@ -1,5 +1,7 @@
 package backEnd.services.game;
 
+import backEnd.domain.Back;
+import backEnd.domain.Front;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,18 +14,24 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class ChangeDeckLook {
     private Pane deckLook;
     private ListView select;
     private Label lblInstruction;
     private Button ok,cancel;
-    private ImageView look;
+    private ImageView look,look1,look2;
+    private List<Front> frontCardList;
     public ChangeDeckLook(Stage primaryStage) {
+        frontCardList= Front.getFrontList();
+
         Group root = new Group(deckLook());
-        primaryStage.getIcons().add(new Image("./resources/img/ace.png"));
+        primaryStage.getIcons().add(new Image("./resources/img/flipp.png"));
         primaryStage.setTitle("Kártyák kinézetének a kiválasztása");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 550, 400));
         primaryStage.setResizable(false);
+        addItems();
         primaryStage.show();
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -37,10 +45,19 @@ public class ChangeDeckLook {
                 primaryStage.close();
             }
         });
+        select.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                int selectedIndex =select.getSelectionModel().getSelectedIndex();
+                look.setImage(new Image(frontCardList.get(selectedIndex).getPicture1()));
+                look1.setImage(new Image(frontCardList.get(selectedIndex).getPicture2()));
+                look2.setImage(new Image(frontCardList.get(selectedIndex).getPicture3()));
+            }
+        });
     }
     private Pane deckLook(){
         deckLook= new Pane();
-        deckLook.setPrefWidth(600);
+        deckLook.setPrefWidth(500);
         deckLook.setPrefHeight(400);
 
         select=new ListView();
@@ -55,23 +72,38 @@ public class ChangeDeckLook {
         lblInstruction.setText("Kártya stílus kiválasztása");
 
         ok= new Button();
-        ok.setLayoutX(500);
-        ok.setLayoutY(300);
+        ok.setLayoutX(250);
+        ok.setLayoutY(350);
         ok.setPrefWidth(60);
         ok.setText("OK");
 
         cancel=new Button();
-        cancel.setLayoutX(500);
+        cancel.setLayoutX(350);
         cancel.setLayoutY(350);
         cancel.setText("Mégsem");
 
         look= new ImageView();
-        look.setLayoutX(300);
+        look.setLayoutX(250);
         look.setLayoutY(100);
-        look.setFitHeight(150);
-        look.setFitWidth(200);
+        look.setFitHeight(200);
+        look.setFitWidth(140);
+        look1= new ImageView();
+        look1.setLayoutX(360);
+        look1.setLayoutY(100);
+        look1.setFitHeight(200);
+        look1.setFitWidth(140);
+        look2= new ImageView();
+        look2.setLayoutX(280);
+        look2.setLayoutY(20);
+        look2.setFitHeight(200);
+        look2.setFitWidth(140);
 
-        deckLook.getChildren().addAll(select,lblInstruction,ok,cancel,look);
+        deckLook.getChildren().addAll(select,lblInstruction,ok,cancel,look1,look2,look);
         return deckLook;
+    }
+    private void addItems(){
+        for (int i = 0; i < frontCardList.size(); i++) {
+            select.getItems().add(frontCardList.get(i).getName());
+        }
     }
 }

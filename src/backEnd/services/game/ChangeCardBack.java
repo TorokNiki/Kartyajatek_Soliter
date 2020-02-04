@@ -85,7 +85,7 @@ public class ChangeCardBack {
         look= new ImageView();
         look.setLayoutX(300);
         look.setLayoutY(100);
-        look.setFitHeight(220);
+        look.setFitHeight(200);
         look.setFitWidth(140);
 
         deckLook.getChildren().addAll(select,lblInstruction,ok,cancel,look);

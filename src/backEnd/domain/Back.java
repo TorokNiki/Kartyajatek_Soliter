@@ -17,6 +17,12 @@ public enum Back {
     PURPLE("Lila könyv kártya","./resources/img/cards/hatlap/PurpleBook.png"),
     PURPLEBLACK("Lila kártya","./resources/img/cards/hatlap/BackOfPlaycard.png"),
     BLACKWHITE("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite4.png"),
+    BLACKWHITE1("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite1.png"),
+    BLACKWHITE2("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite2.png"),
+    BLACKWHITE3("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite6.png"),
+    BLACKWHITE4("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite7.png"),
+    BLACKWHITE5("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite8.png"),
+    BLACKWHITE6("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite9.png"),
     BLACK("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite5.png"),
     WHITE("Fekete fehér kártya","./resources/img/cards/hatlap/BlackAndWhite3.png"),
     GOLD("Arany és fekete kártya","./resources/img/cards/hatlap/BlackAndGold.png"),
@@ -46,9 +52,6 @@ public enum Back {
         backList.add(Back.BLUE);
         backList.add(Back.BLUEWHITE);
         backList.add(Back.BLUEBLACK);
-        backList.add(Back.BLACK);
-        backList.add(Back.BLACKWHITE);
-        backList.add(Back.WHITE);
         backList.add(Back.GOLD);
         backList.add(Back.GOLDWHITE);
         backList.add(Back.GREEN);
@@ -57,6 +60,15 @@ public enum Back {
         backList.add(Back.PURPLE);
         backList.add(Back.PURPLEBLACK);
         backList.add(Back.BROWN);
+        backList.add(Back.BLACK);
+        backList.add(Back.BLACKWHITE);
+        backList.add(Back.BLACKWHITE1);
+        backList.add(Back.BLACKWHITE2);
+        backList.add(Back.BLACKWHITE3);
+        backList.add(Back.BLACKWHITE4);
+        backList.add(Back.BLACKWHITE5);
+        backList.add(Back.BLACKWHITE6);
+        backList.add(Back.WHITE);
         backList.add(Back.ORANGE);
         return backList;
     }
