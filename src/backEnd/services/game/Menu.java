@@ -1,5 +1,6 @@
 package backEnd.services.game;
 
+import frontEnd.Controller;
 import frontEnd.Main;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -46,6 +47,7 @@ public class Menu {
     private static void setMenuItemsTure(javafx.scene.control.Menu menu) {
         MenuItem miStartNewTure = new MenuItem("Új Túra inditása");
         //miStartNewTure.setOnAction(o-> new Main().start();
+        //miStartNewTure.setOnAction(o->new Controller().upsideDownPyramid().start);
         MenuItem miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");
         MenuItem miStartNewGame = new MenuItem("Új játék indítása");
         MenuItem miEndCurrentTure = new MenuItem("Túra befejezése");

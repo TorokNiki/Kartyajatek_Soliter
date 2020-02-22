@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 public class Controller {
     public Pane upsideDownPyramid, threeShufflesAndADraw, scorpion, superScorpion, salicLaw, pyramid, laNivernaise, klondike, fortyThieves;
     public int currentScore, score;
+    public String backColour="-fx-background-color: lightblue;";
 
     public int getCurrentScore() {
         return currentScore;
@@ -24,9 +25,17 @@ public class Controller {
         this.score = score;
     }
 
+    public String getBackColour() {
+        return backColour;
+    }
+
+    public void setBackColour(String backColour) {
+        this.backColour = backColour;
+    }
+
     public Pane upsideDownPyramid() {
         upsideDownPyramid = new Pane();
-        upsideDownPyramid.setStyle("-fx-background-color: lightblue;");
+        upsideDownPyramid.setStyle(getBackColour());
         upsideDownPyramid.setLayoutY(25);
         upsideDownPyramid.setPrefHeight(600);
         upsideDownPyramid.setPrefWidth(809);
