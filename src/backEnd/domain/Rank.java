@@ -1,7 +1,7 @@
 package backEnd.domain;
 
-public enum Rank implements Comparable<Rank>{
-    ACE(1, "Ace","A"),
+public enum Rank implements Comparable<Rank> {
+    ACE(1, "Ace", "A"),
     TWO(2, "2", "2"),
     THREE(3, "3", "3"),
     FOUR(4, "4", "4"),
@@ -15,14 +15,14 @@ public enum Rank implements Comparable<Rank>{
     QUEEN(12, "Queen", "Q"),
     KING(13, "King", "K");
 
+    public String helper;
     private int value;
     private String name;
-    public String helper;
 
     Rank(int value, String name, String helper) {
         this.value = value;
         this.name = name;
-        this.helper=helper;
+        this.helper = helper;
     }
 
     public int getValue() {

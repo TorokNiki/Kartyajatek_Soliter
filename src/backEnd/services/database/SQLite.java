@@ -1,26 +1,8 @@
 package backEnd.services.database;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class SQLite {
-    private Connection connect() {
-        // SQLite connection string
-        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/score.db";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
-
     public static void createNewDatabase(String fileName) {
 
         String url = "jdbc:sqlite:C://Kartyajatek_Soliter/" + fileName;
@@ -52,6 +34,18 @@ public class SQLite {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private Connection connect() {
+        // SQLite connection string
+        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/score.db";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
     }
 
     public void insert(String name, int score) {

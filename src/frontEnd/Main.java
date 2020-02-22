@@ -25,9 +25,9 @@ public class Main extends Application {
         MenuBar menuBar = backEnd.services.game.Menu.getMenuBar(primaryStage);
         this.score = new TextField();
         Menu m = new Menu();
-        Controller c= new Controller();
+        Controller c = new Controller();
         Pane first = c.upsideDownPyramid();
-        m.setTFScore(score,c.getScore(),c.getCurrentScore());
+        m.setTFScore(score, c.getScore(), c.getCurrentScore());
         this.gameName = new Label();
         m.setLabel(gameName);
         Group root = new Group(menuBar, score, gameName, first);

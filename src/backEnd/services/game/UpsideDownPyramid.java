@@ -22,13 +22,12 @@ public class UpsideDownPyramid {
 
 
     public UpsideDownPyramid(Pane panel) {
-        mg= new MouseGestures();
+        mg = new MouseGestures();
         doubleDeck = new DeckFactory().doubleDeck();
         deck = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard(panel);
     }
-
 
 
     public void placeCardsOnBoard(Pane panel) {
@@ -136,16 +135,16 @@ public class UpsideDownPyramid {
                 Card actual = deck.pop();
                 actual.flippCard();
                 mg.MouseGestures(actual);
-                actual.relocate(80,10);
+                actual.relocate(80, 10);
                 actual.toFront();
                 vastPile.push(actual);
             }
         } else {
-            int i =0;
-            while (vastPile.size()!=0){
+            int i = 0;
+            while (vastPile.size() != 0) {
                 Card actual = vastPile.pop();
                 actual.flippCard();
-                actual.relocate(((i * 0.002) * actual.getFitWidth()) + 5,10);
+                actual.relocate(((i * 0.002) * actual.getFitWidth()) + 5, 10);
                 deck.push(actual);
                 i++;
             }

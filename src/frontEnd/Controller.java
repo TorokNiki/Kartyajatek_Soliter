@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 public class Controller {
     public Pane upsideDownPyramid, threeShufflesAndADraw, scorpion, superScorpion, salicLaw, pyramid, laNivernaise, klondike, fortyThieves;
     public int currentScore, score;
-    public String backColour="-fx-background-color: lightblue;";
+    public String backColour = "-fx-background-color: lightblue;";
 
     public int getCurrentScore() {
         return currentScore;

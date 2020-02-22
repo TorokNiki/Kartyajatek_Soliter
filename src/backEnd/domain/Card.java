@@ -20,7 +20,7 @@ public class Card extends ImageView {
         this.name = rank + " of " + color;
         this.rank = rank;
         this.color = color;
-        this.faceup=false;
+        this.faceup = false;
     }
 
     @Override
@@ -83,16 +83,18 @@ public class Card extends ImageView {
     }
 
     public void flippCard() {
-        faceup= !faceup;
-        if (faceup){
+        faceup = !faceup;
+        if (faceup) {
             this.setImage(front);
-        }else {
+        } else {
             this.setImage(back);
         }
     }
-    public boolean isFaceup(){
+
+    public boolean isFaceup() {
         return faceup;
     }
+
     public Image getBack() {
         return back;
     }
