@@ -12,7 +12,9 @@ public class Card extends ImageView {
     private Style color;
     private Image front, back;
     private Card cardOnIt;
+    private Card cardBeforeIt;
     private boolean faceup;
+    private boolean finalPlace;
 
 
     public Card(int id, Rank rank, Style color) {
@@ -21,6 +23,7 @@ public class Card extends ImageView {
         this.rank = rank;
         this.color = color;
         this.faceup = false;
+        this.finalPlace=false;
     }
 
     @Override
@@ -49,14 +52,14 @@ public class Card extends ImageView {
     public boolean isRankGreater(Card otherCard) {
         if (this == otherCard) return false;
         if (otherCard == null || getClass() != otherCard.getClass()) return false;
-        return this.rank.getValue() > otherCard.rank.getValue();
+        return this.rank.getValue() == otherCard.rank.getValue() + 1;
 
     }
 
     public boolean isRankLess(Card otherCard) {
         if (this == otherCard) return false;
         if (otherCard == null || getClass() != otherCard.getClass()) return false;
-        return this.rank.getValue() < otherCard.rank.getValue();
+        return this.rank.getValue() + 1 == otherCard.rank.getValue();
     }
 
     public boolean isColorEqual(Card otherCard) {
@@ -109,5 +112,29 @@ public class Card extends ImageView {
 
     public void setCardOnIt(Card cardOnIt) {
         this.cardOnIt = cardOnIt;
+    }
+    public void setConnection(Card cardOnIt){
+        this.cardOnIt = cardOnIt;
+        cardOnIt.setCardBeforeIt(this);
+    }
+    public void removeConnection(){
+        this.getCardBeforeIt().setCardOnIt(null);
+        this.setCardBeforeIt(null);
+    }
+
+    public Card getCardBeforeIt() {
+        return cardBeforeIt;
+    }
+
+    public void setCardBeforeIt(Card cardBeforeIt) {
+        this.cardBeforeIt = cardBeforeIt;
+    }
+
+    public boolean isFinalPlace() {
+        return finalPlace;
+    }
+
+    public void setFinalPlace(boolean finalPlace) {
+        this.finalPlace = finalPlace;
     }
 }

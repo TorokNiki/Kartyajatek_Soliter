@@ -21,7 +21,7 @@ public class MouseGestures {
                 @Override
                 public void handle(MouseEvent t) {
                     Card source = (Card) (t.getSource());
-                    if (source.isFaceup()) {
+                    if (source.isFaceup()&&!source.isFinalPlace()) {
                         orgSceneX = t.getSceneX();
                         orgSceneY = t.getSceneY();
 
@@ -37,7 +37,7 @@ public class MouseGestures {
                 @Override
                 public void handle(MouseEvent t) {
                     Card source = (Card) (t.getSource());
-                    if (source.isFaceup()) {
+                    if (source.isFaceup()&&!source.isFinalPlace()) {
                         double offsetX = t.getSceneX() - orgSceneX;
                         double offsetY = t.getSceneY() - orgSceneY;
                         double newTranslateX = orgTranslateX + offsetX;
@@ -58,18 +58,25 @@ public class MouseGestures {
             Node picked = event.getPickResult().getIntersectedNode();
             if (picked instanceof Card) {
                 Card pikedCard=(Card)picked;
-                if (!pikedCard.isColorEqual(card)&&pikedCard.isRankGreater(card)){
-                    //fixPosition(card);
+                if (!pikedCard.isColorEqual(card)&&pikedCard.isRankGreater(card)&&(card.getCardOnIt()==null||card.getCardOnIt().isFinalPlace())){
+                    if (card.getCardBeforeIt()!=null||card.getCardOnIt()!=null){
+                    card.removeConnection();}
+                    pikedCard.setConnection(card);
+                    card.setFinalPlace(true);
+                    //card.setMouseTransparent(true);
+                    fixPosition(card);
 
                 }else {
                     moveToSource(card);
                     recursiveTranslateBack(card);
+                    card.setMouseTransparent(false);
                 }
 
             } else {
 
                 moveToSource(card);
                 recursiveTranslateBack(card);
+                card.setMouseTransparent(false);
             }
             card.setMouseTransparent(false);
 
@@ -136,6 +143,7 @@ public class MouseGestures {
 
         card.setTranslateX(0);
         card.setTranslateY(0);
+        card.setEffect(null);
 
     }
 

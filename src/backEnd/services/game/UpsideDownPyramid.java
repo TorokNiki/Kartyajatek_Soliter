@@ -59,7 +59,7 @@ public class UpsideDownPyramid {
             for (int j = 1; j <= i * 2 + 1; j++) {
                 actual = placeCards(actual, i, j, panel);
                 if (card != null) {
-                    card.setCardOnIt(doubleDeck.get(actual));
+                    card.setConnection(doubleDeck.get(actual));
                 }
                 card = doubleDeck.get(actual);
                 actual++;
@@ -70,7 +70,7 @@ public class UpsideDownPyramid {
             for (int j = 1; j <= (10 - i) * 2; j++) {
                 actual = placeCards(actual, i, j, panel);
                 if (card != null) {
-                    card.setCardOnIt(doubleDeck.get(actual));
+                    card.setConnection(doubleDeck.get(actual));
                 }
                 card = doubleDeck.get(actual);
                 actual++;
