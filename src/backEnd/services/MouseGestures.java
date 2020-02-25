@@ -21,7 +21,7 @@ public class MouseGestures {
                 @Override
                 public void handle(MouseEvent t) {
                     Card source = (Card) (t.getSource());
-                    if (source.isFaceup()&&!source.isFinalPlace()) {
+                    if (source.isFaceup() && !source.isFinalPlace()) {
                         orgSceneX = t.getSceneX();
                         orgSceneY = t.getSceneY();
 
@@ -37,7 +37,7 @@ public class MouseGestures {
                 @Override
                 public void handle(MouseEvent t) {
                     Card source = (Card) (t.getSource());
-                    if (source.isFaceup()&&!source.isFinalPlace()) {
+                    if (source.isFaceup() && !source.isFinalPlace()) {
                         double offsetX = t.getSceneX() - orgSceneX;
                         double offsetY = t.getSceneY() - orgSceneY;
                         double newTranslateX = orgTranslateX + offsetX;
@@ -57,16 +57,18 @@ public class MouseGestures {
             Card card = (Card) event.getSource();
             Node picked = event.getPickResult().getIntersectedNode();
             if (picked instanceof Card) {
-                Card pikedCard=(Card)picked;
-                if (!pikedCard.isColorEqual(card)&&pikedCard.isRankGreater(card)&&(card.getCardOnIt()==null||card.getCardOnIt().isFinalPlace())){
-                    if (card.getCardBeforeIt()!=null||card.getCardOnIt()!=null){
-                    card.removeConnection();}
+                Card pikedCard = (Card) picked;
+                if (!pikedCard.isColorEqual(card) && pikedCard.isRankGreater(card) && (card.getCardOnIt() == null || card.getCardOnIt().isFinalPlace())) {
+                    if (card.getCardBeforeIt() != null || card.getCardOnIt() != null) {
+                        card.removeConnection();
+                    }
                     pikedCard.setConnection(card);
                     card.setFinalPlace(true);
                     //card.setMouseTransparent(true);
-                    fixPosition(card);
+                    fixPosition(card, pikedCard);
 
-                }else {
+
+                } else {
                     moveToSource(card);
                     recursiveTranslateBack(card);
                     card.setMouseTransparent(false);
@@ -134,16 +136,34 @@ public class MouseGestures {
         card.setOnMouseReleased(onMouseReleasedEventHandler);
     }
 
-    private void fixPosition(Card card) {
+    private void fixPosition(Card card, Card cardTo) {
 
-        double x = card.getTranslateX();
-        double y = card.getTranslateY();
 
-        card.relocate(card.getLayoutX() + x, card.getLayoutY() + y);
-
-        card.setTranslateX(0);
-        card.setTranslateY(0);
+        card.toFront();
         card.setEffect(null);
+        double xto = cardTo.getLayoutX();
+        double yto = cardTo.getLayoutY();
+//        double x = card.getTranslateX();
+//        double y = card.getTranslateY();
+
+        card.relocate(xto, yto+25);
+
+//        card.setTranslateX(0);
+//        card.setTranslateY(0);
+        Card cardOnIt = card.getCardOnIt();
+        if (cardOnIt != null) {
+            xto= card.getLayoutX();
+            yto= card.getLayoutY();
+//            x = cardOnIt.getTranslateX();
+//            y = cardOnIt.getTranslateY();
+
+            cardOnIt.relocate(xto, yto+25);
+
+//            cardOnIt.setTranslateX(0);
+//            cardOnIt.setTranslateY(0);
+            fixPosition(cardOnIt, card);
+        }
+
 
     }
 

@@ -137,15 +137,18 @@ public class UpsideDownPyramid {
                 mg.MouseGestures(actual);
                 actual.relocate(80, 10);
                 actual.toFront();
+
                 vastPile.push(actual);
             }
         } else {
             int i = 0;
             while (vastPile.size() != 0) {
                 Card actual = vastPile.pop();
-                actual.flippCard();
-                actual.relocate(((i * 0.002) * actual.getFitWidth()) + 5, 10);
-                deck.push(actual);
+                if (!actual.isFinalPlace()) {
+                    actual.flippCard();
+                    actual.relocate(((i * 0.002) * actual.getFitWidth()) + 5, 10);
+                    deck.push(actual);
+                }
                 i++;
             }
             emptyDeck.toFront();
