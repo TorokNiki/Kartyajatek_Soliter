@@ -36,6 +36,7 @@ public class UpsideDownPyramid {
         for (int i = 0; i < 10; i++) {
             ImageView empty = new ImageView();
             Image emptyimg = new Image("./resources/img/emptyCardSlot.png");
+            empty.setId("col:"+i);
             empty.setImage(emptyimg);
             empty.setFitWidth(70);
            // empty.setFitHeight(150);

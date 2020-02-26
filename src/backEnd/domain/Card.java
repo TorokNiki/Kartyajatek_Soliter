@@ -163,4 +163,11 @@ public class Card extends ImageView {
     public int getPoint() {
         return point;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

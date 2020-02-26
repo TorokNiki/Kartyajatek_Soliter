@@ -18,14 +18,13 @@ import javafx.util.Duration;
 public class MouseGestures {
     public double orgSceneX, orgSceneY;
     public double orgTranslateX, orgTranslateY;
-    private Controller c;
-    EventHandler<MouseEvent> onMouseClickEventHandler=
+    EventHandler<MouseEvent> onMouseClickEventHandler =
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     if (mouseEvent.getClickCount() == 2 && !mouseEvent.isConsumed()) {
                         mouseEvent.consume();
-                        Card card=(Card) mouseEvent.getSource();
+                        Card card = (Card) mouseEvent.getSource();
                         DropShadow shadow = new DropShadow();
                         shadow.setColor(Color.PURPLE);
                         card.setEffect(shadow);
@@ -67,56 +66,58 @@ public class MouseGestures {
                     }
                 }
             };
+    private Controller c;
     EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
 
         @Override
         public void handle(MouseEvent event) {
-
-
             Card card = (Card) event.getSource();
             Node picked = event.getPickResult().getIntersectedNode();
-            if (picked instanceof ImageView) {
-                ImageView pikedplace = (ImageView) picked;
-                if (card.getRank() == Rank.KING) {
+
+            if(picked instanceof Card){
+                Card pikedCard = (Card) picked;
+                if(pikedCard.isColorEqual(card) && pikedCard.isRankLess(card) && card.getCardOnIt() == null) {
                     if (card.getCardBeforeIt() != null) {
                         card.removeConnection();
                     }
-
+                    pikedCard.setConnection(card);
                     card.setFinalPlace(true);
+                    card.setInDeck(false);
+                    finalPosition(card, pikedCard);
+                    int score = c.getCurrentScore();
+                    score += card.getPoint();
+                    c.setCurrentScore(score);
 
-                    fixPosition(card, pikedplace);
-                } else if (picked instanceof Card) {
-                    Card pikedCard = (Card) picked;
-                        if (pikedCard.isColorEqual(card)&&pikedCard.isRankLess(card)&&card.getCardOnIt()==null){
+                }else{
+                    if(isValidPlacement(card, pikedCard)){
+                        if (!pikedCard.isInDeck()) {
                             if (card.getCardBeforeIt() != null) {
                                 card.removeConnection();
                             }
                             pikedCard.setConnection(card);
                             card.setFinalPlace(true);
                             card.setInDeck(false);
-                            finalPosition(card, pikedCard);
-                            int score=c.getCurrentScore();
-                            score+=card.getPoint();
-                            c.setCurrentScore(score);
-
-                    }
-                    if (((!pikedCard.isBlack() && card.isBlack()) || (pikedCard.isBlack() && !card.isBlack())) && !pikedCard.isColorEqual(card) && pikedCard.isRankGreater(card) && (card.getCardOnIt() == null || card.getCardOnIt().isFinalPlace())) {
-                        if (!pikedCard.isInDeck()){
-                        if (card.getCardBeforeIt() != null) {
-                            card.removeConnection();
+                            fixPosition(card, pikedCard);
+                        } else {
+                            moveToSource(card);
+                            recursiveTranslateBack(card);
                         }
-                        pikedCard.setConnection(card);
-                        card.setFinalPlace(true);
-                        card.setInDeck(false);
-                        fixPosition(card, pikedCard);
-                    } else {
+                    }else {
                         moveToSource(card);
                         recursiveTranslateBack(card);
                     }
-                } else {
-                    moveToSource(card);
-                    recursiveTranslateBack(card);
-                }} else {
+                }
+            }else if (picked instanceof ImageView&& card.getRank() == Rank.KING && (card.getCardOnIt() == null || card.getCardOnIt().isFinalPlace())){
+                ImageView pickedPlace = (ImageView) picked;
+                if(pickedPlace.getId() != null && pickedPlace.getId().contains("col")) {
+                    if (card.getCardBeforeIt() != null) {
+                        card.removeConnection();
+                    }
+
+                    card.setFinalPlace(true);
+
+                    fixPosition(card, pickedPlace);
+                }else {
                     moveToSource(card);
                     recursiveTranslateBack(card);
                 }
@@ -125,8 +126,73 @@ public class MouseGestures {
                 recursiveTranslateBack(card);
             }
             card.setMouseTransparent(false);
+
+
+//            if (picked instanceof ImageView) {
+//                ImageView pickedPlace = (ImageView) picked;
+//                if (card.getRank() == Rank.KING && (card.getCardOnIt() == null || card.getCardOnIt().isFinalPlace())) {
+//                    if(pickedPlace.getId() != null && pickedPlace.getId().contains("col")) {
+//                        if (card.getCardBeforeIt() != null) {
+//                            card.removeConnection();
+//                        }
+//
+//                        card.setFinalPlace(true);
+//
+//                        fixPosition(card, pickedPlace);
+//                    }else {
+//                        moveToSource(card);
+//                        recursiveTranslateBack(card);
+//                    }
+//
+//                } else if (picked instanceof Card) {
+//                    Card pikedCard = (Card) picked;
+//                    if (pikedCard.isColorEqual(card) && pikedCard.isRankLess(card) && card.getCardOnIt() == null) {
+//                        if (card.getCardBeforeIt() != null) {
+//                            card.removeConnection();
+//                        }
+//                        pikedCard.setConnection(card);
+//                        card.setFinalPlace(true);
+//                        card.setInDeck(false);
+//                        finalPosition(card, pikedCard);
+//                        int score = c.getCurrentScore();
+//                        score += card.getPoint();
+//                        c.setCurrentScore(score);
+//
+//                    }
+//                    if (isValidPlacement(card, pikedCard)) {
+//                        if (!pikedCard.isInDeck()) {
+//                            if (card.getCardBeforeIt() != null) {
+//                                card.removeConnection();
+//                            }
+//                            pikedCard.setConnection(card);
+//                            card.setFinalPlace(true);
+//                            card.setInDeck(false);
+//                            fixPosition(card, pikedCard);
+//                        } else {
+//                            moveToSource(card);
+//                            recursiveTranslateBack(card);
+//                        }
+//                    } else {
+//                        moveToSource(card);
+//                        recursiveTranslateBack(card);
+//                    }
+//                } else {
+//                    moveToSource(card);
+//                    recursiveTranslateBack(card);
+//                }
+//            } else {
+//                moveToSource(card);
+//                recursiveTranslateBack(card);
+//            }
+            //card.setMouseTransparent(false);
         }
     };
+
+    private boolean isValidPlacement(Card card, Card pikedCard) {
+        return ((!pikedCard.isBlack() && card.isBlack()) || (pikedCard.isBlack() && !card.isBlack()))
+                &&  pikedCard.isRankGreater(card)
+                && (card.getCardOnIt() == null || card.getCardOnIt().isFinalPlace())&&pikedCard.getCardOnIt()==null;
+    }
 
     public static void recursiveTranslate(Card source, double newTranslateX, double newTranslateY) {
         Card cardOnIt = source.getCardOnIt();
@@ -172,13 +238,14 @@ public class MouseGestures {
         }
     }
 
+
     public void MouseGestures(final Card card) {
 
-        this.c=new Controller();
+        this.c = new Controller();
+        card.setOnMouseClicked(onMouseClickEventHandler);
         card.setOnMousePressed(onMousePressedEventHandler);
         card.setOnMouseDragged(onMouseDraggedEventHandler);
         card.setOnMouseReleased(onMouseReleasedEventHandler);
-        card.setOnMouseClicked(onMouseClickEventHandler);
     }
 
     private void fixPosition(Card card, Node cardTo) {
@@ -191,21 +258,22 @@ public class MouseGestures {
 //        double x = card.getTranslateX();
 //        double y = card.getTranslateY();
 
-        if (card.getRank().equals(Rank.KING)){
+        if (card.getRank().equals(Rank.KING)) {
             card.relocate(xto, yto);
-        }else {
-        card.relocate(xto, yto+25);}
+        } else {
+            card.relocate(xto, yto + 25);
+        }
 
         card.setTranslateX(0);
         card.setTranslateY(0);
         Card cardOnIt = card.getCardOnIt();
         if (cardOnIt != null) {
-            xto= card.getLayoutX();
-            yto= card.getLayoutY();
+            xto = card.getLayoutX();
+            yto = card.getLayoutY();
 //            x = cardOnIt.getTranslateX();
 //            y = cardOnIt.getTranslateY();
 
-            cardOnIt.relocate(xto, yto+25);
+            cardOnIt.relocate(xto, yto + 25);
 
             cardOnIt.setTranslateX(0);
             cardOnIt.setTranslateY(0);
@@ -214,6 +282,7 @@ public class MouseGestures {
 
 
     }
+
     private void finalPosition(Card card, Node cardTo) {
         card.toFront();
         card.setEffect(null);
