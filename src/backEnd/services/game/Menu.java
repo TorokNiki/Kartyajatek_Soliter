@@ -1,7 +1,5 @@
 package backEnd.services.game;
 
-import frontEnd.Controller;
-import frontEnd.Main;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.MenuBar;
@@ -45,7 +43,6 @@ public class Menu {
     }
 
     private static void setMenuItemsTure(javafx.scene.control.Menu menu) {
-
         MenuItem miStartNewTure = new MenuItem("Új Túra inditása");
         //miStartNewTure.setOnAction(o-> new Main().start();
         //miStartNewTure.setOnAction(o->new Controller().upsideDownPyramid());
@@ -105,7 +102,8 @@ public class Menu {
         return gameName;
     }
 
-    public javafx.scene.control.TextField setTFScore(TextField score,int allScore,int currentScore) {
+    public javafx.scene.control.TextField setTFScore(int allScore,int currentScore) {
+        TextField score=new TextField();
         score.setText(currentScore+"/"+allScore);
         score.setAlignment(Pos.CENTER);
         score.setEditable(false);

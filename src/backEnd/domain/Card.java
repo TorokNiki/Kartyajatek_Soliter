@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class Card extends ImageView {
     private int id;
+    private int point;
     private String name;
     private Rank rank;
     private Style color;
@@ -14,16 +15,21 @@ public class Card extends ImageView {
     private Card cardOnIt;
     private Card cardBeforeIt;
     private boolean faceup;
+    private boolean inDeck;
     private boolean finalPlace;
 
 
+    protected Card() {}
+
     public Card(int id, Rank rank, Style color) {
         this.id = id;
+        this.point=rank.getValue()*color.getValue();
         this.name = rank + " of " + color;
         this.rank = rank;
         this.color = color;
         this.faceup = false;
         this.finalPlace=false;
+        this.inDeck=false;
     }
 
     @Override
@@ -32,14 +38,22 @@ public class Card extends ImageView {
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
         return id == card.id &&
-                Objects.equals(name, card.name) &&
+                point == card.point &&
+                faceup == card.faceup &&
+                inDeck == card.inDeck &&
+                finalPlace == card.finalPlace &&
+                name.equals(card.name) &&
                 rank == card.rank &&
-                color == card.color;
+                color == card.color &&
+                front.equals(card.front) &&
+                back.equals(card.back) &&
+                Objects.equals(cardOnIt, card.cardOnIt) &&
+                Objects.equals(cardBeforeIt, card.cardBeforeIt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, rank, color);
+        return Objects.hash(id, point, name, rank, color, front, back, cardOnIt, cardBeforeIt, faceup, inDeck, finalPlace);
     }
 
     public boolean RankEqual(Object o) {
@@ -136,5 +150,17 @@ public class Card extends ImageView {
 
     public void setFinalPlace(boolean finalPlace) {
         this.finalPlace = finalPlace;
+    }
+
+    public boolean isInDeck() {
+        return inDeck;
+    }
+
+    public void setInDeck(boolean inDeck) {
+        this.inDeck = inDeck;
+    }
+
+    public int getPoint() {
+        return point;
     }
 }

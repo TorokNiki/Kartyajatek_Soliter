@@ -33,6 +33,18 @@ public class UpsideDownPyramid {
     public void placeCardsOnBoard(Pane panel) {
         emptySpace(15, 2, panel);
         emptySpace(140, 10, panel);
+        for (int i = 0; i < 10; i++) {
+            ImageView empty = new ImageView();
+            Image emptyimg = new Image("./resources/img/emptyCardSlot.png");
+            empty.setImage(emptyimg);
+            empty.setFitWidth(70);
+           // empty.setFitHeight(150);
+            empty.setLayoutX((i * empty.getFitWidth() + i * 10) + 5);
+            empty.setLayoutY(140);
+            empty.setPreserveRatio(true);
+            empty.setOpacity(0);
+            panel.getChildren().add(empty);
+        }
 
         Card[] ase = new Card[8];
         int index = 0;
@@ -104,6 +116,7 @@ public class UpsideDownPyramid {
         panel.getChildren().add(emptyDeck);
 
 
+
     }
 
     private int placeCards(int actual, int i, int j, Pane panel) {
@@ -124,6 +137,7 @@ public class UpsideDownPyramid {
             empty.setLayoutX((i * empty.getFitWidth() + i * 10) + 5);
             empty.setLayoutY(y);
             empty.setPreserveRatio(true);
+            empty.toBack();
             panel.getChildren().add(empty);
         }
     }
@@ -137,17 +151,19 @@ public class UpsideDownPyramid {
                 mg.MouseGestures(actual);
                 actual.relocate(80, 10);
                 actual.toFront();
-
+                actual.setInDeck(true);
                 vastPile.push(actual);
             }
         } else {
             int i = 0;
             while (vastPile.size() != 0) {
                 Card actual = vastPile.pop();
-                if (!actual.isFinalPlace()) {
+                if (!actual.isFinalPlace()&&actual.isInDeck()) {
                     actual.flippCard();
                     actual.relocate(((i * 0.002) * actual.getFitWidth()) + 5, 10);
                     deck.push(actual);
+                }else {
+                    actual.setInDeck(false);
                 }
                 i++;
             }
