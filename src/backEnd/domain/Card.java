@@ -16,7 +16,9 @@ public class Card extends ImageView {
     private Card cardBeforeIt;
     private boolean faceup;
     private boolean inDeck;
-    private boolean finalPlace;
+    private boolean isSticked;
+    private boolean finalPozicion;
+
 
 
     protected Card() {}
@@ -28,8 +30,9 @@ public class Card extends ImageView {
         this.rank = rank;
         this.color = color;
         this.faceup = false;
-        this.finalPlace=false;
+        this.isSticked =false;
         this.inDeck=false;
+        this.isSticked =false;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class Card extends ImageView {
                 point == card.point &&
                 faceup == card.faceup &&
                 inDeck == card.inDeck &&
-                finalPlace == card.finalPlace &&
+                isSticked == card.isSticked &&
                 name.equals(card.name) &&
                 rank == card.rank &&
                 color == card.color &&
@@ -53,7 +56,7 @@ public class Card extends ImageView {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, point, name, rank, color, front, back, cardOnIt, cardBeforeIt, faceup, inDeck, finalPlace);
+        return Objects.hash(id, point, name, rank, color, front, back, cardOnIt, cardBeforeIt, faceup, inDeck, isSticked);
     }
 
     public boolean RankEqual(Object o) {
@@ -144,12 +147,12 @@ public class Card extends ImageView {
         this.cardBeforeIt = cardBeforeIt;
     }
 
-    public boolean isFinalPlace() {
-        return finalPlace;
+    public boolean isSticked() {
+        return isSticked;
     }
 
-    public void setFinalPlace(boolean finalPlace) {
-        this.finalPlace = finalPlace;
+    public void setSticked(boolean sticked) {
+        this.isSticked = sticked;
     }
 
     public boolean isInDeck() {
@@ -162,6 +165,14 @@ public class Card extends ImageView {
 
     public int getPoint() {
         return point;
+    }
+
+    public boolean isFinalPozicion() {
+        return finalPozicion;
+    }
+
+    public void setFinalPozicion(boolean finalPozicion) {
+        this.finalPozicion = finalPozicion;
     }
 
     @Override

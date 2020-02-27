@@ -60,6 +60,7 @@ public class UpsideDownPyramid {
         for (int i = 2; i < 10; i++) {
             Card card = ase[i - 2];
             card.flippCard();
+            card.setFinalPozicion(true);
             card.setLayoutX((i * card.getFitWidth() + i * 10) + 5);
             card.setLayoutY(10);
             card.setPreserveRatio(true);
@@ -159,7 +160,7 @@ public class UpsideDownPyramid {
             int i = 0;
             while (vastPile.size() != 0) {
                 Card actual = vastPile.pop();
-                if (!actual.isFinalPlace()&&actual.isInDeck()) {
+                if (!actual.isSticked()&&actual.isInDeck()) {
                     actual.flippCard();
                     actual.relocate(((i * 0.002) * actual.getFitWidth()) + 5, 10);
                     deck.push(actual);
