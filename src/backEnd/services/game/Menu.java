@@ -1,5 +1,7 @@
 package backEnd.services.game;
 
+import backEnd.services.MouseGestures;
+import frontEnd.Controller;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.MenuBar;
@@ -14,6 +16,7 @@ import java.io.IOException;
 
 public class Menu {
     private static Stage secondery;
+    //private static Controller c= MouseGestures.c;
     public static javafx.scene.control.MenuBar getMenuBar(Stage primaryStage) {
         javafx.scene.control.MenuBar menuBar = new MenuBar();
         javafx.scene.control.Menu file = new javafx.scene.control.Menu("Fájl");
@@ -49,7 +52,7 @@ public class Menu {
         MenuItem miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");
         MenuItem miStartNewGame = new MenuItem("Új játék indítása");
         MenuItem miEndCurrentTure = new MenuItem("Túra befejezése");
-        miEndCurrentTure.setOnAction(o -> new Alerts().score(0, 0));
+        miEndCurrentTure.setOnAction(o -> new Alerts().score(MouseGestures.c.getScore(), MouseGestures.c.getCurrentScore()));
         menu.getItems().addAll(miStartNewTure, miRestartCurrentTure, miStartNewGame, miEndCurrentTure);
     }
 

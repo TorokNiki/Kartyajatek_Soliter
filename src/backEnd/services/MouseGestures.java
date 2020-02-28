@@ -3,6 +3,7 @@ package backEnd.services;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.game.Alerts;
+import backEnd.services.game.Menu;
 import frontEnd.Controller;
 import javafx.animation.PathTransition;
 import javafx.event.EventHandler;
@@ -20,6 +21,7 @@ public class MouseGestures {
     public double orgSceneX, orgSceneY;
     public double orgTranslateX, orgTranslateY;
     public int db=0;
+    public Menu m;
     EventHandler<MouseEvent> onMouseClickEventHandler =
             new EventHandler<MouseEvent>() {
                 @Override
@@ -40,7 +42,7 @@ public class MouseGestures {
                 @Override
                 public void handle(MouseEvent t) {
                     Card source = (Card) (t.getSource());
-                    if (source.isFaceup() && !source.isSticked()) {
+                    if (source.isFaceup() ) {
                         orgSceneX = t.getSceneX();
                         orgSceneY = t.getSceneY();
 
@@ -56,7 +58,7 @@ public class MouseGestures {
                 @Override
                 public void handle(MouseEvent t) {
                     Card source = (Card) (t.getSource());
-                    if (source.isFaceup() && !source.isSticked()) {
+                    if (source.isFaceup()) {
                         double offsetX = t.getSceneX() - orgSceneX;
                         double offsetY = t.getSceneY() - orgSceneY;
                         double newTranslateX = orgTranslateX + offsetX;
@@ -68,7 +70,7 @@ public class MouseGestures {
                     }
                 }
             };
-    private Controller c;
+    public static Controller c;
     EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
 
         @Override
@@ -147,12 +149,17 @@ public class MouseGestures {
         db++;
         finalPosition(card, pikedCard);
         int score = c.getCurrentScore();
+        int total=c.getScore();
+        total+=card.getPoint();
         score += card.getPoint();
         c.setCurrentScore(score);
+        c.setScore(total);
+        m.setTFScore(c.getScore(),c.getCurrentScore());
     }
 
     private boolean isValidPlacement(Card card, Card pikedCard) {
-        return ((!pikedCard.isBlack() && card.isBlack()) || (pikedCard.isBlack() && !card.isBlack()))
+        return !card.isSticked()
+                &&((!pikedCard.isBlack() && card.isBlack()) || (pikedCard.isBlack() && !card.isBlack()))
                 &&  pikedCard.isRankGreater(card)
                 && (card.getCardOnIt() == null || card.getCardOnIt().isSticked())
                 &&(pikedCard.getCardOnIt()==null||pikedCard.getCardOnIt().equals(card));
@@ -205,6 +212,7 @@ public class MouseGestures {
 
     public void MouseGestures(final Card card) {
 
+        this.m=new Menu();
 
         this.c = new Controller();
         card.setOnMouseClicked(onMouseClickEventHandler);
