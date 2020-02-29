@@ -1,6 +1,7 @@
 package backEnd.services.game;
 
 import backEnd.domain.Back;
+import backEnd.services.factory.Config;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -23,8 +24,11 @@ public class ChangeCardBack {
     private Button ok,cancel;
     private ImageView look;
     private  List<Back> tmp;
+    private Config config;
+    private int selectedIndex;
 
     public ChangeCardBack(Stage secondery) {
+        config=new Config();
         tmp= Back.getBackList();
         Group root = new Group(deckLook());
         secondery.getIcons().add(new Image("./resources/img/ace.png"));
@@ -36,6 +40,9 @@ public class ChangeCardBack {
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                config.properties.setProperty("back",tmp.get(selectedIndex).getConfig());
+                config.writeProp();
+                secondery.close();
 
             }
         });
@@ -48,7 +55,7 @@ public class ChangeCardBack {
         select.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                int selectedIndex =select.getSelectionModel().getSelectedIndex();
+                selectedIndex =select.getSelectionModel().getSelectedIndex();
                 look.setImage(new Image(tmp.get(selectedIndex).getPicture()));
             }
         });

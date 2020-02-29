@@ -1,6 +1,8 @@
 package backEnd.services.game;
 
 import backEnd.domain.Background;
+import backEnd.services.factory.Config;
+import backEnd.services.factory.DeckFactory;
 import frontEnd.Controller;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -24,8 +26,11 @@ public class ChangeBackgroundColour {
     private List<Background> backgroundList;
     private String bacground;
     private Controller c;
+    private Config config;
+    private int selectedIndex;
 
     public ChangeBackgroundColour(Stage secondery) {
+        config=new Config();
         c = new Controller();
         backgroundList = Background.getBackground();
         Group root = new Group(deckLook());
@@ -38,8 +43,8 @@ public class ChangeBackgroundColour {
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-//                c.setBackColour(bacground);
-//                c.upsideDownPyramid();
+                //config.properties.setProperty("back",backgroundList.get(selectedIndex).getConfig());
+              //  config.writeProp();
 //                secondery.close();
             }
         });
@@ -52,7 +57,7 @@ public class ChangeBackgroundColour {
         select.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                int selectedIndex = select.getSelectionModel().getSelectedIndex();
+                selectedIndex = select.getSelectionModel().getSelectedIndex();
                 look.setStyle(backgroundList.get(selectedIndex).getColour());
                 bacground = backgroundList.get(selectedIndex).getColour();
 

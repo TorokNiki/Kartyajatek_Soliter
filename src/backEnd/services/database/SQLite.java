@@ -72,9 +72,9 @@ public class SQLite {
 
             // loop through the result set
             while (rs.next()) {
-                System.out.println(rs.getInt("id") + "\t" +
+                /*System.out.println(rs.getInt("id") + "\t" +
                         rs.getString("name") + "\t" +
-                        rs.getInt("score"));
+                        rs.getInt("score"));*/
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

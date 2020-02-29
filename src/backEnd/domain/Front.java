@@ -4,27 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum  Front {
-    DECK1("./resources/img/cards/paklik/pakli1/","Normál csillogós","./resources/img/cards/paklik/pakli1/KD.png","./resources/img/cards/paklik/pakli1/AD.png","./resources/img/cards/paklik/pakli1/2D.png"),
-    DECK2("./resources/img/cards/paklik/pakli2/","Fekete Fehér csillogós","./resources/img/cards/paklik/pakli2/KD.png","./resources/img/cards/paklik/pakli2/AD.png","./resources/img/cards/paklik/pakli2/2D.png"),
-    DECK3("./resources/img/cards/paklik/pakli3/","Díszes","./resources/img/cards/paklik/pakli3/KD.png","./resources/img/cards/paklik/pakli3/AD.png","./resources/img/cards/paklik/pakli3/2D.png"),
-    DECK4("./resources/img/cards/paklik/pakli4/","Alapértelmezett","./resources/img/cards/paklik/pakli4/KD.png","./resources/img/cards/paklik/pakli4/AD.png","./resources/img/cards/paklik/pakli4/2D.png"),
-    DECK5("./resources/img/cards/paklik/pakli5/","Angry Birds","./resources/img/cards/paklik/pakli5/KD.png","./resources/img/cards/paklik/pakli5/AD.png","./resources/img/cards/paklik/pakli5/2D.png"),
-    DECK6("./resources/img/cards/paklik/pakli6/","Normál díszesen","./resources/img/cards/paklik/pakli6/KD.png","./resources/img/cards/paklik/pakli6/AD.png","./resources/img/cards/paklik/pakli6/2D.png"),
-    DECK7("./resources/img/cards/paklik/pakli7/","ChunkFive","./resources/img/cards/paklik/pakli7/KD.png","./resources/img/cards/paklik/pakli7/AD.png","./resources/img/cards/paklik/pakli7/2D.png"),
-    DECK8("./resources/img/cards/paklik/pakli8/","Gotikus","./resources/img/cards/paklik/pakli8/KD.png","./resources/img/cards/paklik/pakli8/AD.png","./resources/img/cards/paklik/pakli8/2D.png"),
-    DECK9("./resources/img/cards/paklik/pakli9/","Gyerek","./resources/img/cards/paklik/pakli9/KD.png","./resources/img/cards/paklik/pakli9/AD.png","./resources/img/cards/paklik/pakli9/2D.png"),
-    DECK10("./resources/img/cards/paklik/pakli10/","Gyémánt","./resources/img/cards/paklik/pakli10/KD.png","./resources/img/cards/paklik/pakli10/AD.png","./resources/img/cards/paklik/pakli10/2D.png"),
-    DECK11("./resources/img/cards/paklik/pakli11/","alap kicsit csicsázva","./resources/img/cards/paklik/pakli11/KD.png","./resources/img/cards/paklik/pakli11/AD.png","./resources/img/cards/paklik/pakli11/2D.png");
+    DECK1("./resources/img/cards/paklik/pakli1/","Normál csillogós","./resources/img/cards/paklik/pakli1/KD.png","./resources/img/cards/paklik/pakli1/AD.png","./resources/img/cards/paklik/pakli1/2D.png","pakli1"),
+    DECK2("./resources/img/cards/paklik/pakli2/","Fekete Fehér csillogós","./resources/img/cards/paklik/pakli2/KD.png","./resources/img/cards/paklik/pakli2/AD.png","./resources/img/cards/paklik/pakli2/2D.png","pakli2"),
+    DECK3("./resources/img/cards/paklik/pakli3/","Díszes","./resources/img/cards/paklik/pakli3/KD.png","./resources/img/cards/paklik/pakli3/AD.png","./resources/img/cards/paklik/pakli3/2D.png","pakli3"),
+    DECK4("./resources/img/cards/paklik/pakli4/","Alapértelmezett","./resources/img/cards/paklik/pakli4/KD.png","./resources/img/cards/paklik/pakli4/AD.png","./resources/img/cards/paklik/pakli4/2D.png","pakli4"),
+    DECK5("./resources/img/cards/paklik/pakli5/","Angry Birds","./resources/img/cards/paklik/pakli5/KD.png","./resources/img/cards/paklik/pakli5/AD.png","./resources/img/cards/paklik/pakli5/2D.png","pakli5"),
+    DECK6("./resources/img/cards/paklik/pakli6/","Normál díszesen","./resources/img/cards/paklik/pakli6/KD.png","./resources/img/cards/paklik/pakli6/AD.png","./resources/img/cards/paklik/pakli6/2D.png","pakli6"),
+    DECK7("./resources/img/cards/paklik/pakli7/","ChunkFive","./resources/img/cards/paklik/pakli7/KD.png","./resources/img/cards/paklik/pakli7/AD.png","./resources/img/cards/paklik/pakli7/2D.png","pakli7"),
+    DECK8("./resources/img/cards/paklik/pakli8/","Gotikus","./resources/img/cards/paklik/pakli8/KD.png","./resources/img/cards/paklik/pakli8/AD.png","./resources/img/cards/paklik/pakli8/2D.png","pakli8"),
+    DECK9("./resources/img/cards/paklik/pakli9/","Gyerek","./resources/img/cards/paklik/pakli9/KD.png","./resources/img/cards/paklik/pakli9/AD.png","./resources/img/cards/paklik/pakli9/2D.png","pakli9"),
+    DECK10("./resources/img/cards/paklik/pakli10/","Gyémánt","./resources/img/cards/paklik/pakli10/KD.png","./resources/img/cards/paklik/pakli10/AD.png","./resources/img/cards/paklik/pakli10/2D.png","pakli10"),
+    DECK11("./resources/img/cards/paklik/pakli11/","alap kicsit csicsázva","./resources/img/cards/paklik/pakli11/KD.png","./resources/img/cards/paklik/pakli11/AD.png","./resources/img/cards/paklik/pakli11/2D.png","pakli11");
     private String path;
     private String name;
     private String picture1,picture2,picture3;
     private static List<Front> frontList;
-    Front(String path, String name, String picture1,String picture2,String picture3) {
+    private String config;
+    Front(String path, String name, String picture1,String picture2,String picture3,String config) {
         this.path = path;
         this.name = name;
         this.picture1 = picture1;
         this.picture2 = picture2;
         this.picture3 = picture3;
+        this.config=config;
 
     }
 
@@ -46,6 +48,10 @@ public enum  Front {
 
     public String getPicture3() {
         return picture3;
+    }
+
+    public String getConfig() {
+        return config;
     }
 
     public static List<Front> getFrontList(){
