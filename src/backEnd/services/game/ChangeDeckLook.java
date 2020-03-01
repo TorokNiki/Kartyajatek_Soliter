@@ -1,6 +1,5 @@
 package backEnd.services.game;
 
-import backEnd.domain.Back;
 import backEnd.domain.Front;
 import backEnd.services.factory.Config;
 import javafx.event.EventHandler;
@@ -24,11 +23,9 @@ public class ChangeDeckLook {
     private Button ok,cancel;
     private ImageView look,look1,look2;
     private List<Front> frontCardList;
-    private Config config;
     private int selectedIndex;
-    public ChangeDeckLook(Stage primaryStage) {
+    public ChangeDeckLook(Stage primaryStage, Game actualGame) {
         frontCardList= Front.getFrontList();
-        config=new Config();
         Group root = new Group(deckLook());
         primaryStage.getIcons().add(new Image("./resources/img/flipp.png"));
         primaryStage.setTitle("Kártyák kinézetének a kiválasztása");
@@ -39,8 +36,10 @@ public class ChangeDeckLook {
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                config.properties.setProperty("front",frontCardList.get(selectedIndex).getConfig());
-                config.writeProp();
+                Config.tempFront =frontCardList.get(selectedIndex).getConfig();
+                actualGame.cardLookChange();
+//                config.properties.setProperty("front",frontCardList.get(selectedIndex).getConfig());
+//                config.writeProp();
                 primaryStage.close();
 
             }

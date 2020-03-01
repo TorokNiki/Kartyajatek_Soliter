@@ -20,6 +20,10 @@ public enum Style implements Comparable<Style> {
         return value;
     }
 
+    public char getHelper() {
+        return helper;
+    }
+
     public String getName() {
         return name;
     }

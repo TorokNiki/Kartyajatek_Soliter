@@ -2,8 +2,7 @@ package backEnd.services.game;
 
 import backEnd.domain.Background;
 import backEnd.services.factory.Config;
-import backEnd.services.factory.DeckFactory;
-import frontEnd.Controller;
+import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -25,13 +24,12 @@ public class ChangeBackgroundColour {
     private Pane look;
     private List<Background> backgroundList;
     private String bacground;
-    private Controller c;
+    private MainController c;
     private Config config;
     private int selectedIndex;
 
     public ChangeBackgroundColour(Stage secondery) {
         config=new Config();
-        c = new Controller();
         backgroundList = Background.getBackground();
         Group root = new Group(deckLook());
         secondery.getIcons().add(new Image("./resources/img/ace.png"));
@@ -43,9 +41,9 @@ public class ChangeBackgroundColour {
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                //config.properties.setProperty("back",backgroundList.get(selectedIndex).getConfig());
-              //  config.writeProp();
-//                secondery.close();
+                config.properties.setProperty("bacground",backgroundList.get(selectedIndex).getConfig());
+                config.writeProp();
+                secondery.close();
             }
         });
         cancel.setOnMouseClicked(new EventHandler<MouseEvent>() {

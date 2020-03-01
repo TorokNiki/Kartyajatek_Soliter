@@ -32,7 +32,11 @@ public enum Rank implements Comparable<Rank> {
     public String getName() {
         return name;
     }
-//
+
+    public String getHelper() {
+        return helper;
+    }
+    //
 //    public int compareTo(Rank newRank){
 //        if(value==newRank.value)
 //            return 0;

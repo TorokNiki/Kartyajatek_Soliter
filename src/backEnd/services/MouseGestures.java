@@ -3,11 +3,13 @@ package backEnd.services;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.game.Alerts;
-import backEnd.services.game.Menu;
-import frontEnd.Controller;
+import backEnd.services.game.OwnMenu;
+import frontEnd.Main;
+import frontEnd.MainController;
 import javafx.animation.PathTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +23,12 @@ public class MouseGestures {
     public double orgSceneX, orgSceneY;
     public double orgTranslateX, orgTranslateY;
     public int db=0;
-    public Menu m;
+    public MainController mainController;
+
+    public MouseGestures(MainController mainController) {
+        this.mainController = mainController;
+    }
+
     EventHandler<MouseEvent> onMouseClickEventHandler =
             new EventHandler<MouseEvent>() {
                 @Override
@@ -42,7 +49,7 @@ public class MouseGestures {
                 @Override
                 public void handle(MouseEvent t) {
                     Card source = (Card) (t.getSource());
-                    if (source.isFaceup() ) {
+                    if (source.isFaceup()&&!source.isFinalPozicion() ) {
                         orgSceneX = t.getSceneX();
                         orgSceneY = t.getSceneY();
 
@@ -58,7 +65,7 @@ public class MouseGestures {
                 @Override
                 public void handle(MouseEvent t) {
                     Card source = (Card) (t.getSource());
-                    if (source.isFaceup()) {
+                    if (source.isFaceup()&&!source.isFinalPozicion()) {
                         double offsetX = t.getSceneX() - orgSceneX;
                         double offsetY = t.getSceneY() - orgSceneY;
                         double newTranslateX = orgTranslateX + offsetX;
@@ -70,7 +77,6 @@ public class MouseGestures {
                     }
                 }
             };
-    public static Controller c;
     EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
 
         @Override
@@ -91,7 +97,7 @@ public class MouseGestures {
             if (db==12*8){
                 Alerts a=new Alerts();
                 a.win();
-                a.score(c.getScore(),c.getCurrentScore());
+                a.score(mainController.getScore(),mainController.getCurrentScore());
             }
         }
     };
@@ -148,13 +154,13 @@ public class MouseGestures {
         card.setFinalPozicion(true);
         db++;
         finalPosition(card, pikedCard);
-        int score = c.getCurrentScore();
-        int total=c.getScore();
+        int score = mainController.getCurrentScore();
+        int total=mainController.getScore();
         total+=card.getPoint();
         score += card.getPoint();
-        c.setCurrentScore(score);
-        c.setScore(total);
-        m.setTFScore(c.getScore(),c.getCurrentScore());
+        mainController.setCurrentScore(score);
+        mainController.setScore(total);
+        mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(),mainController.getScore(), mainController.getCurrentScore()));
     }
 
     private boolean isValidPlacement(Card card, Card pikedCard) {
@@ -211,10 +217,6 @@ public class MouseGestures {
 
 
     public void MouseGestures(final Card card) {
-
-        this.m=new Menu();
-
-        this.c = new Controller();
         card.setOnMouseClicked(onMouseClickEventHandler);
         card.setOnMousePressed(onMousePressedEventHandler);
         card.setOnMouseDragged(onMouseDraggedEventHandler);
@@ -228,8 +230,7 @@ public class MouseGestures {
         card.setEffect(null);
         double xto = cardTo.getLayoutX();
         double yto = cardTo.getLayoutY();
-//        double x = card.getTranslateX();
-//        double y = card.getTranslateY();
+
 
         if (card.getRank().equals(Rank.KING)) {
             card.relocate(xto, yto-5);
@@ -243,8 +244,6 @@ public class MouseGestures {
         if (cardOnIt != null) {
             xto = card.getLayoutX();
             yto = card.getLayoutY();
-//            x = cardOnIt.getTranslateX();
-//            y = cardOnIt.getTranslateY();
 
             cardOnIt.relocate(xto, yto + 25);
 

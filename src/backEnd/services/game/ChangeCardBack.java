@@ -27,7 +27,7 @@ public class ChangeCardBack {
     private Config config;
     private int selectedIndex;
 
-    public ChangeCardBack(Stage secondery) {
+    public ChangeCardBack(Stage secondery,Game actualGame) {
         config=new Config();
         tmp= Back.getBackList();
         Group root = new Group(deckLook());
@@ -40,8 +40,8 @@ public class ChangeCardBack {
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                config.properties.setProperty("back",tmp.get(selectedIndex).getConfig());
-                config.writeProp();
+                config.tempBack=tmp.get(selectedIndex).getConfig();
+                actualGame.cardLookChange();
                 secondery.close();
 
             }

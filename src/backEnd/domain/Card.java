@@ -94,6 +94,10 @@ public class Card extends ImageView {
         return rank;
     }
 
+    public Style getColor() {
+        return color;
+    }
+
     public Image getFront() {
         return front;
     }

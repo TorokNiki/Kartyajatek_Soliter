@@ -3,36 +3,42 @@ package backEnd.services.game;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.MouseGestures;
+import backEnd.services.factory.Config;
 import backEnd.services.factory.DeckFactory;
+import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class UpsideDownPyramid {
+public class UpsideDownPyramid extends Game{
     public List<Card> doubleDeck;
     public Stack<Card> deck, vastPile;
     public ImageView emptyDeck;
     public MouseGestures mg;
 
 
-    public UpsideDownPyramid(Pane panel) {
-        mg = new MouseGestures();
-        doubleDeck = new DeckFactory().doubleDeck();
+    public UpsideDownPyramid(MainController controller) {
+        super(new DeckFactory().doubleDeck());
+        doubleDeck = new ArrayList<>(fullDeck);
+        mg = new MouseGestures(controller);
         deck = new Stack<>();
         vastPile = new Stack<>();
-        placeCardsOnBoard(panel);
+        placeCardsOnBoard();
     }
 
 
-    public void placeCardsOnBoard(Pane panel) {
-        emptySpace(15, 2, panel);
-        emptySpace(140, 10, panel);
+
+    @Override
+    public void placeCardsOnBoard() {
+        emptySpace(15, 2, board);
+        emptySpace(140, 10, board);
         for (int i = 0; i < 10; i++) {
             ImageView empty = new ImageView();
             Image emptyimg = new Image("./resources/img/emptyCardSlot.png");
@@ -44,13 +50,14 @@ public class UpsideDownPyramid {
             empty.setLayoutY(140);
             empty.setPreserveRatio(true);
             empty.setOpacity(0);
-            panel.getChildren().add(empty);
+            board.getChildren().add(empty);
         }
 
         Card[] ase = new Card[8];
         int index = 0;
         for (int i = 0; i < doubleDeck.size(); i++) {
             if (doubleDeck.get(i).getRank().equals(Rank.ACE)) {
+                doubleDeck.get(i).flippCard();
                 ase[index] = doubleDeck.get(i);
                 doubleDeck.remove(doubleDeck.get(i));
                 index++;
@@ -59,19 +66,18 @@ public class UpsideDownPyramid {
 
         for (int i = 2; i < 10; i++) {
             Card card = ase[i - 2];
-            card.flippCard();
             card.setFinalPozicion(true);
             card.setLayoutX((i * card.getFitWidth() + i * 10) + 5);
             card.setLayoutY(10);
             card.setPreserveRatio(true);
-            panel.getChildren().add(card);
+            board.getChildren().add(card);
         }
         Collections.shuffle(doubleDeck);
         int actual = 0;
         Card card = null;
         for (int i = 0; i < 5; i++) {
             for (int j = 1; j <= i * 2 + 1; j++) {
-                actual = placeCards(actual, i, j, panel);
+                actual = placeCards(actual, i, j, board);
                 if (card != null) {
                     card.setConnection(doubleDeck.get(actual));
                 }
@@ -82,7 +88,7 @@ public class UpsideDownPyramid {
         }
         for (int i = 5; i < 10; i++) {
             for (int j = 1; j <= (10 - i) * 2; j++) {
-                actual = placeCards(actual, i, j, panel);
+                actual = placeCards(actual, i, j, board);
                 if (card != null) {
                     card.setConnection(doubleDeck.get(actual));
                 }
@@ -97,7 +103,7 @@ public class UpsideDownPyramid {
             doubleDeck.get(actual).setLayoutY(10);
             doubleDeck.get(actual).flippCard();
             doubleDeck.get(actual).flippCard();
-            panel.getChildren().add(doubleDeck.get(actual));
+            board.getChildren().add(doubleDeck.get(actual));
 
             actual++;
         }
@@ -115,7 +121,7 @@ public class UpsideDownPyramid {
                 showDeck();
             }
         });
-        panel.getChildren().add(emptyDeck);
+        board.getChildren().add(emptyDeck);
 
 
 

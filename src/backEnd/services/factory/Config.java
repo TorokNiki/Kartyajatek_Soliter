@@ -6,13 +6,11 @@ import java.io.IOException;
 import java.util.Properties;
 
 public  class  Config {
-    public static Properties properties;
+    public static Properties properties = new Properties();;
+    public static String tempBack="blue";
+    public static String tempFront="pakli4";
 
-    public Config() {
-        this.properties = new Properties();
-        loadProp();
-    }
-    public void writeProp() {
+    public static void writeProp() {
         try {
             FileOutputStream fileInputStream = new FileOutputStream("config.properties");
             properties.store(fileInputStream, "configs");
@@ -21,21 +19,22 @@ public  class  Config {
         }
     }
 
-    private void writeDefaultProp() {
+    private static void writeDefaultProp() {
         try {
-            FileOutputStream fileInputStream = new FileOutputStream("config.properties");
             properties.setProperty("front", "pakli4");
             properties.setProperty("back", "blue");
+            properties.setProperty("bacground","lightblue");
+            FileOutputStream fileInputStream = new FileOutputStream("config.properties");
             properties.store(fileInputStream, "configs");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadProp() {
+    public static void loadProp() {
         try {
             FileInputStream fileInputStream = new FileInputStream("config.properties");
-            this.properties.load(fileInputStream);
+            properties.load(fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();
             writeDefaultProp();

@@ -3,25 +3,29 @@ package backEnd.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//https://docs.oracle.com/javase/8/javafx/api/javafx/scene/paint/Color.html
 public enum Background {
-    BLUE("Kék", "-fx-background-color: lightblue;"),
-    GREEN("Zöld", "-fx-background-color: #9aff8f;"),
-    RED("Piros", "-fx-background-color: #fc6262;"),
-    GREY("Szürke", "-fx-background-color: #cfcaca;"),
-    PINK("Rozsaszin", "-fx-background-color: #f786e2;"),
-    PURPLE("Lila", "-fx-background-color: #e388f7;"),
-    WHITE("Fehér", "-fx-background-color: #ffffff;"),
-    BROWN("Barna", "-fx-background-color: #b89e76;"),
-    TURQUOISE("Türkiz", "-fx-background-color: #9debe2;");
+    BLUE("Kék", "-fx-background-color: lightblue;","lightblue"),
+    GREEN("Zöld", "-fx-background-color: LIGHTGREEN;","LIGHTGREEN"),
+    RED("Piros", "-fx-background-color: TOMATO;","TOMATO"),
+    GREY("Szürke", "-fx-background-color: SILVER;","SILVER"),
+    PINK("Rozsaszin", "-fx-background-color: PINK;","PINK"),
+    PURPLE("Lila", "-fx-background-color: PLUM;","PLUM"),
+    WHITE("Fehér", "-fx-background-color: WHITE;","WHITE"),
+    BROWN("Barna", "-fx-background-color: TAN;","TAN"),
+    TURQUOISE("Türkiz", "-fx-background-color: #9debe2;","#9debe2");
 
 
     private static List<Background> backgroundList;
     private String name;
     private String colour;
+    private String config;
 
-    Background(String name, String colour) {
+    Background(String name, String colour,String config) {
         this.name = name;
         this.colour = colour;
+        this.config=config;
     }
 
     public static List<Background> getBackground() {
@@ -41,6 +45,10 @@ public enum Background {
 
     public String getName() {
         return name;
+    }
+
+    public String getConfig() {
+        return config;
     }
 
     public String getColour() {
