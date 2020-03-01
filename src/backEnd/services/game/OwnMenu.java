@@ -1,6 +1,5 @@
 package backEnd.services.game;
 
-import backEnd.services.MouseGestures;
 import frontEnd.MainController;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.ActionEvent;
@@ -63,9 +62,10 @@ public class OwnMenu {
 
     private void setMenuItemsTure(Menu menu) {
         MenuItem miStartNewTure = new MenuItem("Új Túra inditása");
-        //miStartNewTure.setOnAction(o-> new Main().start();
+        miStartNewTure.setOnAction(o-> mainController.restartTure());
         //miStartNewTure.setOnAction(o->new Controller().upsideDownPyramid());
         MenuItem miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");
+        miRestartCurrentTure.setOnAction(o-> mainController.restartGame());
         MenuItem miStartNewGame = new MenuItem("Következő játék indítása");
         MenuItem miEndCurrentTure = new MenuItem("Túra befejezése");
         miEndCurrentTure.setOnAction(o -> new Alerts().score(mainController.getScore(),mainController.getCurrentScore()));
@@ -79,7 +79,7 @@ public class OwnMenu {
         MenuItem miChangeCardBack = new MenuItem("Kártya hátlapja");
         miChangeCardBack.setOnAction(o->new ChangeCardBack(secondery,mainController.actualGame));
         MenuItem miChangeBackgroundColour = new MenuItem("Játékterület szine");
-        miChangeBackgroundColour.setOnAction(o->new ChangeBackgroundColour(secondery));
+        miChangeBackgroundColour.setOnAction(o->new ChangeBackgroundColour(secondery,mainController.actualGame));
         menu.getItems().addAll(miChangeCardLook, miChangeCardBack, miChangeBackgroundColour);
     }
 

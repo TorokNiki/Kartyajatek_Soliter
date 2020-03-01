@@ -36,6 +36,11 @@ public class ChangeCardBack {
         secondery.setScene(new Scene(root, 600, 400));
         secondery.setResizable(false);
         addItems();
+        selectedIndex=0;
+        select.scrollTo(selectedIndex);
+        select.getSelectionModel().select(selectedIndex);
+        select.getFocusModel().focus(selectedIndex);
+        look.setImage(new Image(tmp.get(selectedIndex).getPicture()));
         secondery.show();
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

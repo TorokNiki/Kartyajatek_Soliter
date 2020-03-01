@@ -22,6 +22,7 @@ public abstract class Game {
     }
 
     public abstract void placeCardsOnBoard();
+    public abstract void restartGame(boolean fullrestart);
 
     public Pane getBoard() {
         return board;
@@ -46,5 +47,12 @@ public abstract class Game {
                 }
             }
         }
+    }
+    public void backgoundChange(){
+        if (!Config.tempBackground.equals(Config.properties.getProperty("bacground"))){
+            Config.properties.setProperty("bacground",Config.tempBackground);
+            Config.writeProp();
+            board.setStyle("-fx-background-color: " + Config.properties.getProperty("bacground") + ";");
+            }
     }
 }

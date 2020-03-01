@@ -1,6 +1,5 @@
 package frontEnd;
 
-import backEnd.services.MouseGestures;
 import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
 import backEnd.services.game.OwnMenu;
@@ -10,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
@@ -38,8 +36,20 @@ public class MainController {
         primaryStage.setScene(new Scene(root, 800, 624));
         primaryStage.setResizable(false);
         primaryStage.show();
-
     }
+    public void restartGame(){
+        setCurrentScore(0);
+        setScore(0);
+        ownMenu.setTFScore(this.scoreText,getScore(),getCurrentScore());
+        actualGame.restartGame(false);
+    }
+    public void restartTure(){
+        setCurrentScore(0);
+        setScore(0);
+        ownMenu.setTFScore(this.scoreText,getScore(),getCurrentScore());
+        actualGame.restartGame(true);
+    }
+
     private void defaultSettings(){
         scoreText=ownMenu.setTFScore(this.scoreText,getScore(),getCurrentScore());
         ownMenu.setLabel(gameName,"Upside-Down Piramid (1/10)","#752777");

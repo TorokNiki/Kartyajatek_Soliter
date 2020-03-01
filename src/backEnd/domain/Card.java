@@ -42,21 +42,14 @@ public class Card extends ImageView {
         Card card = (Card) o;
         return id == card.id &&
                 point == card.point &&
-                faceup == card.faceup &&
-                inDeck == card.inDeck &&
-                isSticked == card.isSticked &&
                 name.equals(card.name) &&
                 rank == card.rank &&
-                color == card.color &&
-                front.equals(card.front) &&
-                back.equals(card.back) &&
-                Objects.equals(cardOnIt, card.cardOnIt) &&
-                Objects.equals(cardBeforeIt, card.cardBeforeIt);
+                color == card.color;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, point, name, rank, color, front, back, cardOnIt, cardBeforeIt, faceup, inDeck, isSticked);
+        return Objects.hash(id, point, name, rank, color);
     }
 
     public boolean RankEqual(Object o) {
@@ -117,6 +110,10 @@ public class Card extends ImageView {
 
     public boolean isFaceup() {
         return faceup;
+    }
+
+    public void setFaceup(boolean faceup) {
+        this.faceup = faceup;
     }
 
     public Image getBack() {

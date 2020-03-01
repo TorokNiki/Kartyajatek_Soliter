@@ -9,6 +9,8 @@ public  class  Config {
     public static Properties properties = new Properties();;
     public static String tempBack="blue";
     public static String tempFront="pakli4";
+    public static String tempBackground="lightblue";
+
 
     public static void writeProp() {
         try {

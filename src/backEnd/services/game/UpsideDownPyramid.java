@@ -3,7 +3,6 @@ package backEnd.services.game;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.MouseGestures;
-import backEnd.services.factory.Config;
 import backEnd.services.factory.DeckFactory;
 import frontEnd.MainController;
 import javafx.event.EventHandler;
@@ -17,23 +16,55 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class UpsideDownPyramid extends Game{
+public class UpsideDownPyramid extends Game {
     public List<Card> doubleDeck;
     public Stack<Card> deck, vastPile;
     public ImageView emptyDeck;
     public MouseGestures mg;
+    public boolean restart;
+    public Card[] ase;
 
 
     public UpsideDownPyramid(MainController controller) {
         super(new DeckFactory().doubleDeck());
-        doubleDeck = new ArrayList<>(fullDeck);
         mg = new MouseGestures(controller);
+        restart = false;
+        ase=new Card[8];
+        start();
+    }
+
+    private void start() {
+        doubleDeck = new ArrayList<>(fullDeck);
+        deck = new Stack<>();
+        vastPile = new Stack<>();
+        placeCardsOnBoard();
+    }
+
+    @Override
+    public void restartGame(boolean fullrestart) {
+        mg.db=0;
+        restart = true;
+        board.getChildren().clear();
+        flippCardsonDefault();
+        if (fullrestart) {
+            restart=false;
+            doubleDeck = new ArrayList<>(fullDeck);
+        }
         deck = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard();
     }
 
 
+    public void flippCardsonDefault() {
+        for (Card c : fullDeck) {
+            c.setFaceup(false);
+            c.setCardOnIt(null);
+            c.setCardBeforeIt(null);
+            c.setFinalPozicion(false);
+            c.setSticked(false);
+        }
+    }
 
     @Override
     public void placeCardsOnBoard() {
@@ -42,28 +73,27 @@ public class UpsideDownPyramid extends Game{
         for (int i = 0; i < 10; i++) {
             ImageView empty = new ImageView();
             Image emptyimg = new Image("./resources/img/emptyCardSlot.png");
-            empty.setId("col:"+i);
+            empty.setId("col:" + i);
             empty.setImage(emptyimg);
             empty.setFitWidth(70);
-           // empty.setFitHeight(150);
+            // empty.setFitHeight(150);
             empty.setLayoutX((i * empty.getFitWidth() + i * 10) + 5);
             empty.setLayoutY(140);
             empty.setPreserveRatio(true);
             empty.setOpacity(0);
             board.getChildren().add(empty);
         }
-
-        Card[] ase = new Card[8];
-        int index = 0;
-        for (int i = 0; i < doubleDeck.size(); i++) {
-            if (doubleDeck.get(i).getRank().equals(Rank.ACE)) {
-                doubleDeck.get(i).flippCard();
-                ase[index] = doubleDeck.get(i);
-                doubleDeck.remove(doubleDeck.get(i));
-                index++;
+        if (!restart) {
+            int index = 0;
+            for (int i = 0; i < doubleDeck.size(); i++) {
+                if (doubleDeck.get(i).getRank().equals(Rank.ACE)) {
+                    doubleDeck.get(i).flippCard();
+                    ase[index] = doubleDeck.get(i);
+                    doubleDeck.remove(doubleDeck.get(i));
+                    index++;
+                }
             }
         }
-
         for (int i = 2; i < 10; i++) {
             Card card = ase[i - 2];
             card.setFinalPozicion(true);
@@ -72,7 +102,8 @@ public class UpsideDownPyramid extends Game{
             card.setPreserveRatio(true);
             board.getChildren().add(card);
         }
-        Collections.shuffle(doubleDeck);
+        if (!restart){
+        Collections.shuffle(doubleDeck);}
         int actual = 0;
         Card card = null;
         for (int i = 0; i < 5; i++) {
@@ -124,7 +155,6 @@ public class UpsideDownPyramid extends Game{
         board.getChildren().add(emptyDeck);
 
 
-
     }
 
     private int placeCards(int actual, int i, int j, Pane panel) {
@@ -166,11 +196,11 @@ public class UpsideDownPyramid extends Game{
             int i = 0;
             while (vastPile.size() != 0) {
                 Card actual = vastPile.pop();
-                if (!actual.isSticked()&&actual.isInDeck()) {
+                if (!actual.isSticked() && actual.isInDeck()) {
                     actual.flippCard();
                     actual.relocate(((i * 0.002) * actual.getFitWidth()) + 5, 10);
                     deck.push(actual);
-                }else {
+                } else {
                     actual.setInDeck(false);
                 }
                 i++;

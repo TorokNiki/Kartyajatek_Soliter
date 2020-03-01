@@ -28,7 +28,7 @@ public class ChangeBackgroundColour {
     private Config config;
     private int selectedIndex;
 
-    public ChangeBackgroundColour(Stage secondery) {
+    public ChangeBackgroundColour(Stage secondery,Game actualGame) {
         config=new Config();
         backgroundList = Background.getBackground();
         Group root = new Group(deckLook());
@@ -37,12 +37,18 @@ public class ChangeBackgroundColour {
         secondery.setScene(new Scene(root, 600, 400));
         secondery.setResizable(false);
         addItems();
+        selectedIndex=0;
+        select.scrollTo(selectedIndex);
+        select.getSelectionModel().select(selectedIndex);
+        select.getFocusModel().focus(selectedIndex);
+        look.setStyle(backgroundList.get(selectedIndex).getColour());
+        bacground = backgroundList.get(selectedIndex).getColour();
         secondery.show();
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                config.properties.setProperty("bacground",backgroundList.get(selectedIndex).getConfig());
-                config.writeProp();
+                config.tempBackground=backgroundList.get(selectedIndex).getConfig();
+                actualGame.backgoundChange();
                 secondery.close();
             }
         });

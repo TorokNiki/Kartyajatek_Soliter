@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +33,13 @@ public class ChangeDeckLook {
         primaryStage.setScene(new Scene(root, 550, 400));
         primaryStage.setResizable(false);
         addItems();
+        selectedIndex =3;
+        select.scrollTo(selectedIndex);
+        select.getSelectionModel().select(selectedIndex);
+        select.getFocusModel().focus(selectedIndex);
+        look.setImage(new Image(frontCardList.get(selectedIndex).getPicture1()));
+        look1.setImage(new Image(frontCardList.get(selectedIndex).getPicture2()));
+        look2.setImage(new Image(frontCardList.get(selectedIndex).getPicture3()));
         primaryStage.show();
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
