@@ -2,6 +2,7 @@ package frontEnd;
 
 import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
+import backEnd.services.game.Klondike;
 import backEnd.services.game.UpsideDownPyramid;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -21,15 +22,17 @@ public class MainController {
     private TextField scoreText;
     private OwnMenu ownMenu;
     private Group root;
+    private String name="Upside-Down Piramid (1/10)",coloure="#752777";
 
     public MainController(Stage primaryStage) {
         upsideDownPyramid = new UpsideDownPyramid(this);
-        actualGame=upsideDownPyramid;
+        klondike=new Klondike(this);
+        actualGame=klondike;
         this.scoreText = new TextField();
         this.ownMenu =new OwnMenu(primaryStage.widthProperty(),this);
         this.gameName=new Label();
         defaultSettings();
-        this.root = new Group(this.ownMenu.getMenuBar(), scoreText, gameName, upsideDownPyramid.getBoard());
+        this.root = new Group(this.ownMenu.getMenuBar(), scoreText, gameName, actualGame.getBoard());
         primaryStage.getIcons().add(new Image("./resources/img/ace.png"));
         primaryStage.setTitle("Kártyajáték (Solitaire)");
         primaryStage.setScene(new Scene(root, 800, 624));
@@ -43,15 +46,31 @@ public class MainController {
         actualGame.restartGame(false);
     }
     public void restartTure(){
+        this.name="Upside-Down Piramid (1/10)";
         setCurrentScore(0);
         setScore(0);
         ownMenu.setTFScore(this.scoreText,getScore(),getCurrentScore());
-        actualGame.restartGame(true);
+        ownMenu.setLabel(gameName,this.name,this.coloure);
+        upsideDownPyramid.restartGame(true);
     }
 
     private void defaultSettings(){
         scoreText=ownMenu.setTFScore(this.scoreText,getScore(),getCurrentScore());
-        ownMenu.setLabel(gameName,"Upside-Down Piramid (1/10)","#752777");
+        ownMenu.setLabel(gameName,this.name,this.coloure);
+    }
+    public void goToNextGame(){
+        actualGame.getBoard().getChildren().clear();
+        klondike=new Klondike(this);
+        actualGame=klondike;
+        this.name="Klondike (2/10)";
+        defaultSettings();
+        //this.root = new Group(this.ownMenu.getMenuBar(), scoreText, gameName, actualGame.getBoard());
+
+
+
+
+
+
     }
 
     public int getCurrentScore() {

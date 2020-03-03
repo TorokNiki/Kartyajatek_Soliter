@@ -64,10 +64,10 @@ public class OwnMenu {
     private void setMenuItemsTure(Menu menu) {
         MenuItem miStartNewTure = new MenuItem("Új Túra inditása");
         miStartNewTure.setOnAction(o-> mainController.restartTure());
-        //miStartNewTure.setOnAction(o->new Controller().upsideDownPyramid());
         MenuItem miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");
         miRestartCurrentTure.setOnAction(o-> mainController.restartGame());
         MenuItem miStartNewGame = new MenuItem("Következő játék indítása");
+        miStartNewGame.setOnAction(o-> mainController.goToNextGame());
         MenuItem miEndCurrentTure = new MenuItem("Túra befejezése");
         miEndCurrentTure.setOnAction(o -> new Alerts().score(mainController.getScore(),mainController.getCurrentScore()));
         menu.getItems().addAll(miStartNewTure, miRestartCurrentTure, miStartNewGame, miEndCurrentTure);

@@ -22,11 +22,11 @@ public class SQLite {
 
     public static void createNewTable() {
         String url = "jdbc:sqlite:C://Kartyajatek_Soliter/score.db";
-        String sql = "CREATE TABLE IF NOT EXISTS winners (\n"
-                + " id integer PRIMARY KEY,\n"
-                + " name text NOT NULL,\n"
-                + " score integer\n"
-                + ");";
+        String sql = "CREATE TABLE IF NOT EXISTS winners (\n" +
+                " id integer PRIMARY KEY,\n" +
+                " name text NOT NULL,\n" +
+                " score integer\n" +
+                ");";
         try {
             Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement();

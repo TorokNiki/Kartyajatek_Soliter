@@ -34,7 +34,7 @@ public class DeckFactory {
         return deck;
     }
 
-    private List<Card> simpleImageDeck() {
+    public List<Card> simpleImageDeck() {
         List<Card> deck = new ArrayList<>();
         for (var color : Style.values()) {
             for (var rank : Rank.values()) {

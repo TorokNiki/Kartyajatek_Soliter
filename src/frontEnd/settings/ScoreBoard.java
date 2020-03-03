@@ -1,5 +1,6 @@
 package frontEnd.settings;
 
+import backEnd.services.database.SQLite;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -22,12 +23,15 @@ public class ScoreBoard {
     private TableView table;
     private TableColumn rank,name,point;
     private List<Integer> rankList;
+    private SQLite database;
 
     public ScoreBoard(Stage secondery) {
+        //database=new SQLite();
         rankList=new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             rankList.add(i+1);
         }
+        //database.selectAll();
         Group root = new Group(scoreBoard());
         secondery.getIcons().add(new Image("./resources/img/ace.png"));
         secondery.setTitle("Eredmény tábla");
@@ -37,7 +41,7 @@ public class ScoreBoard {
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-
+            //database.insert("asd",1);
             }
         });
         clear.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -87,6 +91,7 @@ public class ScoreBoard {
         return scoreBoard;
     }
     private void addData(){
+        database.selectAll();
      //   rank.setCellValueFactory((TableColumn.CellDataFeatures cellDataFeatures) -> {
           //  Integer rowIndex = cellDataFeatures.getValue();
           //  return new ReadOnlyIntegerWrapper(rankList.get(rowIndex));});
