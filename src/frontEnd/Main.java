@@ -1,15 +1,7 @@
 package frontEnd;
 
 import backEnd.services.factory.Config;
-import backEnd.services.game.OwnMenu;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 

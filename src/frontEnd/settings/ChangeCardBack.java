@@ -1,8 +1,9 @@
-package backEnd.services.game;
+package frontEnd.settings;
 
-import backEnd.domain.Background;
+import backEnd.domain.Back;
 import backEnd.services.factory.Config;
-import frontEnd.MainController;
+import backEnd.services.game.Game;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,30 +11,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.List;
 
-public class ChangeBackgroundColour {
-    private Pane paneLook;
+public class ChangeCardBack {
+    private Pane deckLook;
     private ListView select;
     private Label lblInstruction;
-    private Button ok, cancel;
-    private Pane look;
-    private List<Background> backgroundList;
-    private String bacground;
-    private MainController c;
+    private Button ok,cancel;
+    private ImageView look;
+    private  List<Back> tmp;
     private Config config;
     private int selectedIndex;
 
-    public ChangeBackgroundColour(Stage secondery,Game actualGame) {
+    public ChangeCardBack(Stage secondery, Game actualGame) {
         config=new Config();
-        backgroundList = Background.getBackground();
+        tmp= Back.getBackList();
         Group root = new Group(deckLook());
         secondery.getIcons().add(new Image("./resources/img/ace.png"));
-        secondery.setTitle("Játéktér szinének a kiválasztása");
+        secondery.setTitle("Kártyák hátának a kiválasztása");
         secondery.setScene(new Scene(root, 600, 400));
         secondery.setResizable(false);
         addItems();
@@ -41,15 +41,15 @@ public class ChangeBackgroundColour {
         select.scrollTo(selectedIndex);
         select.getSelectionModel().select(selectedIndex);
         select.getFocusModel().focus(selectedIndex);
-        look.setStyle(backgroundList.get(selectedIndex).getColour());
-        bacground = backgroundList.get(selectedIndex).getColour();
+        look.setImage(new Image(tmp.get(selectedIndex).getPicture()));
         secondery.show();
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                config.tempBackground=backgroundList.get(selectedIndex).getConfig();
-                actualGame.backgoundChange();
+                config.tempBack=tmp.get(selectedIndex).getConfig();
+                actualGame.cardLookChange();
                 secondery.close();
+
             }
         });
         cancel.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -61,59 +61,58 @@ public class ChangeBackgroundColour {
         select.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                selectedIndex = select.getSelectionModel().getSelectedIndex();
-                look.setStyle(backgroundList.get(selectedIndex).getColour());
-                bacground = backgroundList.get(selectedIndex).getColour();
-
+                selectedIndex =select.getSelectionModel().getSelectedIndex();
+                look.setImage(new Image(tmp.get(selectedIndex).getPicture()));
             }
         });
+
     }
 
-    private Pane deckLook() {
-        paneLook = new Pane();
-        paneLook.setPrefWidth(600);
-        paneLook.setPrefHeight(400);
+    private Pane deckLook(){
+        deckLook= new Pane();
+        deckLook.setPrefWidth(600);
+        deckLook.setPrefHeight(400);
 
-        select = new ListView();
+        select=new ListView();
         select.setLayoutX(10);
         select.setLayoutY(50);
         select.setPrefHeight(300);
         select.setPrefWidth(200);
 
-        lblInstruction = new Label();
+        lblInstruction=new Label();
         lblInstruction.setLayoutY(20);
         lblInstruction.setLayoutX(10);
-        lblInstruction.setText("Játéktér szinének a kiválasztása");
+        lblInstruction.setText("Kártya hátlap kiválasztása");
 
-        ok = new Button();
+        ok= new Button();
         ok.setLayoutX(500);
         ok.setLayoutY(300);
         ok.setPrefWidth(60);
         ok.setText("OK");
 
-        cancel = new Button();
+        cancel=new Button();
         cancel.setLayoutX(500);
         cancel.setLayoutY(350);
         cancel.setText("Mégsem");
 
-        look = new Pane();
+        look= new ImageView();
         look.setLayoutX(300);
         look.setLayoutY(100);
-        look.setPrefHeight(150);
-        look.setPrefWidth(200);
+        look.setFitHeight(200);
+        look.setFitWidth(140);
 
-        paneLook.getChildren().add(select);
-        paneLook.getChildren().add(lblInstruction);
-        paneLook.getChildren().add(ok);
-        paneLook.getChildren().add(cancel);
-        paneLook.getChildren().add(look);
+        deckLook.getChildren().addAll(select,lblInstruction,ok,cancel,look);
 
-        return paneLook;
+        return deckLook;
     }
-
-    private void addItems() {
-        for (int i = 0; i < backgroundList.size(); i++) {
-            select.getItems().add(backgroundList.get(i).getName());
+    private void addItems(){
+        for (int i = 0; i < tmp.size(); i++) {
+            select.getItems().add(tmp.get(i).getName());
         }
     }
+    private void setImage(){
+        ObservableList selectedIndices =
+                select.getSelectionModel().getSelectedIndices();
+    }
+
 }

@@ -1,4 +1,4 @@
-package backEnd.services.game;
+package frontEnd.settings;
 
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.event.EventHandler;

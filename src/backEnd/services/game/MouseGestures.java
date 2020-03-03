@@ -1,15 +1,12 @@
-package backEnd.services;
+package backEnd.services.game;
 
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
-import backEnd.services.game.Alerts;
-import backEnd.services.game.OwnMenu;
-import frontEnd.Main;
+import frontEnd.settings.Alerts;
 import frontEnd.MainController;
 import javafx.animation.PathTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;

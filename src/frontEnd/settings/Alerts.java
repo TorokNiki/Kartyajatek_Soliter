@@ -1,4 +1,4 @@
-package backEnd.services.game;
+package frontEnd.settings;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.*;

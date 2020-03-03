@@ -2,7 +2,6 @@ package frontEnd;
 
 import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
-import backEnd.services.game.OwnMenu;
 import backEnd.services.game.UpsideDownPyramid;
 import javafx.scene.Group;
 import javafx.scene.Scene;

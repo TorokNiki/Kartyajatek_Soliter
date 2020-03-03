@@ -1,6 +1,7 @@
-package backEnd.services.game;
+package frontEnd;
 
 import frontEnd.MainController;
+import frontEnd.settings.*;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;

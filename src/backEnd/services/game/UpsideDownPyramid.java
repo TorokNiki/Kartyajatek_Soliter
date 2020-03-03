@@ -2,7 +2,6 @@ package backEnd.services.game;
 
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
-import backEnd.services.MouseGestures;
 import backEnd.services.factory.DeckFactory;
 import frontEnd.MainController;
 import javafx.event.EventHandler;

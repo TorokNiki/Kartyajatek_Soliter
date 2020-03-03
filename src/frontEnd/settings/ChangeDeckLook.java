@@ -1,7 +1,8 @@
-package backEnd.services.game;
+package frontEnd.settings;
 
 import backEnd.domain.Front;
 import backEnd.services.factory.Config;
+import backEnd.services.game.Game;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
