@@ -15,24 +15,26 @@ import java.util.List;
 import java.util.Stack;
 
 public class Klondike extends Game {
-    private MouseGestures mouseGestures;
     public ImageView emptyDeck;
+    private MouseGestureKlondike mouseGestures;
     private List<Card> deck;
     private Stack<Card> deckRemain, vastPile;
     private boolean restart;
 
     public Klondike(MainController controller) {
         super(new DeckFactory().simpleImageDeck());
-        mouseGestures = new MouseGestures(controller);
+        mouseGestures = new MouseGestureKlondike(controller);
         restart = false;
         start();
     }
-    private void start(){
-        deck=new ArrayList<>(fullDeck);
-        deckRemain=new Stack<>();
-        vastPile =new Stack<>();
+
+    private void start() {
+        deck = new ArrayList<>(fullDeck);
+        deckRemain = new Stack<>();
+        vastPile = new Stack<>();
         placeCardsOnBoard();
     }
+
 
     @Override
     public void placeCardsOnBoard() {
@@ -73,14 +75,18 @@ public class Klondike extends Game {
             empty2.setOpacity(0);
             board.getChildren().add(empty2);
         }
-        if (!restart){
-            Collections.shuffle(deck);}
+        if (!restart) {
+            Collections.shuffle(deck);
+        }
         int actual = 0;
         Card card = null;
         for (int i = 0; i < 7; i++) {
-            for (int j = 1; j <= i  + 1; j++) {
-                if (j>i){
-                actual = placeCards(actual, i, j, board);}else { actual = placeCards2(actual, i, j, board);}
+            for (int j = 1; j <= i + 1; j++) {
+                if (j > i) {
+                    actual = placeCards(actual, i, j, board);
+                } else {
+                    actual = placeCards2(actual, i, j, board);
+                }
                 if (card != null) {
                     card.setConnection(deck.get(actual));
                 }
@@ -105,7 +111,7 @@ public class Klondike extends Game {
         emptyDeck.setImage(img);
         emptyDeck.setFitWidth(85);
         emptyDeck.setFitHeight(110);
-        emptyDeck.setLayoutX(5);
+        emptyDeck.setLayoutX(30);
         emptyDeck.setLayoutY(10);
         emptyDeck.setOpacity(0);
         emptyDeck.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -117,8 +123,8 @@ public class Klondike extends Game {
         board.getChildren().add(emptyDeck);
 
 
-
     }
+
     private void showDeck() {
         if (!deckRemain.empty()) {
             int db = Math.min(deckRemain.size(), 1);
@@ -147,6 +153,7 @@ public class Klondike extends Game {
             emptyDeck.toFront();
         }
     }
+
     private int placeCards(int actual, int i, int j, Pane panel) {
         deck.get(actual).setLayoutX((i * deck.get(actual).getFitWidth() + i * 30) + 30);
         deck.get(actual).setLayoutY(j * 12 + 130);
@@ -155,6 +162,7 @@ public class Klondike extends Game {
         panel.getChildren().add(deck.get(actual));
         return actual;
     }
+
     private int placeCards2(int actual, int i, int j, Pane panel) {
         deck.get(actual).setLayoutX((i * deck.get(actual).getFitWidth() + i * 30) + 30);
         deck.get(actual).setLayoutY(j * 12 + 130);
@@ -164,6 +172,7 @@ public class Klondike extends Game {
         panel.getChildren().add(deck.get(actual));
         return actual;
     }
+
     private void emptySpace(int y, int length, Pane panel) {
         for (int i = 0; i < length; i++) {
             ImageView empty = new ImageView();
@@ -180,18 +189,19 @@ public class Klondike extends Game {
 
     @Override
     public void restartGame(boolean fullrestart) {
-        mouseGestures.db=0;
+        mouseGestures.db = 0;
         restart = true;
         board.getChildren().clear();
         flippCardsonDefault();
         if (fullrestart) {
-            restart=false;
+            restart = false;
             deck = new ArrayList<>(fullDeck);
         }
-        deck = new Stack<>();
+        deckRemain = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard();
     }
+
     public void flippCardsonDefault() {
         for (Card c : fullDeck) {
             c.setFaceup(false);

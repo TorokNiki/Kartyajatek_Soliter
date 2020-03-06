@@ -2,9 +2,8 @@ package backEnd.services.game;
 
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
-import backEnd.domain.Style;
-import frontEnd.settings.Alerts;
 import frontEnd.MainController;
+import frontEnd.settings.Alerts;
 import javafx.animation.PathTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -17,16 +16,30 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
-public class MouseGestures {
+public class MouseGestureKlondike {
     public double orgTranslateX, orgTranslateY;
     public double orgSceneX, orgSceneY;
     public int db=0;
     public MainController mainController;
 
-    public MouseGestures(MainController mainController) {
+    public MouseGestureKlondike(MainController mainController) {
         this.mainController = mainController;
     }
 
+    EventHandler<MouseEvent> onMouseClickEventHandler =
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getClickCount() == 2 && !mouseEvent.isConsumed()) {
+                        mouseEvent.consume();
+                        Card card = (Card) mouseEvent.getSource();
+                        DropShadow shadow = new DropShadow();
+                        shadow.setColor(Color.PURPLE);
+                        card.setEffect(shadow);
+
+                    }
+                }
+            };
     EventHandler<MouseEvent> onMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
 
@@ -40,16 +53,6 @@ public class MouseGestures {
                         orgTranslateX = source.getTranslateX();
                         orgTranslateY = source.getTranslateY();
                         source.setMouseTransparent(true);
-                    }
-                    if (t.getClickCount() == 2 && !t.isConsumed()) {
-                        t.consume();
-                        DropShadow shadow = new DropShadow();
-                        shadow.setColor(Color.PURPLE);
-                        source.setEffect(shadow);
-                        //boundInScene
-                        //boundInLocal
-
-
                     }
                 }
             };
@@ -83,16 +86,18 @@ public class MouseGestures {
             }else if (picked instanceof ImageView && card.getRank() == Rank.KING && (card.getCardOnIt() == null || card.getCardOnIt().isSticked())){
                 ImageView pickedPlace = (ImageView) picked;
                 putOnAnEmptyPlace(card, pickedPlace);
+            }else if (picked instanceof ImageView && card.getRank() == Rank.ACE && (card.getCardOnIt() == null || card.getCardOnIt().isSticked())){
+                ImageView pickedPlace = (ImageView) picked;
+                putOnAnEmptyPlaceAnAce(card, pickedPlace);
             }else {
                 moveToSource(card);
                 recursiveTranslateBack(card);
             }
             card.setMouseTransparent(false);
-            if (db==12*8){
+            if (db==13*4){
                 Alerts a=new Alerts();
                 a.win();
                 a.score(mainController.getScore(),mainController.getCurrentScore());
-                mainController.goToNextGame();
             }
         }
     };
@@ -100,11 +105,37 @@ public class MouseGestures {
     private void putOnAnEmptyPlace(Card card, ImageView pickedPlace) {
         if(pickedPlace.getId() != null && pickedPlace.getId().contains("col")) {
             if (card.getCardBeforeIt() != null) {
+                if (!card.getCardBeforeIt().isFaceup()){
+                    card.getCardBeforeIt().flippCard();}
                 card.removeConnection();
             }
             card.setSticked(true);
             card.setInDeck(false);
             fixPosition(card, pickedPlace);
+        }else {
+            moveToSource(card);
+            recursiveTranslateBack(card);
+        }
+    }
+    private void putOnAnEmptyPlaceAnAce(Card card, ImageView pickedPlace) {
+        if(pickedPlace.getId() != null && pickedPlace.getId().contains("row")) {
+            if (card.getCardBeforeIt() != null) {
+                if (!card.getCardBeforeIt().isFaceup()){
+                    card.getCardBeforeIt().flippCard();}
+                card.removeConnection();
+            }
+            card.setSticked(true);
+            card.setFinalPozicion(true);
+            card.setInDeck(false);
+            fixPosition(card, pickedPlace);
+            db++;
+            int score = mainController.getCurrentScore();
+            int total=mainController.getScore();
+            total+=card.getPoint();
+            score += card.getPoint();
+            mainController.setCurrentScore(score);
+            mainController.setScore(total);
+            mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(),mainController.getScore(), mainController.getCurrentScore()));
         }else {
             moveToSource(card);
             recursiveTranslateBack(card);
@@ -123,6 +154,8 @@ public class MouseGestures {
         if(isValidPlacement(card, pikedCard)){
             if (!pikedCard.isInDeck()) {
                 if (card.getCardBeforeIt() != null) {
+                    if (!card.getCardBeforeIt().isFaceup()){
+                        card.getCardBeforeIt().flippCard();}
                     card.removeConnection();
                 }
                 pikedCard.setConnection(card);
@@ -141,6 +174,8 @@ public class MouseGestures {
 
     private void ifFinalPozicion(Card card, Card pikedCard) {
         if (card.getCardBeforeIt() != null) {
+            if (!card.getCardBeforeIt().isFaceup()){
+                card.getCardBeforeIt().flippCard();}
             card.removeConnection();
         }
         pikedCard.setConnection(card);
@@ -193,8 +228,8 @@ public class MouseGestures {
 
             if (!(sourceX == targetX && sourceY == targetY)) {
                 Path path = new Path();
-                path.getElements().add(new MoveToAbs(cardOnIt, sourceX, sourceY));
-                path.getElements().add(new LineToAbs(cardOnIt, targetX, targetY));
+                path.getElements().add(new MouseGestures.MoveToAbs(cardOnIt, sourceX, sourceY));
+                path.getElements().add(new MouseGestures.LineToAbs(cardOnIt, targetX, targetY));
 
                 PathTransition pathTransition = new PathTransition();
                 pathTransition.setDuration(Duration.millis(100));
@@ -212,6 +247,7 @@ public class MouseGestures {
 
 
     public void MouseGestures(final Card card) {
+        card.setOnMouseClicked(onMouseClickEventHandler);
         card.setOnMousePressed(onMousePressedEventHandler);
         card.setOnMouseDragged(onMouseDraggedEventHandler);
         card.setOnMouseReleased(onMouseReleasedEventHandler);
@@ -226,7 +262,7 @@ public class MouseGestures {
         double yto = cardTo.getLayoutY();
 
 
-        if (card.getRank().equals(Rank.KING)) {
+        if (card.getRank().equals(Rank.KING)||card.getRank().equals(Rank.ACE)) {
             card.relocate(xto, yto-5);
         } else {
             card.relocate(xto, yto + 25);
@@ -268,8 +304,8 @@ public class MouseGestures {
 
         if (!(sourceX == targetX && sourceY == targetY)) {
             Path path = new Path();
-            path.getElements().add(new MoveToAbs(card, sourceX, sourceY));
-            path.getElements().add(new LineToAbs(card, targetX, targetY));
+            path.getElements().add(new MouseGestures.MoveToAbs(card, sourceX, sourceY));
+            path.getElements().add(new MouseGestures.LineToAbs(card, targetX, targetY));
 
             PathTransition pathTransition = new PathTransition();
             pathTransition.setDuration(Duration.millis(100));
