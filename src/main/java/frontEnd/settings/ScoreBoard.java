@@ -25,12 +25,12 @@ public class ScoreBoard {
     private SQLite database;
 
     public ScoreBoard(Stage secondery) {
-        //database=new SQLite();
+        database=new SQLite();
         rankList=new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             rankList.add(i+1);
         }
-        //database.selectAll();
+        database.selectAll();
         Group root = new Group(scoreBoard());
         secondery.getIcons().add(new Image("img/ace.png"));
         secondery.setTitle("Eredmény tábla");
@@ -40,7 +40,7 @@ public class ScoreBoard {
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-            //database.insert("asd",1);
+            database.insert("asd",1);
             }
         });
         clear.setOnMouseClicked(new EventHandler<MouseEvent>() {

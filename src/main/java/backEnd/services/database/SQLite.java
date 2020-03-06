@@ -3,42 +3,42 @@ package backEnd.services.database;
 import java.sql.*;
 
 public class SQLite {
-    public static void createNewDatabase(String fileName) {
+//    public static void createNewDatabase(String fileName) {
+//
+//        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/" + fileName;
+//
+//        try {
+//            Connection conn = DriverManager.getConnection(url);
+//            if (conn != null) {
+//                DatabaseMetaData meta = conn.getMetaData();
+////                System.out.println("The driver name is " + meta.getDriverName());
+////                System.out.println("A new database has been created.");
+//            }
+//
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
-        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/" + fileName;
-
-        try {
-            Connection conn = DriverManager.getConnection(url);
-            if (conn != null) {
-                DatabaseMetaData meta = conn.getMetaData();
-//                System.out.println("The driver name is " + meta.getDriverName());
-//                System.out.println("A new database has been created.");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static void createNewTable() {
-        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/score.db";
-        String sql = "CREATE TABLE IF NOT EXISTS winners (\n" +
-                " id integer PRIMARY KEY,\n" +
-                " name text NOT NULL,\n" +
-                " score integer\n" +
-                ");";
-        try {
-            Connection conn = DriverManager.getConnection(url);
-            Statement stmt = conn.createStatement();
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+//    public static void createNewTable() {
+//        String url = "jdbc:sqlite:src/main/java/backEnd/services/database/score.sqlite";
+//        String sql = "CREATE TABLE IF NOT EXISTS winners (\n" +
+//                " id integer PRIMARY KEY,\n" +
+//                " score integer,\n" +
+//                " name text NOT NULL\n" +
+//                ");";
+//        try {
+//            Connection conn = DriverManager.getConnection(url);
+//            Statement stmt = conn.createStatement();
+//            stmt.execute(sql);
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:C://Kartyajatek_Soliter/score.db";
+        String url = "jdbc:sqlite:src/main/java/backEnd/services/database/score.sqlite";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
