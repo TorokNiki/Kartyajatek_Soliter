@@ -4,6 +4,7 @@ import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
 import backEnd.services.game.Klondike;
 import backEnd.services.game.UpsideDownPyramid;
+import frontEnd.settings.PlayerName;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -37,6 +38,9 @@ public class MainController {
         primaryStage.setScene(new Scene(root, 800, 624));
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+    public void desableMenuItem(){
+        ownMenu.disabledMenuItems(ownMenu.getMiRestartCurrentTure(),ownMenu.getMiStartNewGame(),ownMenu.getMiEndCurrentTure(),true);
     }
 
     public void restartGame() {

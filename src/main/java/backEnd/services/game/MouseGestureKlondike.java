@@ -3,10 +3,13 @@ package backEnd.services.game;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import frontEnd.MainController;
+import frontEnd.OwnMenu;
 import frontEnd.settings.Alerts;
+import frontEnd.settings.ScoreBoard;
 import javafx.animation.PathTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MouseGestureKlondike {
@@ -98,6 +102,9 @@ public class MouseGestureKlondike {
                 Alerts a=new Alerts();
                 a.win();
                 a.score(mainController.getScore(),mainController.getCurrentScore());
+                a.getName(mainController);
+                new ScoreBoard(new Stage(),mainController);
+                mainController.desableMenuItem();
             }
         }
     };

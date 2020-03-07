@@ -21,6 +21,7 @@ public class OwnMenu {
     private MenuItem menuItem;
     private static Stage secondery;
     private MainController mainController;
+    private MenuItem miStartNewTure, miRestartCurrentTure, miStartNewGame,miEndCurrentTure;
 
     public OwnMenu(ReadOnlyDoubleProperty stageWidth,MainController mainController) {
         this.menuBar = createDefaultMenuBar(stageWidth);
@@ -57,20 +58,50 @@ public class OwnMenu {
         javafx.scene.control.SeparatorMenuItem separatorMenuItem=new javafx.scene.control.SeparatorMenuItem();
         javafx.scene.control.MenuItem miExit = new MenuItem("Bezár");
         miExit.setOnAction(o -> System.exit(0));
-        miShowScoreBoard.setOnAction(o -> new ScoreBoard(secondery));
+        miShowScoreBoard.setOnAction(o -> new ScoreBoard(secondery,mainController));
         menu.getItems().addAll(miUndoLastMove, miShowScoreBoard,separatorMenuItem, miExit);
     }
 
     private void setMenuItemsTure(Menu menu) {
-        MenuItem miStartNewTure = new MenuItem("Új Túra inditása");
-        miStartNewTure.setOnAction(o-> mainController.restartTure());
-        MenuItem miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");
+        this.miStartNewTure = new MenuItem("Új Túra inditása");
+        this.miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");
+        this.miStartNewGame = new MenuItem("Következő játék indítása");
+        this.miEndCurrentTure = new MenuItem("Túra befejezése");
+        miStartNewTure.setOnAction(o->{ mainController.restartTure();
+            disabledMenuItems(miRestartCurrentTure, miStartNewGame, miEndCurrentTure, false);
+        });
         miRestartCurrentTure.setOnAction(o-> mainController.restartGame());
-        MenuItem miStartNewGame = new MenuItem("Következő játék indítása");
         miStartNewGame.setOnAction(o-> mainController.goToNextGame());
-        MenuItem miEndCurrentTure = new MenuItem("Túra befejezése");
-        miEndCurrentTure.setOnAction(o -> new Alerts().score(mainController.getScore(),mainController.getCurrentScore()));
+        miEndCurrentTure.setOnAction((ActionEvent o) -> {
+            new Alerts().score(mainController.getScore(),mainController.getCurrentScore());
+            new Alerts().getName(mainController);
+            new ScoreBoard(secondery,mainController);
+            disabledMenuItems(miRestartCurrentTure, miStartNewGame, miEndCurrentTure, true);
+        });
         menu.getItems().addAll(miStartNewTure, miRestartCurrentTure, miStartNewGame, miEndCurrentTure);
+    }
+
+    public void disabledMenuItems(MenuItem miRestartCurrentTure, MenuItem miStartNewGame, MenuItem miEndCurrentTure, boolean b) {
+        miRestartCurrentTure.setDisable(b);
+        miStartNewGame.setDisable(b);
+        miEndCurrentTure.setDisable(b);
+        mainController.actualGame.getBoard().setDisable(b);
+    }
+
+    public MenuItem getMiStartNewTure() {
+        return miStartNewTure;
+    }
+
+    public MenuItem getMiRestartCurrentTure() {
+        return miRestartCurrentTure;
+    }
+
+    public MenuItem getMiStartNewGame() {
+        return miStartNewGame;
+    }
+
+    public MenuItem getMiEndCurrentTure() {
+        return miEndCurrentTure;
     }
 
     private  void setMenuItemsOptions(Menu menu) {

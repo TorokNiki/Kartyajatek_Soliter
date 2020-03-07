@@ -1,12 +1,16 @@
 package frontEnd.settings;
 
 import backEnd.services.database.SQLite;
+import backEnd.services.database.Score;
+import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -21,32 +25,46 @@ public class ScoreBoard {
     private Pane scoreBoard;
     private TableView table;
     private TableColumn rank,name,point;
-    private List<Integer> rankList;
     private SQLite database;
+    private List<String> names,scores;
 
-    public ScoreBoard(Stage secondery) {
+    public ScoreBoard(Stage secondery, MainController controller) {
         database=new SQLite();
-        rankList=new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            rankList.add(i+1);
-        }
-        database.selectAll();
+        names=database.selectName();
+        scores=database.selectScore();
         Group root = new Group(scoreBoard());
-        secondery.getIcons().add(new Image("img/ace.png"));
+        int score=controller.getScore();
+        for (int i = 0; i < 10; i++) {
+            if (names.size()>i&&scores.size()>i) {
+                table.getItems().add(new Score(i +1 + ".", names.get(i),scores.get(i)));
+                //name.setEditable(false);
+            }else {
+                table.getItems().add(new Score(i +1 + "."));
+            }
+        }
+        secondery.getIcons().add(new Image("img/trophy.png"));
         secondery.setTitle("Eredmény tábla");
         secondery.setScene(new Scene(root, 270, 400));
         secondery.setResizable(false);
         secondery.show();
+//        name.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Score, String>>() {
+//                            public void handle(TableColumn.CellEditEvent<Score, String> t) {
+//                                ((Score) t.getTableView().getItems().get(
+//                                        t.getTablePosition().getRow())
+//                                ).setName(t.getNewValue());
+//                            }
+//                        });
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-            database.insert("asd",1);
+                secondery.close();
             }
         });
         clear.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-
+                database.deleteAll();
+                secondery.close();
             }
         });
     }
@@ -55,25 +73,29 @@ public class ScoreBoard {
         scoreBoard.setPrefHeight(400);
         scoreBoard.setPrefWidth(270);
 
-        table= new TableView();
+        table= new TableView<Score>();
         table.setLayoutX(16);
         table.setLayoutY(32);
         table.setPrefHeight(300);
         table.setPrefWidth(230);
 
 
-        rank= new TableColumn();
+        rank= new TableColumn<String, Score>();
         rank.setResizable(false);
         rank.setPrefWidth(75);
         rank.setText("Hejezés");
-        name= new TableColumn();
+        rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        name= new TableColumn<String,Score>();
         name.setPrefWidth(75);
         name.setText("Név");
         name.setEditable(true);
-        point= new TableColumn();
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name.setCellFactory(TextFieldTableCell.forTableColumn());
+        point= new TableColumn<Integer,Score>();
         point.setResizable(false);
         point.setPrefWidth(75);
         point.setText("Pontszám");
+        point.setCellValueFactory(new PropertyValueFactory<>("point"));
 
         ok= new Button();
         ok.setLayoutX(40);

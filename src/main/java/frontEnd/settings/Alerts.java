@@ -1,5 +1,7 @@
 package frontEnd.settings;
 
+import backEnd.services.database.SQLite;
+import frontEnd.MainController;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -43,6 +45,26 @@ public class Alerts {
         stage.getIcons().add(icon);
         alert.getButtonTypes().add(ButtonType.OK);
         alert.showAndWait();
+    }
+    public void getName(MainController controller){
+        SQLite sqLite=new SQLite();
+        TextInputDialog dialog = new TextInputDialog();
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        Image icon = new Image("img/ace.png");
+        stage.getIcons().add(icon);
+        dialog.setTitle("Játékos neve");
+        dialog.setHeaderText("");
+        dialog.setContentText("Add meg a neved:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            System.out.println("Your name: " + result.get());
+            PlayerName.name=result.get();
+            sqLite.insert(PlayerName.name,controller.getScore());
+        }else {
+            PlayerName.name="";
+            System.out.println("Your name: " + PlayerName.name);
+            sqLite.insert(PlayerName.name,controller.getScore());
+        }
     }
 
     public void scoreBoard() {
