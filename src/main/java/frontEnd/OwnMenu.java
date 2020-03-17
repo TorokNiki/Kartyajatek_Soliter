@@ -126,7 +126,7 @@ public class OwnMenu {
     }
 
     public void openRools() {
-        File pdfFile = new File("..\\Kartyajatek_Solitaire\\src\\main\\resources\\rools.pdf");
+        File pdfFile = new File("..\\Kartyajatek_Solitaire\\src\\main\\resources\\roolsdocx.pdf");
         if (pdfFile.exists()) {
             if (Desktop.isDesktopSupported()) {
                 try {

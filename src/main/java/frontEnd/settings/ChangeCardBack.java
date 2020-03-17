@@ -25,11 +25,9 @@ public class ChangeCardBack {
     private Button ok,cancel;
     private ImageView look;
     private  List<Back> tmp;
-    private Config config;
     private int selectedIndex;
 
     public ChangeCardBack(Stage secondery, Game actualGame) {
-        config=new Config();
         tmp= Back.getBackList();
         Group root = new Group(deckLook());
         secondery.getIcons().add(new Image("img/ace.png"));
@@ -46,7 +44,7 @@ public class ChangeCardBack {
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                config.tempBack=tmp.get(selectedIndex).getConfig();
+                Config.tempBack=tmp.get(selectedIndex).getConfig();
                 actualGame.cardLookChange();
                 secondery.close();
 

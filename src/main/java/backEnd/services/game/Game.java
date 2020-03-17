@@ -1,6 +1,7 @@
 package backEnd.services.game;
 
 import backEnd.domain.Card;
+import backEnd.services.factory.Asset;
 import backEnd.services.factory.Config;
 import backEnd.services.factory.DeckFactory;
 import javafx.scene.image.Image;
@@ -31,8 +32,9 @@ public abstract class Game {
         if (!Config.tempFront.equals(Config.properties.getProperty("front"))){
             Config.properties.setProperty("front",Config.tempFront);
             Config.writeProp();
+            Asset.Asset();
             for (Card c :fullDeck) {
-                c.setFront(new Image(DeckFactory.DECK+Config.properties.getProperty("front")+"/" + c.getRank().getHelper() + c.getColor().getHelper()+".png"));
+                c.setFront(Asset.getAssets().getOrDefault(c.getRank().helper+""+ c.getColor().helper,new Image(DeckFactory.DECK+Config.properties.getProperty("front")+"/" + c.getRank().getHelper() + c.getColor().getHelper()+".png")));
                 if (c.isFaceup()){
                     c.setImage(c.getFront());
                 }
@@ -40,8 +42,9 @@ public abstract class Game {
         }else if (!Config.tempBack.equals(Config.properties.getProperty("back"))){
             Config.properties.setProperty("back",Config.tempBack);
             Config.writeProp();
+            Asset.Asset();
             for (Card c :fullDeck) {
-                c.setBack(new Image(DeckFactory.BACKOFCARD+Config.properties.getProperty("back")+".png"));
+                c.setBack(Asset.getAssets().getOrDefault("back",new Image(DeckFactory.BACKOFCARD+Config.properties.getProperty("back")+".png")));
                 if (!c.isFaceup()){
                     c.setImage(c.getBack());
                 }

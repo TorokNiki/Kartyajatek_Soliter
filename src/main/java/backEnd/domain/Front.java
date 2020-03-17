@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum  Front {
+    DECK0("img/cards/paklik/pakli0/","Lilás Kék", "img/cards/paklik/pakli0/KD.png", "img/cards/paklik/pakli0/AD.png", "img/cards/paklik/pakli0/2D.png","pakli0"),
     DECK1("img/cards/paklik/pakli1/","Normál csillogós", "img/cards/paklik/pakli1/KD.png", "img/cards/paklik/pakli1/AD.png", "img/cards/paklik/pakli1/2D.png","pakli1"),
     DECK2("img/cards/paklik/pakli2/","Fekete Fehér csillogós", "img/cards/paklik/pakli2/KD.png", "img/cards/paklik/pakli2/AD.png", "img/cards/paklik/pakli2/2D.png","pakli2"),
     DECK3("img/cards/paklik/pakli3/","Díszes", "img/cards/paklik/pakli3/KD.png", "img/cards/paklik/pakli3/AD.png", "img/cards/paklik/pakli3/2D.png","pakli3"),
@@ -14,7 +15,11 @@ public enum  Front {
     DECK8("img/cards/paklik/pakli8/","Gotikus", "img/cards/paklik/pakli8/KD.png", "img/cards/paklik/pakli8/AD.png", "img/cards/paklik/pakli8/2D.png","pakli8"),
     DECK9("img/cards/paklik/pakli9/","Gyerek", "img/cards/paklik/pakli9/KD.png", "img/cards/paklik/pakli9/AD.png", "img/cards/paklik/pakli9/2D.png","pakli9"),
     DECK10("img/cards/paklik/pakli10/","Gyémánt", "img/cards/paklik/pakli10/KD.png", "img/cards/paklik/pakli10/AD.png", "img/cards/paklik/pakli10/2D.png","pakli10"),
-    DECK11("img/cards/paklik/pakli11/","alap kicsit csicsázva", "img/cards/paklik/pakli11/KD.png", "img/cards/paklik/pakli11/AD.png", "img/cards/paklik/pakli11/2D.png","pakli11");
+    DECK11("img/cards/paklik/pakli11/","alap kicsit csicsázva", "img/cards/paklik/pakli11/KD.png", "img/cards/paklik/pakli11/AD.png", "img/cards/paklik/pakli11/2D.png","pakli11"),
+    DECK12("img/cards/paklik/pakli12/","Díszes világos", "img/cards/paklik/pakli12/KD.png", "img/cards/paklik/pakli12/AD.png", "img/cards/paklik/pakli12/2D.png","pakli12"),
+    DECK13("img/cards/paklik/pakli13/","Díszes sötét", "img/cards/paklik/pakli13/KD.png", "img/cards/paklik/pakli13/AD.png", "img/cards/paklik/pakli13/2D.png","pakli13"),
+    DECK14("img/cards/paklik/pakli14/","Narancssárga", "img/cards/paklik/pakli14/KD.png", "img/cards/paklik/pakli14/AD.png", "img/cards/paklik/pakli14/2D.png","pakli14"),
+    DECK15("img/cards/paklik/pakli15/","Rajzolt hatásu", "img/cards/paklik/pakli15/KD.png", "img/cards/paklik/pakli15/AD.png", "img/cards/paklik/pakli15/2D.png","pakli15");
     private String path;
     private String name;
     private String picture1,picture2,picture3;
@@ -56,6 +61,7 @@ public enum  Front {
 
     public static List<Front> getFrontList(){
         frontList= new ArrayList<>();
+        frontList.add(Front.DECK0);
         frontList.add(Front.DECK1);
         frontList.add(Front.DECK2);
         frontList.add(Front.DECK3);
@@ -67,6 +73,10 @@ public enum  Front {
         frontList.add(Front.DECK9);
         frontList.add(Front.DECK10);
         frontList.add(Front.DECK11);
+        frontList.add(Front.DECK12);
+        frontList.add(Front.DECK13);
+        frontList.add(Front.DECK14);
+        frontList.add(Front.DECK15);
         return frontList;
     }
 }

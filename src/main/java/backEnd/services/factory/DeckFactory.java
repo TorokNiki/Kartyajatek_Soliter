@@ -12,11 +12,8 @@ public class DeckFactory {
 
     public static final String DECK = "img/cards/paklik/";
     public static final String BACKOFCARD = "img/cards/hatlap/";
-    private final List<Card> baseDeck = simpleDeck();
+    private final List<Card> baseDeck = simpleImageDeck();
     private int index = 0;
-    private Config config=new Config();
-
-
 
     private List<Card> simpleDeck() {
         int index = 0;
@@ -31,14 +28,13 @@ public class DeckFactory {
     }
 
     public List<Card> simpleImageDeck() {
+        Asset.Asset();
         List<Card> deck = new ArrayList<>();
         for (Style color : Style.values()) {
             for (Rank rank : Rank.values()) {
                 Card card = new Card(this.index, rank, color);
-                Image img = new Image(DECK +config.properties.getProperty("front")+"/" + rank.helper + color.helper + ".png");
-                Image back = new Image(BACKOFCARD +config.properties.getProperty("back")+".png");
-                card.setFront(img);
-                card.setBack(back);
+                card.setFront(Asset.getAssets().getOrDefault(rank.helper + "" + color.helper, new Image(DECK + Config.properties.getProperty("front") + "/" + rank.helper + color.helper + ".png")));
+                card.setBack(Asset.getAssets().getOrDefault("back", new Image(BACKOFCARD + Config.properties.getProperty("back") + ".png")));
                 card.setFitHeight(110);
                 card.setFitWidth(70);
                 deck.add(card);

@@ -33,7 +33,7 @@ public class ChangeDeckLook {
         primaryStage.setScene(new Scene(root, 550, 400));
         primaryStage.setResizable(false);
         addItems();
-        selectedIndex =3;
+        selectedIndex =4;
         select.scrollTo(selectedIndex);
         select.getSelectionModel().select(selectedIndex);
         select.getFocusModel().focus(selectedIndex);
@@ -46,8 +46,6 @@ public class ChangeDeckLook {
             public void handle(MouseEvent mouseEvent) {
                 Config.tempFront =frontCardList.get(selectedIndex).getConfig();
                 actualGame.cardLookChange();
-//                config.properties.setProperty("front",frontCardList.get(selectedIndex).getConfig());
-//                config.writeProp();
                 primaryStage.close();
 
             }

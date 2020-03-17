@@ -3,6 +3,7 @@ package backEnd.services.game;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.factory.DeckFactory;
+import backEnd.services.game.mousegestures.MouseGestures;
 import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -22,6 +23,8 @@ public class UpsideDownPyramid extends Game {
     public MouseGestures mg;
     public boolean restart;
     public Card[] ase;
+    private List<Card> finalPozicionList;
+
 
 
     public UpsideDownPyramid(MainController controller) {
@@ -33,6 +36,7 @@ public class UpsideDownPyramid extends Game {
     }
 
     private void start() {
+        finalPozicionList=new ArrayList<>();
         doubleDeck = new ArrayList<>(fullDeck);
         deck = new Stack<>();
         vastPile = new Stack<>();
@@ -75,7 +79,6 @@ public class UpsideDownPyramid extends Game {
             empty.setId("col:" + i);
             empty.setImage(emptyimg);
             empty.setFitWidth(70);
-            // empty.setFitHeight(150);
             empty.setLayoutX((i * empty.getFitWidth() + i * 10) + 5);
             empty.setLayoutY(140);
             empty.setPreserveRatio(true);
@@ -99,6 +102,7 @@ public class UpsideDownPyramid extends Game {
             card.setLayoutX((i * card.getFitWidth() + i * 10) + 5);
             card.setLayoutY(10);
             card.setPreserveRatio(true);
+            finalPozicionList.add(card);
             board.getChildren().add(card);
         }
         if (!restart){

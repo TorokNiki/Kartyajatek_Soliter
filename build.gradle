@@ -25,6 +25,7 @@ dependencies {
 
 }
 
+
 mainClassName='frontEnd.Main'
 
 jar {

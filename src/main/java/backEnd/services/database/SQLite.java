@@ -7,7 +7,7 @@ import java.util.List;
 public class SQLite {
     public static void createNewDatabase(String fileName) {
 
-        String url = "jdbc:sqlite:src/main/java/backEnd/services/database/" + fileName;
+        String url = "jdbc:sqlite:" + fileName;
 
         try {
             Connection conn = DriverManager.getConnection(url);
@@ -23,7 +23,7 @@ public class SQLite {
     }
 
     public static void createNewTable() {
-        String url = "jdbc:sqlite:src/main/java/backEnd/services/database/score.sqlite";
+        String url = "jdbc:sqlite:score.sqlite";
         String sql = "CREATE TABLE IF NOT EXISTS winners (\n" +
                 " id integer PRIMARY KEY,\n" +
                 " score integer,\n" +
@@ -39,7 +39,7 @@ public class SQLite {
     }
 
     private Connection connect() {
-        String url = "jdbc:sqlite:src/main/java/backEnd/services/database/score.sqlite";
+        String url = "jdbc:sqlite:score.sqlite";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -80,9 +80,10 @@ public class SQLite {
             System.out.println(e.getMessage());
         }
     }
+
     public List<String> selectName() {
         String sql = "SELECT name FROM winners order by score desc limit 10";
-        List<String> name=new ArrayList<>();
+        List<String> name = new ArrayList<>();
         try {
             Connection conn = this.connect();
             Statement stmt = conn.createStatement();
@@ -97,10 +98,11 @@ public class SQLite {
         }
         return name;
     }
+
     public List<String> selectScore() {
         String sql = "SELECT score FROM winners order by score desc Limit 10";
 
-        List<String> score=new ArrayList<>();
+        List<String> score = new ArrayList<>();
         try {
             Connection conn = this.connect();
             Statement stmt = conn.createStatement();
@@ -116,6 +118,7 @@ public class SQLite {
         }
         return score;
     }
+
     public void deleteAll() {
         String sql = "DELETE FROM winners";
 

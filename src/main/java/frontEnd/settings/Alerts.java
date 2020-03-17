@@ -58,12 +58,12 @@ public class Alerts {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             System.out.println("Your name: " + result.get());
-            PlayerName.name=result.get();
-            sqLite.insert(PlayerName.name,controller.getScore());
+            ScoreBoard.playerName=result.get();
+            sqLite.insert(ScoreBoard.playerName,controller.getScore());
         }else {
-            PlayerName.name="";
-            System.out.println("Your name: " + PlayerName.name);
-            sqLite.insert(PlayerName.name,controller.getScore());
+            ScoreBoard.playerName="";
+            System.out.println("Your name: " +  ScoreBoard.playerName);
+            sqLite.insert( ScoreBoard.playerName,controller.getScore());
         }
     }
 

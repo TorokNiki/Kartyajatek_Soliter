@@ -2,6 +2,7 @@ package backEnd.services.game;
 
 import backEnd.domain.Card;
 import backEnd.services.factory.DeckFactory;
+import backEnd.services.game.mousegestures.MouseGestureKlondike;
 import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -20,6 +21,7 @@ public class Klondike extends Game {
     private List<Card> deck;
     private Stack<Card> deckRemain, vastPile;
     private boolean restart;
+    private ImageView[] acePlace;
 
     public Klondike(MainController controller) {
         super(new DeckFactory().simpleImageDeck());
@@ -29,6 +31,7 @@ public class Klondike extends Game {
     }
 
     private void start() {
+        acePlace=new ImageView[4];
         deck = new ArrayList<>(fullDeck);
         deckRemain = new Stack<>();
         vastPile = new Stack<>();
@@ -54,6 +57,7 @@ public class Klondike extends Game {
             board.getChildren().add(empty);
         }
 
+        int index=0;
         for (int i = 3; i < 7; i++) {
             ImageView empty = new ImageView();
             Image img = new Image("img/kuka.png");
@@ -73,6 +77,8 @@ public class Klondike extends Game {
             empty2.setLayoutY(15);
             empty2.setPreserveRatio(true);
             empty2.setOpacity(0);
+            acePlace[index]=empty;
+            index++;
             board.getChildren().add(empty2);
         }
         if (!restart) {

@@ -4,7 +4,6 @@ import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
 import backEnd.services.game.Klondike;
 import backEnd.services.game.UpsideDownPyramid;
-import frontEnd.settings.PlayerName;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,7 +22,7 @@ public class MainController {
     private TextField scoreText;
     private OwnMenu ownMenu;
     private Group root;
-    private String name = "Upside-Down Piramid (1/10)", coloure = "#752777";
+    private String name = "Upside-Down Piramid (1/2)", coloure = "#752777";
 
     public MainController(Stage primaryStage) {
         upsideDownPyramid = new UpsideDownPyramid(this);
@@ -56,7 +55,7 @@ public class MainController {
     }
 
     public void restartTure() {
-        this.name = "Upside-Down Piramid (1/10)";
+        this.name = "Upside-Down Piramid (1/2)";
         setCurrentScore(0);
         setScore(0);
         ownMenu.setTFScore(this.scoreText, getScore(), getCurrentScore());
@@ -76,7 +75,7 @@ public class MainController {
         this.root.getChildren().remove(actualGame.getBoard());
         if (actualGame.equals(upsideDownPyramid)) {
             klondike = new Klondike(this);
-            this.name = "Klondike (2/10)";
+            this.name = "Klondike (2/2)";
             this.currentScore = 0;
             defaultSettings();
             actualGame = klondike;

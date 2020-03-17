@@ -10,13 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,33 +25,27 @@ public class ScoreBoard {
     private TableColumn rank,name,point;
     private SQLite database;
     private List<String> names,scores;
+    public static String playerName;
 
     public ScoreBoard(Stage secondery, MainController controller) {
         database=new SQLite();
         names=database.selectName();
         scores=database.selectScore();
         Group root = new Group(scoreBoard());
-        int score=controller.getScore();
         for (int i = 0; i < 10; i++) {
             if (names.size()>i&&scores.size()>i) {
                 table.getItems().add(new Score(i +1 + ".", names.get(i),scores.get(i)));
-                //name.setEditable(false);
+
             }else {
                 table.getItems().add(new Score(i +1 + "."));
             }
         }
         secondery.getIcons().add(new Image("img/trophy.png"));
         secondery.setTitle("Eredmény tábla");
+
         secondery.setScene(new Scene(root, 270, 400));
         secondery.setResizable(false);
         secondery.show();
-//        name.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Score, String>>() {
-//                            public void handle(TableColumn.CellEditEvent<Score, String> t) {
-//                                ((Score) t.getTableView().getItems().get(
-//                                        t.getTablePosition().getRow())
-//                                ).setName(t.getNewValue());
-//                            }
-//                        });
         ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -90,7 +82,6 @@ public class ScoreBoard {
         name.setText("Név");
         name.setEditable(true);
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        name.setCellFactory(TextFieldTableCell.forTableColumn());
         point= new TableColumn<Integer,Score>();
         point.setResizable(false);
         point.setPrefWidth(75);
@@ -110,11 +101,5 @@ public class ScoreBoard {
         table.getColumns().addAll(rank,name,point);
         scoreBoard.getChildren().addAll(table,ok,clear);
         return scoreBoard;
-    }
-    private void addData(){
-        database.selectAll();
-     //   rank.setCellValueFactory((TableColumn.CellDataFeatures cellDataFeatures) -> {
-          //  Integer rowIndex = cellDataFeatures.getValue();
-          //  return new ReadOnlyIntegerWrapper(rankList.get(rowIndex));});
     }
 }
