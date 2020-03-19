@@ -37,6 +37,10 @@ public  class  Config {
         try {
             FileInputStream fileInputStream = new FileInputStream("config.properties");
             properties.load(fileInputStream);
+            tempBack=properties.getProperty("back");
+            tempFront=properties.getProperty("front");
+            tempBackground=properties.getProperty("bacground");
+
         } catch (IOException e) {
             e.printStackTrace();
             writeDefaultProp();

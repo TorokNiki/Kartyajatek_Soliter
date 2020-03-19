@@ -211,10 +211,12 @@ public class Klondike extends Game {
     public void flippCardsonDefault() {
         for (Card c : fullDeck) {
             c.setFaceup(false);
-            c.setCardOnIt(null);
+           c.setCardOnIt(null);
             c.setCardBeforeIt(null);
             c.setFinalPozicion(false);
             c.setSticked(false);
+            c.setInDeck(false);
+            //c.removeConnection();
         }
     }
 

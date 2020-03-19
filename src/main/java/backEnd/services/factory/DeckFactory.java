@@ -35,7 +35,7 @@ public class DeckFactory {
                 Card card = new Card(this.index, rank, color);
                 card.setFront(Asset.getAssets().getOrDefault(rank.helper + "" + color.helper, new Image(DECK + Config.properties.getProperty("front") + "/" + rank.helper + color.helper + ".png")));
                 card.setBack(Asset.getAssets().getOrDefault("back", new Image(BACKOFCARD + Config.properties.getProperty("back") + ".png")));
-                card.setFitHeight(110);
+                card.setFitHeight(100);
                 card.setFitWidth(70);
                 deck.add(card);
                 this.index++;
