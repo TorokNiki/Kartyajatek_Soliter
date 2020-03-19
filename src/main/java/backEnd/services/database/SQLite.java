@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SQLite {
-    public static void createNewDatabase(String fileName) {
+    public static void createNewDatabase() {
 
-        String url = "jdbc:sqlite:" + fileName;
+        String url = "jdbc:sqlite:score.sqlite";
 
         try {
             Connection conn = DriverManager.getConnection(url);
@@ -63,24 +63,6 @@ public class SQLite {
         }
     }
 
-    public void selectAll() {
-        String sql = "SELECT * FROM winners order by score desc";
-
-        try {
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                System.out.println(rs.getInt("id") + "\t" +
-                        rs.getString("name") + "\t" +
-                        rs.getInt("score"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
     public List<String> selectName() {
         String sql = "SELECT name FROM winners order by score desc limit 10";
         List<String> name = new ArrayList<>();
@@ -95,6 +77,8 @@ public class SQLite {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            createNewDatabase();
+            createNewTable();
         }
         return name;
     }
@@ -115,6 +99,8 @@ public class SQLite {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            createNewDatabase();
+            createNewTable();
         }
         return score;
     }
@@ -134,6 +120,8 @@ public class SQLite {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            createNewDatabase();
+            createNewTable();
         }
     }
 

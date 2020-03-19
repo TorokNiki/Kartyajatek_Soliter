@@ -67,7 +67,6 @@ public class UpsideDownPyramid extends Game {
             c.setFinalPozicion(false);
             c.setSticked(false);
             c.setInDeck(false);
-            //c.removeConnection();
         }
     }
 
