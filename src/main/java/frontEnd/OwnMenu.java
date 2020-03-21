@@ -15,6 +15,10 @@ import javafx.stage.Stage;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class OwnMenu {
     private MenuBar menuBar;
@@ -126,20 +130,19 @@ public class OwnMenu {
     }
 
     public void openRools() {
-        File pdfFile = new File("..\\Kartyajatek_Solitaire\\src\\main\\resources\\roolsdocx.pdf");
-        if (pdfFile.exists()) {
-            if (Desktop.isDesktopSupported()) {
-                try {
-                    Desktop.getDesktop().open(pdfFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("Awt Desktop is not supported!");
+        try {
+            String inputPdf = "roolsdocx.pdf";
+            Path tempOutput = Files.createTempFile("roolsdocx", ".pdf");
+            tempOutput.toFile().deleteOnExit();
+            System.out.println("tempOutput: " + tempOutput);
+            try (InputStream is = OwnMenu.class.getClassLoader().getResourceAsStream(inputPdf)) {
+                Files.copy(is, tempOutput, StandardCopyOption.REPLACE_EXISTING);
             }
-        } else {
-            System.out.println("File is not exists!");
+            Desktop.getDesktop().open(tempOutput.toFile());
+        }catch (IOException e){
+            e.printStackTrace();
         }
+
     }
 
     public javafx.scene.control.Label setLabel(javafx.scene.control.Label gameName,String text,String colour) {
