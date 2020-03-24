@@ -54,6 +54,7 @@ public class MainController {
         }
         ownMenu.setTFScore(this.scoreText, getScore(), getCurrentScore());
         actualGame.restartGame(false);
+        ownMenu.setUndoAction();
     }
 
     public void restartTure() {
@@ -66,6 +67,7 @@ public class MainController {
         actualGame = upsideDownPyramid;
         this.root.getChildren().add(actualGame.getBoard());
         upsideDownPyramid.restartGame(true);
+        ownMenu.setUndoAction();
     }
 
     private void defaultSettings() {
@@ -81,6 +83,7 @@ public class MainController {
             this.currentScore = 0;
             defaultSettings();
             actualGame = klondike;
+            ownMenu.setUndoAction();
         }
         this.root.getChildren().add(actualGame.getBoard());
     }

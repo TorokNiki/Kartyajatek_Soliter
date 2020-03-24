@@ -1,5 +1,6 @@
 package backEnd.services.game;
 
+import backEnd.domain.ActionType;
 import backEnd.domain.Card;
 import backEnd.services.factory.DeckFactory;
 import backEnd.services.game.mousegestures.MouseGestureKlondike;
@@ -28,6 +29,7 @@ public class Klondike extends Game {
         mouseGestures = new MouseGestureKlondike(controller);
         restart = false;
         start();
+        ((MouseGestureKlondike)mouseGestures).getDecks(deckRemain,vastPile,emptyDeck);
     }
 
     private void start() {
@@ -132,6 +134,7 @@ public class Klondike extends Game {
     }
 
     private void showDeck() {
+        ((MouseGestureKlondike)mouseGestures).setActionType(ActionType.DECK);
         if (!deckRemain.empty()) {
             int db = Math.min(deckRemain.size(), 1);
             for (int i = 0; i < db; i++) {

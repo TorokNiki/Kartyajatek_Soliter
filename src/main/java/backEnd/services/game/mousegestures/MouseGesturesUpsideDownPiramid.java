@@ -192,6 +192,9 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
                     sorceCard=card.getCardBeforeIt();
                     card.removeConnection();
                     actionType= ActionType.SIMPLE;
+                }else if (card.getCardOnIt()!=null){
+                    sorceCard=null;
+                    actionType=ActionType.SIMPLE;
                 }else {
                     sorceCard=null;
                     actionType=ActionType.FROMDECK;
@@ -325,6 +328,12 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
         }else if(movedCard!=null&&sorceCard!=null){
             sorceCard.setConnection(movedCard);
             fixPosition(movedCard,sorceCard);
+        }else if(movedCard!=null&&targetCard!=null){
+            movedCard.removeConnection();
+            Node to=movedCard;
+            to.setLayoutX(cardX);
+            to.setLayoutY(cardY-25);
+            fixPosition(movedCard,to);
         }
     }
     public void undoFromDeck(){
@@ -345,12 +354,18 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
             }
             movedCard.setInDeck(true);
             movedCard.relocate(cardX,cardY);
+        }else if (movedCard!=null&&movedCard.getRank().equals(Rank.KING)){
+
+
+            movedCard.setSticked(false);
+            movedCard.setInDeck(true);
+            movedCard.relocate(cardX,cardY);
         }
 
     }
     public void undoDeck(){
         if (!vastPile.empty()) {
-            int db = Math.min(deck.size(), 3);
+            int db = Math.min(vastPile.size(), 3);
             for (int i = 0; i < db; i++) {
                 int pozicion=deck.size();
                 Card actual = vastPile.pop();

@@ -1,5 +1,6 @@
 package backEnd.services.game.mousegestures;
 
+import backEnd.domain.ActionType;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import frontEnd.MainController;
@@ -18,9 +19,12 @@ import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.Stack;
+
 public class MouseGestureKlondike extends MouseGestures{
 
-
+    private Stack<Card> deck,vastPile;
+    private ImageView emptyDeck;
     EventHandler<MouseEvent> onMouseClickEventHandler =
             new EventHandler<MouseEvent>() {
                 @Override
@@ -38,15 +42,37 @@ public class MouseGestureKlondike extends MouseGestures{
 
 
 
-
+    public void getDecks( Stack<Card> deck, Stack<Card> vastPile,ImageView emptyDeck){
+        this.deck=deck;
+        this.vastPile=vastPile;
+        this.emptyDeck=emptyDeck;
+    }
     public MouseGestureKlondike(MainController mainController) {
         super(mainController);
+        super.onUndo= actionEvent -> {
+            switch (actionType){
+                case DECK:undoDeck();
+                    break;
+                case TOFINAL:undoToFinal();
+                    break;
+                case FROMDECK:undoFromDeck();
+                    break;
+                case SIMPLE:undoSimple();
+                    break;
+                default:
+                    break;
+            }
+            actionType= ActionType.NOTHING;
+        };
         super.onMousePressedEventHandler =
                 t -> {
                     Card source = (Card) (t.getSource());
                     if (source.isFaceup()&&!source.isFinalPozicion() ) {
                         orgSceneX = t.getSceneX();
                         orgSceneY = t.getSceneY();
+
+                        cardXtemp= source.getLayoutX();
+                        cardYtemp= source.getLayoutY();
 
                         orgTranslateX = source.getTranslateX();
                         orgTranslateY = source.getTranslateY();
@@ -94,17 +120,33 @@ public class MouseGestureKlondike extends MouseGestures{
             }
         };
     }
+    public ActionType getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(ActionType actionType) {
+        this.actionType = actionType;
+    }
 
     private void putOnAnEmptyPlace(Card card, ImageView pickedPlace) {
         if(pickedPlace.getId() != null && pickedPlace.getId().contains("col")) {
+            movedCard=card;
             if (card.getCardBeforeIt() != null) {
                 if (!card.getCardBeforeIt().isFaceup()){
                     card.getCardBeforeIt().flippCard();}
+                sorceCard=card.getCardBeforeIt();
                 card.removeConnection();
+                actionType=ActionType.SIMPLE;
+            }else {
+                sorceCard=null;
+                actionType=ActionType.FROMDECK;
             }
+            targetCard=null;
+            cardX=cardXtemp;
+            cardY=cardYtemp;
             card.setSticked(true);
             card.setInDeck(false);
-            fixPosition(card, pickedPlace);
+            fixPosition(card, pickedPlace,25);
         }else {
             moveToSource(card);
             recursiveTranslateBack(card);
@@ -112,15 +154,24 @@ public class MouseGestureKlondike extends MouseGestures{
     }
     private void putOnAnEmptyPlaceAnAce(Card card, ImageView pickedPlace) {
         if(pickedPlace.getId() != null && pickedPlace.getId().contains("row")) {
+            movedCard=card;
             if (card.getCardBeforeIt() != null) {
+                sorceCard=card.getCardBeforeIt();
                 if (!card.getCardBeforeIt().isFaceup()){
                     card.getCardBeforeIt().flippCard();}
                 card.removeConnection();
+               actionType=ActionType.TOFINAL;
+            }else {
+                sorceCard=null;
+                actionType=ActionType.FROMDECK;
             }
+            targetCard=null;
+            cardX=cardXtemp;
+            cardY=cardYtemp;
             card.setSticked(true);
             card.setFinalPozicion(true);
             card.setInDeck(false);
-            fixPosition(card, pickedPlace);
+            fixPosition(card, pickedPlace,25);
             db++;
             int score = mainController.getCurrentScore();
             int total=mainController.getScore();
@@ -146,15 +197,27 @@ public class MouseGestureKlondike extends MouseGestures{
     private void onAnyCardInGame(Card card, Card pikedCard) {
         if(isValidPlacement(card, pikedCard)){
             if (!pikedCard.isInDeck()) {
+                movedCard=card;
                 if (card.getCardBeforeIt() != null) {
                     if (!card.getCardBeforeIt().isFaceup()){
                         card.getCardBeforeIt().flippCard();}
+                    sorceCard=card.getCardBeforeIt();
                     card.removeConnection();
+                    actionType= ActionType.SIMPLE;
+                }else if (card.getCardOnIt()!=null){
+                    sorceCard=null;
+                    actionType=ActionType.SIMPLE;
+                }else {
+                    sorceCard=null;
+                    actionType=ActionType.FROMDECK;
                 }
+                targetCard=pikedCard;
                 pikedCard.setConnection(card);
                 card.setSticked(true);
                 card.setInDeck(false);
-                fixPosition(card, pikedCard);
+                cardX=cardXtemp;
+                cardY=cardYtemp;
+                fixPosition(card, pikedCard,25);
             } else {
                 moveToSource(card);
                 recursiveTranslateBack(card);
@@ -166,11 +229,20 @@ public class MouseGestureKlondike extends MouseGestures{
     }
 
     private void ifFinalPozicion(Card card, Card pikedCard) {
+        movedCard=card;
         if (card.getCardBeforeIt() != null) {
             if (!card.getCardBeforeIt().isFaceup()){
                 card.getCardBeforeIt().flippCard();}
+            sorceCard=card.getCardBeforeIt();
             card.removeConnection();
+            actionType=ActionType.TOFINAL;
+        }else {
+            sorceCard=null;
+            actionType=ActionType.FROMDECK;
         }
+        targetCard=pikedCard;
+        cardX=cardXtemp;
+        cardY=cardYtemp;
         pikedCard.setConnection(card);
         card.setSticked(true);
         card.setInDeck(false);
@@ -203,7 +275,6 @@ public class MouseGestureKlondike extends MouseGestures{
         if (cardOnIt != null) {
             cardOnIt.setTranslateX(newTranslateX);
             cardOnIt.setTranslateY(newTranslateY);
-            //cardOnIt.setEffect(null);
             recursiveTranslate(cardOnIt, newTranslateX, newTranslateY);
         }
     }
@@ -239,7 +310,7 @@ public class MouseGestureKlondike extends MouseGestures{
     }
 
 
-    private void fixPosition(Card card, Node cardTo) {
+    private void fixPosition(Card card, Node cardTo,int hight) {
 
 
         card.toFront();
@@ -248,10 +319,10 @@ public class MouseGestureKlondike extends MouseGestures{
         double yto = cardTo.getLayoutY();
 
 
-        if (card.getRank().equals(Rank.KING)||card.getRank().equals(Rank.ACE)) {
+        if (card.getRank().equals(Rank.KING)||card.getRank().equals(Rank.ACE)&&!(cardTo instanceof Card)) {
             card.relocate(xto, yto-5);
         } else {
-            card.relocate(xto, yto + 25);
+            card.relocate(xto, yto + hight);
         }
 
         card.setTranslateX(0);
@@ -265,7 +336,7 @@ public class MouseGestureKlondike extends MouseGestures{
 
             cardOnIt.setTranslateX(0);
             cardOnIt.setTranslateY(0);
-            fixPosition(cardOnIt, card);
+            fixPosition(cardOnIt, card,25);
         }
 
 
@@ -303,7 +374,131 @@ public class MouseGestureKlondike extends MouseGestures{
             pathTransition.play();
         }
     }
+    public void undoSimple(){
+        if (movedCard!=null&&sorceCard!=null&&targetCard!=null){
+            movedCard.removeConnection();
+            sorceCard.setConnection(movedCard);
+            if (movedCard.getCardBeforeIt().isFaceup()){
+                movedCard.getCardBeforeIt().flippCard();}
+            movedCard.setSticked(false);
+            fixPosition(movedCard,sorceCard,10);
+        }else if(movedCard!=null&&sorceCard!=null){
+            sorceCard.setConnection(movedCard);
+            if (movedCard.getCardBeforeIt().isFaceup()){
+                movedCard.getCardBeforeIt().flippCard();}
+            fixPosition(movedCard,sorceCard,10);
+        }else if(movedCard!=null&&targetCard!=null){
+            movedCard.removeConnection();
+            Node to=movedCard;
+            to.setLayoutX(cardX);
+            to.setLayoutY(cardY-10);
+            fixPosition(movedCard,to,10);
+        }
+    }
+    public void undoFromDeck(){
+        if (movedCard!=null&&targetCard!=null){
+            if (targetCard.isFinalPozicion()){
+                movedCard.setFinalPozicion(false);
+                int score = mainController.getCurrentScore();
+                int total = mainController.getScore();
+                total -= movedCard.getPoint();
+                score -= movedCard.getPoint();
+                mainController.setCurrentScore(score);
+                mainController.setScore(total);
+                mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
+                db--;
+            }else {
+                movedCard.removeConnection();
+                movedCard.setSticked(false);
+            }
+            movedCard.setInDeck(true);
+            movedCard.relocate(cardX,cardY);
+        }else if (movedCard!=null&&movedCard.isFinalPozicion()){
+            movedCard.setFinalPozicion(false);
+            int score = mainController.getCurrentScore();
+            int total = mainController.getScore();
+            total -= movedCard.getPoint();
+            score -= movedCard.getPoint();
+            mainController.setCurrentScore(score);
+            mainController.setScore(total);
+            mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
+            db--;
+            movedCard.setSticked(false);
+            movedCard.setInDeck(true);
+            movedCard.relocate(cardX,cardY);
+        }else if (movedCard!=null&&movedCard.getRank().equals(Rank.KING)){
 
+
+                movedCard.setSticked(false);
+            movedCard.setInDeck(true);
+            movedCard.relocate(cardX,cardY);
+        }
+
+    }
+    public void undoDeck(){
+        if (!vastPile.empty()) {
+
+            for (int i = 0; i < 1; i++) {
+                int pozicion=deck.size();
+                Card actual = vastPile.pop();
+                actual.flippCard();
+                actual.relocate(((pozicion * 0.002) * actual.getFitWidth()) + 30, 10);
+                actual.toFront();
+                actual.setInDeck(true);
+                deck.push(actual);
+                emptyDeck.toFront();
+            }
+        } else {
+
+            while (deck.size() != 0) {
+                Card actual = deck.pop();
+                if (!actual.isSticked() && actual.isInDeck()) {
+                    actual.flippCard();
+                    actual.relocate(120, 10);
+                    vastPile.push(actual);
+                } else {
+                    actual.setInDeck(false);
+                }
+            }
+
+        }
+
+    }
+    public void undoToFinal(){
+        if (movedCard!=null&&sorceCard!=null&&targetCard!=null){
+            sorceCard.setConnection(movedCard);
+            movedCard.setFinalPozicion(false);
+            if (movedCard.getCardBeforeIt().isFaceup()&&!sorceCard.isSticked()){
+                movedCard.getCardBeforeIt().flippCard();
+                fixPosition(movedCard,sorceCard,10);
+            }
+            fixPosition(movedCard,sorceCard,25);
+            int score = mainController.getCurrentScore();
+            int total = mainController.getScore();
+            total -= movedCard.getPoint();
+            score -= movedCard.getPoint();
+            mainController.setCurrentScore(score);
+            mainController.setScore(total);
+            mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
+            db--;
+        }else if (movedCard!=null&&sorceCard!=null){
+            sorceCard.setConnection(movedCard);
+            movedCard.setFinalPozicion(false);
+            if (movedCard.getCardBeforeIt().isFaceup()&&!sorceCard.isSticked()){
+                movedCard.getCardBeforeIt().flippCard();
+                fixPosition(movedCard,sorceCard,10);
+            }
+            fixPosition(movedCard,sorceCard,25);
+            int score = mainController.getCurrentScore();
+            int total = mainController.getScore();
+            total -= movedCard.getPoint();
+            score -= movedCard.getPoint();
+            mainController.setCurrentScore(score);
+            mainController.setScore(total);
+            mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
+            db--;
+        }
+    }
     public static class MoveToAbs extends MoveTo {
 
         public MoveToAbs(Card card, double x, double y) {
