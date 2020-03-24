@@ -3,6 +3,7 @@ package backEnd.services.game;
 import backEnd.domain.Card;
 import backEnd.services.factory.DeckFactory;
 import backEnd.services.game.mousegestures.MouseGestureKlondike;
+import backEnd.services.game.mousegestures.MouseGestures;
 import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -17,7 +18,6 @@ import java.util.Stack;
 
 public class Klondike extends Game {
     public ImageView emptyDeck;
-    private MouseGestureKlondike mouseGestures;
     private List<Card> deck;
     private Stack<Card> deckRemain, vastPile;
     private boolean restart;
@@ -137,7 +137,7 @@ public class Klondike extends Game {
             for (int i = 0; i < db; i++) {
                 Card actual = deckRemain.pop();
                 actual.flippCard();
-                mouseGestures.MouseGestures(actual);
+                mouseGestures.setMouseGestures(actual);
                 actual.relocate(120, 10);
                 actual.toFront();
                 actual.setInDeck(true);
@@ -164,7 +164,7 @@ public class Klondike extends Game {
         deck.get(actual).setLayoutX((i * deck.get(actual).getFitWidth() + i * 30) + 30);
         deck.get(actual).setLayoutY(j * 12 + 130);
         deck.get(actual).flippCard();
-        mouseGestures.MouseGestures(deck.get(actual));
+        mouseGestures.setMouseGestures(deck.get(actual));
         panel.getChildren().add(deck.get(actual));
         return actual;
     }
@@ -174,7 +174,7 @@ public class Klondike extends Game {
         deck.get(actual).setLayoutY(j * 12 + 130);
         deck.get(actual).flippCard();
         deck.get(actual).flippCard();
-        mouseGestures.MouseGestures(deck.get(actual));
+        mouseGestures.setMouseGestures(deck.get(actual));
         panel.getChildren().add(deck.get(actual));
         return actual;
     }

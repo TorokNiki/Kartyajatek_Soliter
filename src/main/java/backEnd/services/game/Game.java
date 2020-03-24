@@ -4,6 +4,7 @@ import backEnd.domain.Card;
 import backEnd.services.factory.Asset;
 import backEnd.services.factory.Config;
 import backEnd.services.factory.DeckFactory;
+import backEnd.services.game.mousegestures.MouseGestures;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
@@ -11,6 +12,12 @@ import java.util.List;
 
 public abstract class Game {
     protected final List<Card> fullDeck;
+
+    public MouseGestures getMouseGestures() {
+        return mouseGestures;
+    }
+
+    protected MouseGestures mouseGestures;
     protected Pane board;
 
     public Game(List<Card> fullDeck) {

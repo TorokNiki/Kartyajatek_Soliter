@@ -18,15 +18,8 @@ import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class MouseGestureKlondike {
-    public double orgTranslateX, orgTranslateY;
-    public double orgSceneX, orgSceneY;
-    public int db=0;
-    public MainController mainController;
+public class MouseGestureKlondike extends MouseGestures{
 
-    public MouseGestureKlondike(MainController mainController) {
-        this.mainController = mainController;
-    }
 
     EventHandler<MouseEvent> onMouseClickEventHandler =
             new EventHandler<MouseEvent>() {
@@ -42,11 +35,14 @@ public class MouseGestureKlondike {
                     }
                 }
             };
-    EventHandler<MouseEvent> onMousePressedEventHandler =
-            new EventHandler<MouseEvent>() {
 
-                @Override
-                public void handle(MouseEvent t) {
+
+
+
+    public MouseGestureKlondike(MainController mainController) {
+        super(mainController);
+        super.onMousePressedEventHandler =
+                t -> {
                     Card source = (Card) (t.getSource());
                     if (source.isFaceup()&&!source.isFinalPozicion() ) {
                         orgSceneX = t.getSceneX();
@@ -56,13 +52,9 @@ public class MouseGestureKlondike {
                         orgTranslateY = source.getTranslateY();
                         source.setMouseTransparent(true);
                     }
-                }
-            };
-    EventHandler<MouseEvent> onMouseDraggedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
+                };
+        super.onMouseDraggedEventHandler =
+                t -> {
                     Card source = (Card) (t.getSource());
                     if (source.isFaceup()&&!source.isFinalPozicion()) {
                         double offsetX = t.getSceneX() - orgSceneX;
@@ -74,12 +66,8 @@ public class MouseGestureKlondike {
                         source.setTranslateX(newTranslateX);
                         source.setTranslateY(newTranslateY);
                     }
-                }
-            };
-    EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent event) {
+                };
+        super.onMouseReleasedEventHandler = event -> {
             Card card = (Card) event.getSource();
             Node picked = event.getPickResult().getIntersectedNode();
             if(picked instanceof Card){
@@ -104,8 +92,8 @@ public class MouseGestureKlondike {
                 new ScoreBoard(new Stage(),mainController);
                 mainController.desableMenuItem();
             }
-        }
-    };
+        };
+    }
 
     private void putOnAnEmptyPlace(Card card, ImageView pickedPlace) {
         if(pickedPlace.getId() != null && pickedPlace.getId().contains("col")) {
@@ -233,8 +221,8 @@ public class MouseGestureKlondike {
 
             if (!(sourceX == targetX && sourceY == targetY)) {
                 Path path = new Path();
-                path.getElements().add(new MouseGestures.MoveToAbs(cardOnIt, sourceX, sourceY));
-                path.getElements().add(new MouseGestures.LineToAbs(cardOnIt, targetX, targetY));
+                path.getElements().add(new MoveToAbs(cardOnIt, sourceX, sourceY));
+                path.getElements().add(new LineToAbs(cardOnIt, targetX, targetY));
 
                 PathTransition pathTransition = new PathTransition();
                 pathTransition.setDuration(Duration.millis(100));
@@ -250,12 +238,6 @@ public class MouseGestureKlondike {
         }
     }
 
-
-    public void MouseGestures(final Card card) {
-        card.setOnMousePressed(onMousePressedEventHandler);
-        card.setOnMouseDragged(onMouseDraggedEventHandler);
-        card.setOnMouseReleased(onMouseReleasedEventHandler);
-    }
 
     private void fixPosition(Card card, Node cardTo) {
 
@@ -308,8 +290,8 @@ public class MouseGestureKlondike {
 
         if (!(sourceX == targetX && sourceY == targetY)) {
             Path path = new Path();
-            path.getElements().add(new MouseGestures.MoveToAbs(card, sourceX, sourceY));
-            path.getElements().add(new MouseGestures.LineToAbs(card, targetX, targetY));
+            path.getElements().add(new MoveToAbs(card, sourceX, sourceY));
+            path.getElements().add(new LineToAbs(card, targetX, targetY));
 
             PathTransition pathTransition = new PathTransition();
             pathTransition.setDuration(Duration.millis(100));

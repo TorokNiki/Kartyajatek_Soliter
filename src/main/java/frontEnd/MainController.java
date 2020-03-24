@@ -27,8 +27,10 @@ public class MainController {
     public MainController(Stage primaryStage) {
         upsideDownPyramid = new UpsideDownPyramid(this);
         actualGame = upsideDownPyramid;
+
         this.scoreText = new TextField();
         this.ownMenu = new OwnMenu(primaryStage.widthProperty(), this);
+        ownMenu.setUndoAction();
         this.gameName = new Label();
         defaultSettings();
         this.root = new Group(this.ownMenu.getMenuBar(), scoreText, gameName, actualGame.getBoard());

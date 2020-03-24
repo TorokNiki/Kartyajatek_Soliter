@@ -1,6 +1,5 @@
 package frontEnd;
 
-import frontEnd.MainController;
 import frontEnd.settings.*;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.ActionEvent;
@@ -13,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -25,7 +23,7 @@ public class OwnMenu {
     private MenuItem menuItem;
     private static Stage secondery;
     private MainController mainController;
-    private MenuItem miStartNewTure, miRestartCurrentTure, miStartNewGame,miEndCurrentTure;
+    private MenuItem miStartNewTure, miRestartCurrentTure, miStartNewGame,miEndCurrentTure,miUndoLastMove;
 
     public OwnMenu(ReadOnlyDoubleProperty stageWidth,MainController mainController) {
         this.menuBar = createDefaultMenuBar(stageWidth);
@@ -57,7 +55,8 @@ public class OwnMenu {
 
     private void setMenuItemsFile(Menu menu) {
         secondery=new Stage();
-        javafx.scene.control.MenuItem miUndoLastMove = new javafx.scene.control.MenuItem("Utolsó lépés visszavonása");
+        this.miUndoLastMove = new javafx.scene.control.MenuItem("Utolsó lépés visszavonása");
+
         javafx.scene.control.MenuItem miShowScoreBoard = new javafx.scene.control.MenuItem("Eredménytábla");
         javafx.scene.control.SeparatorMenuItem separatorMenuItem=new javafx.scene.control.SeparatorMenuItem();
         javafx.scene.control.MenuItem miExit = new MenuItem("Bezár");
@@ -66,6 +65,9 @@ public class OwnMenu {
         menu.getItems().addAll(miUndoLastMove, miShowScoreBoard,separatorMenuItem, miExit);
     }
 
+    public void setUndoAction(){
+        this.miUndoLastMove.setOnAction(mainController.actualGame.getMouseGestures().getOnUndo());
+    }
     private void setMenuItemsTure(Menu menu) {
         this.miStartNewTure = new MenuItem("Új Túra inditása");
         this.miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");

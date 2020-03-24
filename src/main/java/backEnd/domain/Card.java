@@ -32,7 +32,6 @@ public class Card extends ImageView {
         this.faceup = false;
         this.isSticked =false;
         this.inDeck=false;
-        this.isSticked =false;
     }
 
     @Override

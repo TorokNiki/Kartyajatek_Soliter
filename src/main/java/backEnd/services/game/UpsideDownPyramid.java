@@ -1,9 +1,10 @@
 package backEnd.services.game;
 
+import backEnd.domain.ActionType;
 import backEnd.domain.Card;
 import backEnd.domain.Rank;
 import backEnd.services.factory.DeckFactory;
-import backEnd.services.game.mousegestures.MouseGestures;
+import backEnd.services.game.mousegestures.MouseGesturesUpsideDownPiramid;
 import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -20,23 +21,32 @@ public class UpsideDownPyramid extends Game {
     public List<Card> doubleDeck;
     public Stack<Card> deck, vastPile;
     public ImageView emptyDeck;
-    public MouseGestures mg;
     public boolean restart;
     public Card[] ase;
     private List<Card> finalPozicionList;
-
-
-
     public UpsideDownPyramid(MainController controller) {
         super(new DeckFactory().doubleDeck());
-        mg = new MouseGestures(controller);
+        mouseGestures = new MouseGesturesUpsideDownPiramid(controller);
         restart = false;
-        ase=new Card[8];
+        ase = new Card[8];
         start();
+        ((MouseGesturesUpsideDownPiramid)mouseGestures).getDecks(getDeck(),getVastPile(),getEmptyDeck());
+    }
+
+    public Stack<Card> getDeck() {
+        return deck;
+    }
+
+    public Stack<Card> getVastPile() {
+        return vastPile;
+    }
+
+    public ImageView getEmptyDeck() {
+        return emptyDeck;
     }
 
     private void start() {
-        finalPozicionList=new ArrayList<>();
+        finalPozicionList = new ArrayList<>();
         doubleDeck = new ArrayList<>(fullDeck);
         deck = new Stack<>();
         vastPile = new Stack<>();
@@ -45,12 +55,12 @@ public class UpsideDownPyramid extends Game {
 
     @Override
     public void restartGame(boolean fullrestart) {
-        mg.db=0;
+        mouseGestures.db = 0;
         restart = true;
         board.getChildren().clear();
         flippCardsonDefault();
         if (fullrestart) {
-            restart=false;
+            restart = false;
             doubleDeck = new ArrayList<>(fullDeck);
         }
         deck = new Stack<>();
@@ -106,8 +116,9 @@ public class UpsideDownPyramid extends Game {
             finalPozicionList.add(card);
             board.getChildren().add(card);
         }
-        if (!restart){
-        Collections.shuffle(doubleDeck);}
+        if (!restart) {
+            Collections.shuffle(doubleDeck);
+        }
         int actual = 0;
         Card card = null;
         for (int i = 0; i < 5; i++) {
@@ -165,7 +176,7 @@ public class UpsideDownPyramid extends Game {
         doubleDeck.get(actual).setLayoutX((i * doubleDeck.get(actual).getFitWidth() + i * 10) + 5);
         doubleDeck.get(actual).setLayoutY(j * 25 + 110);
         doubleDeck.get(actual).flippCard();
-        mg.MouseGestures(doubleDeck.get(actual));
+        mouseGestures.setMouseGestures(doubleDeck.get(actual));
         panel.getChildren().add(doubleDeck.get(actual));
         return actual;
     }
@@ -185,12 +196,13 @@ public class UpsideDownPyramid extends Game {
     }
 
     private void showDeck() {
+        ((MouseGesturesUpsideDownPiramid)mouseGestures).setActionType(ActionType.DECK);
         if (!deck.empty()) {
             int db = Math.min(deck.size(), 3);
             for (int i = 0; i < db; i++) {
                 Card actual = deck.pop();
                 actual.flippCard();
-                mg.MouseGestures(actual);
+                mouseGestures.setMouseGestures(actual);
                 actual.relocate(80, 10);
                 actual.toFront();
                 actual.setInDeck(true);
