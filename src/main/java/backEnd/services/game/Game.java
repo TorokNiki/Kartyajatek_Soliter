@@ -13,6 +13,27 @@ import java.util.List;
 public abstract class Game {
     protected final List<Card> fullDeck;
 
+
+    /*piramis: int N = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < N; i++)
+            {
+                for (int k = i; k < N; k++)
+                {
+                    Console.Write(" ");
+
+                }
+                for (int j = 0; j < i; j++)
+                {
+                    Console.Write("*");
+                }
+
+                for (int j = 0; j < i+1; j++)
+                {
+                     Console.Write("*");
+                }
+
+                Console.WriteLine();
+            }*/
     public MouseGestures getMouseGestures() {
         return mouseGestures;
     }

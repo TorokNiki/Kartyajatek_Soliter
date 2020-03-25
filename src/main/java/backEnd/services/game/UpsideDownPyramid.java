@@ -30,7 +30,7 @@ public class UpsideDownPyramid extends Game {
         restart = false;
         ase = new Card[8];
         start();
-        ((MouseGesturesUpsideDownPiramid)mouseGestures).getDecks(getDeck(),getVastPile(),getEmptyDeck());
+        ((MouseGesturesUpsideDownPiramid)mouseGestures).getDecks(getDeck(),getVastPile(),getEmptyDeck(),finalPozicionList);
     }
 
     public Stack<Card> getDeck() {

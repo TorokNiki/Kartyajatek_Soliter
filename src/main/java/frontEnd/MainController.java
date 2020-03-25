@@ -3,6 +3,7 @@ package frontEnd;
 import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
 import backEnd.services.game.Klondike;
+import backEnd.services.game.Pyramid;
 import backEnd.services.game.UpsideDownPyramid;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -85,6 +86,15 @@ public class MainController {
             actualGame = klondike;
             ownMenu.setUndoAction();
         }
+//        else if (actualGame.equals(klondike)){
+//            pyramid = new Pyramid(this);
+//            this.name = "Pyramid (2/2)";
+//            this.currentScore = 0;
+//            defaultSettings();
+//            actualGame.getBoard().getChildren().clear();
+//            actualGame = pyramid;
+//            ownMenu.setUndoAction();
+//        }
         this.root.getChildren().add(actualGame.getBoard());
     }
 

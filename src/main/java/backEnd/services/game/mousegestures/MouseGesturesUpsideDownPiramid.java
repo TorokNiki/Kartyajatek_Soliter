@@ -15,16 +15,20 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 
 public class MouseGesturesUpsideDownPiramid extends MouseGestures{
     private Stack<Card> deck,vastPile;
     private ImageView emptyDeck;
+    List<Card> finalPozzicions;
 
-    public void getDecks( Stack<Card> deck, Stack<Card> vastPile,ImageView emptyDeck){
+    public void getDecks( Stack<Card> deck, Stack<Card> vastPile,ImageView emptyDeck,List<Card> finalPozzicions){
         this.deck=deck;
         this.vastPile=vastPile;
         this.emptyDeck=emptyDeck;
+        this.finalPozzicions=finalPozzicions;
     }
     public MouseGesturesUpsideDownPiramid(MainController mainController) {
         super(mainController);
@@ -50,18 +54,26 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
                         orgSceneX = t.getSceneX();
                         orgSceneY = t.getSceneY();
 
-                        cardXtemp= source.getLayoutX();
-                        cardYtemp= source.getLayoutY();
+                        cardXtemp = source.getLayoutX();
+                        cardYtemp = source.getLayoutY();
 
                         orgTranslateX = source.getTranslateX();
                         orgTranslateY = source.getTranslateY();
                         source.setMouseTransparent(true);
-                    }
-                    if (t.getClickCount() == 2 && !t.isConsumed()) {
-                        t.consume();
-                        DropShadow shadow = new DropShadow();
-                        shadow.setColor(Color.PURPLE);
-                        source.setEffect(shadow);
+
+                        if (t.getClickCount() == 2 && !t.isConsumed()) {
+                            t.consume();
+                            doubleClikPozicion(finalPozzicions, source);
+                            DropShadow shadow = new DropShadow();
+                            shadow.setColor(Color.PURPLE);
+                            source.setEffect(shadow);
+                            if (db == 12 * 8) {
+                                Alerts a = new Alerts();
+                                a.win();
+                                a.score(mainController.getScore(), mainController.getCurrentScore());
+                                mainController.goToNextGame();
+                            }
+                        }
                     }
                 };
         super.onMouseDraggedEventHandler =
@@ -81,27 +93,44 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
         super.onMouseReleasedEventHandler = event -> {
             Card card = (Card) event.getSource();
             Node picked = event.getPickResult().getIntersectedNode();
-            if (picked instanceof Card) {
-                Card pikedCard = (Card) picked;
-                putOnACard(card, pikedCard);
-            } else if (picked instanceof ImageView && card.getRank() == Rank.KING && (card.getCardOnIt() == null || card.getCardOnIt().isSticked())) {
-                ImageView pickedPlace = (ImageView) picked;
-                putOnAnEmptyPlace(card, pickedPlace);
-            } else {
-                moveToSource(card);
-                recursiveTranslateBack(card);
+            if (card.isFaceup() && !card.isFinalPozicion()) {
+                if (picked instanceof Card) {
+                    Card pikedCard = (Card) picked;
+                    putOnACard(card, pikedCard);
+                } else if (picked instanceof ImageView && card.getRank() == Rank.KING && (card.getCardOnIt() == null || card.getCardOnIt().isSticked())) {
+                    ImageView pickedPlace = (ImageView) picked;
+                    putOnAnEmptyPlace(card, pickedPlace);
+                } else {
+                    moveToSource(card);
+                    recursiveTranslateBack(card);
+                }
+                card.setMouseTransparent(false);
+                if (db == 12 * 8) {
+                    Alerts a = new Alerts();
+                    a.win();
+                    a.score(mainController.getScore(), mainController.getCurrentScore());
+                    mainController.goToNextGame();
+                }
             }
+            card.setEffect(null);
             card.setMouseTransparent(false);
-            if (db == 12 * 8) {
-                Alerts a = new Alerts();
-                a.win();
-                a.score(mainController.getScore(), mainController.getCurrentScore());
-                mainController.goToNextGame();
-            }
         };
     }
 
 
+    public void doubleClikPozicion(List<Card> finalpozzicion,Card card){
+
+        Optional<Card> optionalCard = finalpozzicion.stream()
+                .filter(pickedCard -> !isValidSimplePlacement(card, pickedCard))
+                .findFirst();
+        if(optionalCard.isPresent()){
+            Card finalPositionCard = optionalCard.get();
+            ifFinalPozicion(card,finalPositionCard);
+            finalpozzicion.remove(finalPositionCard);
+            finalpozzicion.add(card);
+        }
+
+    }
     public static void recursiveTranslate(Card source, double newTranslateX, double newTranslateY) {
         Card cardOnIt = source.getCardOnIt();
         source.toFront();
@@ -145,10 +174,6 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
         }
     }
 
-    public ActionType getActionType() {
-        return actionType;
-    }
-
     public void setActionType(ActionType actionType) {
         this.actionType = actionType;
     }
@@ -177,11 +202,15 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
     }
 
     private void putOnACard(Card card, Card pikedCard) {
-        if (!pikedCard.isColorEqual(card) || !pikedCard.isRankLess(card) || card.getCardOnIt() != null || !pikedCard.isFinalPozicion()) {
+        if (isValidSimplePlacement(card, pikedCard)) {
             onAnyCardInGame(card, pikedCard);
         } else {
             ifFinalPozicion(card, pikedCard);
         }
+    }
+
+    private boolean isValidSimplePlacement(Card card, Card pikedCard) {
+        return !pikedCard.isColorEqual(card) || !pikedCard.isRankLess(card) || card.getCardOnIt() != null || !pikedCard.isFinalPozicion();
     }
 
     private void onAnyCardInGame(Card card, Card pikedCard) {
@@ -230,11 +259,13 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
         cardX=cardXtemp;
         cardY=cardYtemp;
         pikedCard.setConnection(card);
-        card.setSticked(true);
         card.setInDeck(false);
         card.setFinalPozicion(true);
         db++;
         finalPosition(card, pikedCard);
+        finalPozzicions.remove(pikedCard);
+        finalPozzicions.add(card);
+
         int score = mainController.getCurrentScore();
         int total = mainController.getScore();
         total += card.getPoint();
@@ -339,7 +370,6 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
     public void undoFromDeck(){
         if (movedCard!=null&&targetCard!=null){
             if (targetCard.isFinalPozicion()){
-                movedCard.setFinalPozicion(false);
                 int score = mainController.getCurrentScore();
                 int total = mainController.getScore();
                 total -= movedCard.getPoint();
@@ -348,10 +378,15 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
                 mainController.setScore(total);
                 mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
                 db--;
+
+                finalPozzicions.remove(movedCard);
+                movedCard.setFinalPozicion(false);
+                finalPozzicions.add(targetCard);
             }else {
-                movedCard.removeConnection();
+
                 movedCard.setSticked(false);
             }
+            movedCard.removeConnection();
             movedCard.setInDeck(true);
             movedCard.relocate(cardX,cardY);
         }else if (movedCard!=null&&movedCard.getRank().equals(Rank.KING)){
@@ -395,7 +430,6 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
     public void undoToFinal(){
         if (movedCard!=null&&sorceCard!=null&&targetCard!=null){
             sorceCard.setConnection(movedCard);
-            movedCard.setFinalPozicion(false);
             fixPosition(movedCard,sorceCard);
             int score = mainController.getCurrentScore();
             int total = mainController.getScore();
@@ -405,6 +439,25 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
             mainController.setScore(total);
             mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
             db--;
+            finalPozzicions.remove(movedCard);
+            movedCard.setFinalPozicion(false);
+            finalPozzicions.add(targetCard);
+        }else  if (movedCard!=null&&targetCard!=null){
+            Node to=movedCard;
+            to.setLayoutX(cardX);
+            to.setLayoutY(cardY);
+            fixPosition(movedCard,to);
+            int score = mainController.getCurrentScore();
+            int total = mainController.getScore();
+            total -= movedCard.getPoint();
+            score -= movedCard.getPoint();
+            mainController.setCurrentScore(score);
+            mainController.setScore(total);
+            mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
+            db--;
+            finalPozzicions.remove(movedCard);
+            movedCard.setFinalPozicion(false);
+            finalPozzicions.add(targetCard);
         }
     }
 
