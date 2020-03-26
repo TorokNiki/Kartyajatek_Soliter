@@ -27,13 +27,4 @@ public enum Style implements Comparable<Style> {
     public String getName() {
         return name;
     }
-//    public int compareTo(Stile newStile){
-//        if(value==newStile.value)
-//            return 0;
-//        else if(value>newStile.value)
-//            return 1;
-//        else
-//            return -1;
-//         }
-//    }
 }

@@ -23,7 +23,7 @@ public class MainController {
     private TextField scoreText;
     private OwnMenu ownMenu;
     private Group root;
-    private String name = "Upside-Down Piramid (1/2)", coloure = "#752777";
+    private String name = "Upside-Down Piramid (1/3)", coloure = "#752777";
 
     public MainController(Stage primaryStage) {
         upsideDownPyramid = new UpsideDownPyramid(this);
@@ -32,6 +32,7 @@ public class MainController {
         this.scoreText = new TextField();
         this.ownMenu = new OwnMenu(primaryStage.widthProperty(), this);
         ownMenu.setUndoAction();
+        ownMenu.setUndoEnabled();
         this.gameName = new Label();
         defaultSettings();
         this.root = new Group(this.ownMenu.getMenuBar(), scoreText, gameName, actualGame.getBoard());
@@ -41,16 +42,17 @@ public class MainController {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-    public void desableMenuItem(){
-        ownMenu.disabledMenuItems(ownMenu.getMiRestartCurrentTure(),ownMenu.getMiStartNewGame(),ownMenu.getMiEndCurrentTure(),true);
+
+    public void desableMenuItem() {
+        ownMenu.disabledMenuItems(ownMenu.getMiRestartCurrentTure(), ownMenu.getMiStartNewGame(), ownMenu.getMiEndCurrentTure(), true);
     }
 
     public void restartGame() {
-        if (actualGame.equals(upsideDownPyramid)){
+        if (actualGame.equals(upsideDownPyramid)) {
             setCurrentScore(0);
             setScore(0);
-        }else {
-            setScore(getScore()-getCurrentScore());
+        } else {
+            setScore(getScore() - getCurrentScore());
             setCurrentScore(0);
         }
         ownMenu.setTFScore(this.scoreText, getScore(), getCurrentScore());
@@ -59,7 +61,7 @@ public class MainController {
     }
 
     public void restartTure() {
-        this.name = "Upside-Down Piramid (1/2)";
+        this.name = "Upside-Down Piramid (1/3)";
         setCurrentScore(0);
         setScore(0);
         ownMenu.setTFScore(this.scoreText, getScore(), getCurrentScore());
@@ -81,13 +83,12 @@ public class MainController {
         this.root.getChildren().remove(actualGame.getBoard());
         if (actualGame.equals(upsideDownPyramid)) {
             klondike = new Klondike(this);
-            this.name = "Klondike (2/2)";
+            this.name = "Klondike (2/3)";
             this.currentScore = 0;
             defaultSettings();
             actualGame = klondike;
             ownMenu.setUndoAction();
-        }
-        else if (actualGame.equals(klondike)){
+        } else if (actualGame.equals(klondike)) {
             pyramid = new Pyramid(this);
             this.name = "Pyramid (3/3)";
             this.currentScore = 0;
@@ -95,7 +96,7 @@ public class MainController {
             actualGame.getBoard().getChildren().clear();
             actualGame = pyramid;
             ownMenu.setUndoDisabled();
-            //ownMenu.setUndoAction();
+            ownMenu.getMiStartNewGame().setDisable(true);
         }
         this.root.getChildren().add(actualGame.getBoard());
     }

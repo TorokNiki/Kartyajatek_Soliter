@@ -5,9 +5,6 @@ public class Score {
     private String name;
     private String point;
 
-    public Score() {
-    }
-
     public Score(String rank) {
         this.rank = rank;
     }

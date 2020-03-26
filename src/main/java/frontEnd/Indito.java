@@ -17,9 +17,8 @@ public class Indito extends Application {
         Config.loadProp();
         SQLite.createNewDatabase();
         SQLite.createNewTable();
-        MainController mainController= new MainController(primaryStage);
+        MainController mainController = new MainController(primaryStage);
     }
-
 
 
 }

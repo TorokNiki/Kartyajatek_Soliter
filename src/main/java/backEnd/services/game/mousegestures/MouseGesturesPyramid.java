@@ -100,7 +100,7 @@ public class MouseGesturesPyramid extends MouseGestures {
                     a.win();
                     a.score(mainController.getScore(), mainController.getCurrentScore());
                     a.getName(mainController);
-                    new ScoreBoard(new Stage(), mainController);
+                    new ScoreBoard(new Stage());
                     mainController.desableMenuItem();
                 }
 

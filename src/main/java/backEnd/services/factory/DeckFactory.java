@@ -13,8 +13,8 @@ public class DeckFactory {
 
     public static final String DECK = "img/cards/paklik/";
     public static final String BACKOFCARD = "img/cards/hatlap/";
-    private final List<Card> baseDeck = simpleImageDeck();
     private int index = 0;
+    private final List<Card> baseDeck = simpleImageDeck();
 
     private List<Card> simpleDeck() {
         int index = 0;
@@ -44,6 +44,7 @@ public class DeckFactory {
         }
         return deck;
     }
+
     public List<Card> pyramidImageDeck() {
         Asset.Asset();
         List<Card> deck = new ArrayList<>();
