@@ -6,7 +6,7 @@ import backEnd.services.factory.Config;
 import backEnd.services.factory.DeckFactory;
 import backEnd.services.game.mousegestures.MouseGestures;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 import java.util.List;
 
@@ -23,7 +23,18 @@ public abstract class Game {
     public Game(List<Card> fullDeck) {
         this.board = new Pane();
         this.fullDeck = fullDeck;
-        board.setStyle("-fx-background-color: " + Config.properties.getProperty("bacground") + ";");
+        Background background= new Background(
+                new BackgroundImage(
+                        new Image("/img/bg/"+Config.properties.getProperty("bacground")),
+                        BackgroundRepeat.REPEAT,
+                        BackgroundRepeat.REPEAT,
+                        BackgroundPosition.DEFAULT,
+                        new BackgroundSize(300,300,
+                                false,false,false,false)
+                )
+        );
+        board.setBackground(background);
+        //board.setStyle("-fx-background-color: " + Config.properties.getProperty("bacground") + ";");
         board.setLayoutY(25);
         board.setPrefHeight(600);
         board.setPrefWidth(809);
@@ -62,7 +73,19 @@ public abstract class Game {
         if (!Config.tempBackground.equals(Config.properties.getProperty("bacground"))){
             Config.properties.setProperty("bacground",Config.tempBackground);
             Config.writeProp();
-            board.setStyle("-fx-background-color: " + Config.properties.getProperty("bacground") + ";");
+            Background background= new Background(
+                    new BackgroundImage(
+                            new Image("/img/bg/"+Config.properties.getProperty("bacground")),
+                            BackgroundRepeat.REPEAT,
+                            BackgroundRepeat.REPEAT,
+                            BackgroundPosition.DEFAULT,
+                            new BackgroundSize(300,300,
+                                    false,false,false,false)
+                    )
+            );
+            board.setBackground(background);
+            //board.setStyle("-fx-background-color: " + Config.properties.getProperty("bacground") + ";");
+
             }
     }
 }

@@ -82,8 +82,8 @@ public class UpsideDownPyramid extends Game {
 
     @Override
     public void placeCardsOnBoard() {
-        emptySpace(15, 2, board);
-        emptySpace(140, 10, board);
+        emptySpace(10, 2, board);
+        emptySpace(135, 10, board);
         for (int i = 0; i < 10; i++) {
             ImageView empty = new ImageView();
             Image emptyimg = new Image("img/emptyCardSlot.png");

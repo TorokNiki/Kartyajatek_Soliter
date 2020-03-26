@@ -1,6 +1,7 @@
 package frontEnd.settings;
 
-import backEnd.domain.enums.Background;
+import backEnd.domain.enums.Backgrounds;
+import backEnd.domain.enums.BackgroundImages;
 import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
 import frontEnd.MainController;
@@ -12,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -23,33 +24,30 @@ public class ChangeBackgroundColour {
     private Label lblInstruction;
     private Button ok, cancel;
     private Pane look;
-    private List<Background> backgroundList;
+    private List<Backgrounds> backgroundsList;
+    private List<BackgroundImages> backgroundImagesList;
     private String bacground;
-    private MainController c;
     private int selectedIndex;
 
     public ChangeBackgroundColour(Stage secondery, Game actualGame) {
-        backgroundList = Background.getBackground();
+        backgroundsList = Backgrounds.getBackground();
+        backgroundImagesList = BackgroundImages.getBackground();
         Group root = new Group(deckLook());
         secondery.getIcons().add(new Image("img/ace.png"));
         secondery.setTitle("Játéktér szinének a kiválasztása");
         secondery.setScene(new Scene(root, 600, 400));
         secondery.setResizable(false);
         addItems();
-        selectedIndex=0;
+        selectedIndex=2;
         select.scrollTo(selectedIndex);
         select.getSelectionModel().select(selectedIndex);
         select.getFocusModel().focus(selectedIndex);
-        look.setStyle(backgroundList.get(selectedIndex).getColour());
-        bacground = backgroundList.get(selectedIndex).getColour();
+       look.setStyle("-fx-background-image: url(/img/bg/"+backgroundImagesList.get(selectedIndex).getConfig()+");-fx-background-size: 200 150;");
         secondery.show();
-        ok.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Config.tempBackground=backgroundList.get(selectedIndex).getConfig();
-                actualGame.backgoundChange();
-                secondery.close();
-            }
+        ok.setOnMouseClicked(mouseEvent -> {
+            Config.tempBackground= backgroundImagesList.get(selectedIndex).getConfig();
+            actualGame.backgoundChange();
+            secondery.close();
         });
         cancel.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -61,8 +59,9 @@ public class ChangeBackgroundColour {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectedIndex = select.getSelectionModel().getSelectedIndex();
-                look.setStyle(backgroundList.get(selectedIndex).getColour());
-                bacground = backgroundList.get(selectedIndex).getColour();
+                String picture= backgroundImagesList.get(selectedIndex).getConfig();
+                look.setStyle("-fx-background-image: url(/img/bg/"+picture+");-fx-background-size: 200 150;");
+
 
             }
         });
@@ -111,8 +110,12 @@ public class ChangeBackgroundColour {
     }
 
     private void addItems() {
-        for (int i = 0; i < backgroundList.size(); i++) {
-            select.getItems().add(backgroundList.get(i).getName());
+//        for (int i = 0; i < backgroundList.size(); i++) {
+//            select.getItems().add(backgroundList.get(i).getName());
+//        }
+        for (int i = 0; i < backgroundImagesList.size(); i++) {
+            select.getItems().add(backgroundImagesList.get(i).getName());
         }
+
     }
 }

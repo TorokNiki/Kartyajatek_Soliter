@@ -5,7 +5,7 @@ import java.util.List;
 
 
 //https://docs.oracle.com/javase/8/javafx/api/javafx/scene/paint/Color.html
-public enum Background {
+public enum Backgrounds {
     BLUE("Kék", "-fx-background-color: lightblue;","lightblue"),
     GREEN("Zöld", "-fx-background-color: LIGHTGREEN;","LIGHTGREEN"),
     RED("Piros", "-fx-background-color: TOMATO;","TOMATO"),
@@ -17,30 +17,30 @@ public enum Background {
     TURQUOISE("Türkiz", "-fx-background-color: #9debe2;","#9debe2");
 
 
-    private static List<Background> backgroundList;
+    private static List<Backgrounds> backgroundsList;
     private String name;
     private String colour;
     private String config;
 
-    Background(String name, String colour,String config) {
+    Backgrounds(String name, String colour, String config) {
         this.name = name;
         this.colour = colour;
         this.config=config;
     }
 
-    public static List<Background> getBackground() {
-        backgroundList = new ArrayList<>();
-        backgroundList.add(Background.BLUE);
-        backgroundList.add(Background.GREEN);
-        backgroundList.add(Background.RED);
-        backgroundList.add(Background.GREY);
-        backgroundList.add(Background.PINK);
-        backgroundList.add(Background.PURPLE);
-        backgroundList.add(Background.WHITE);
-        backgroundList.add(Background.BROWN);
-        backgroundList.add(Background.TURQUOISE);
+    public static List<Backgrounds> getBackground() {
+        backgroundsList = new ArrayList<>();
+        backgroundsList.add(Backgrounds.BLUE);
+        backgroundsList.add(Backgrounds.GREEN);
+        backgroundsList.add(Backgrounds.RED);
+        backgroundsList.add(Backgrounds.GREY);
+        backgroundsList.add(Backgrounds.PINK);
+        backgroundsList.add(Backgrounds.PURPLE);
+        backgroundsList.add(Backgrounds.WHITE);
+        backgroundsList.add(Backgrounds.BROWN);
+        backgroundsList.add(Backgrounds.TURQUOISE);
 
-        return backgroundList;
+        return backgroundsList;
     }
 
     public String getName() {
