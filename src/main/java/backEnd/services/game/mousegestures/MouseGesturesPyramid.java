@@ -1,8 +1,9 @@
 package backEnd.services.game.mousegestures;
 
-import backEnd.domain.ActionType;
 import backEnd.domain.Card;
-import backEnd.domain.Rank;
+import backEnd.domain.PyramidCard;
+import backEnd.domain.enums.ActionType;
+import backEnd.domain.enums.Rank;
 import frontEnd.MainController;
 import frontEnd.settings.Alerts;
 import frontEnd.settings.ScoreBoard;
@@ -11,48 +12,42 @@ import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Stack;
 
 public class MouseGesturesPyramid extends MouseGestures {
-    private Stack<Card> deck,vastPile;
+    ImageView finalPozzicion;
+    private Stack<PyramidCard> deck, vastPile;
     private ImageView emptyDeck;
-    List<Card> finalPozzicions;
 
-    public void getDecks( Stack<Card> deck, Stack<Card> vastPile,ImageView emptyDeck,List<Card> finalPozzicions){
-        this.deck=deck;
-        this.vastPile=vastPile;
-        this.emptyDeck=emptyDeck;
-        this.finalPozzicions=finalPozzicions;
-    }
     public MouseGesturesPyramid(MainController mainController) {
         super(mainController);
-        super.onUndo= actionEvent -> {
-            switch (actionType){
-                case DECK:undoDeck();
+        super.onUndo = actionEvent -> {
+            switch (actionType) {
+                case DECK:
+                    undoDeck();
                     break;
-                case TOFINAL:undoToFinal();
+                case TOFINAL:
+                    undoToFinal();
                     break;
-                case FROMDECK:undoFromDeck();
+                case FROMDECK:
+                    undoFromDeck();
                     break;
-                case SIMPLE:undoSimple();
+                case SIMPLE:
+                    undoSimple();
                     break;
                 default:
                     break;
             }
-            actionType= ActionType.NOTHING;
+            actionType = ActionType.NOTHING;
         };
         super.onMousePressedEventHandler =
                 t -> {
-                    Card source = (Card) (t.getSource());
-                    if (source.isFaceup() && !source.isFinalPozicion()) {
+                    PyramidCard source = (PyramidCard) (t.getSource());
+                    if (!source.isFinalPozicion() && source.isFaceup() && source.getCardOnIt() == null && source.getCardOnIt2() == null) {
                         orgSceneX = t.getSceneX();
                         orgSceneY = t.getSceneY();
 
@@ -62,44 +57,42 @@ public class MouseGesturesPyramid extends MouseGestures {
                         orgTranslateX = source.getTranslateX();
                         orgTranslateY = source.getTranslateY();
                         source.setMouseTransparent(true);
-
+                        source.toFront();
                         if (t.getClickCount() == 2 && !t.isConsumed()) {
-                            //wait(100);
                             t.consume();
-                            doubleClikPozicion(finalPozzicions, source);
-                            DropShadow shadow = new DropShadow();
-                            shadow.setColor(Color.PURPLE);
-                            source.setEffect(shadow);
+                            doubleClikPozicion(source);
+
                         }
                     }
                 };
         super.onMouseDraggedEventHandler =
                 t -> {
-                    Card source = (Card) (t.getSource());
-                    if (source.isFaceup() && !source.isFinalPozicion()) {
+                    PyramidCard source = (PyramidCard) (t.getSource());
+                    if (!source.isFinalPozicion() && source.isFaceup() && source.getCardOnIt() == null && source.getCardOnIt2() == null) {
                         double offsetX = t.getSceneX() - orgSceneX;
                         double offsetY = t.getSceneY() - orgSceneY;
                         double newTranslateX = orgTranslateX + offsetX;
                         double newTranslateY = orgTranslateY + offsetY;
 
-                        recursiveTranslate(source, newTranslateX, newTranslateY);
                         source.setTranslateX(newTranslateX);
                         source.setTranslateY(newTranslateY);
                     }
                 };
         super.onMouseReleasedEventHandler = event -> {
-            Card card = (Card) event.getSource();
+            PyramidCard card = (PyramidCard) event.getSource();
             Node picked = event.getPickResult().getIntersectedNode();
-            if (card.isFaceup() && !card.isFinalPozicion()) {
+            if (!card.isFinalPozicion() && card.isFaceup() && card.getCardOnIt() == null && card.getCardOnIt2() == null) {
                 if (picked instanceof Card) {
-                    Card pikedCard = (Card) picked;
+                    PyramidCard pikedCard = (PyramidCard) picked;
                     putOnACard(card, pikedCard);
                 } else if (picked instanceof ImageView && card.getRank() == Rank.KING && (card.getCardOnIt() == null || card.getCardOnIt().isSticked())) {
                     ImageView pickedPlace = (ImageView) picked;
-                    putOnAnEmptyPlace(card, pickedPlace);
-                } else {
+                    placeAKing(card,pickedPlace);
+                } else if (picked instanceof Node) {
+                    Node pickedPlace =  picked;
+                    putOnAnEmptyPlace(card,pickedPlace);
+                }else {
                     moveToSource(card);
-                    recursiveTranslateBack(card);
                 }
                 card.setMouseTransparent(false);
                 if (db == 13 * 4) {
@@ -116,159 +109,167 @@ public class MouseGesturesPyramid extends MouseGestures {
             card.setMouseTransparent(false);
         };
     }
-    public void doubleClikPozicion(List<Card> finalpozzicion,Card card){
-
-        Optional<Card> optionalCard = finalpozzicion.stream()
-                .filter(pickedCard -> !isValidSimplePlacement(card, pickedCard))
-                .findFirst();
-        if(optionalCard.isPresent()){
-            Card finalPositionCard = optionalCard.get();
-            ifFinalPozicion(card,finalPositionCard);
-            finalpozzicion.remove(finalPositionCard);
-            finalpozzicion.add(card);
-        }
-
-    }
-    public static void recursiveTranslate(Card source, double newTranslateX, double newTranslateY) {
-        Card cardOnIt = source.getCardOnIt();
-        source.toFront();
-        DropShadow shadow = new DropShadow();
-        shadow.setColor(Color.BLACK);
-        source.setEffect(shadow);
-        if (cardOnIt != null) {
-            cardOnIt.setTranslateX(newTranslateX);
-            cardOnIt.setTranslateY(newTranslateY);
-            recursiveTranslate(cardOnIt, newTranslateX, newTranslateY);
+    public void placeAKing(PyramidCard card,Node pickedPlace){
+        if (pickedPlace.getId() != null && pickedPlace.getId().contains("row")){
+            putOnFinalPlace(card, pickedPlace);
+        }else {
+            putOnAnEmptyPlace(card,pickedPlace);
         }
     }
 
-    public static void recursiveTranslateBack(Card source) {
-        Card cardOnIt = source.getCardOnIt();
-        source.toFront();
-        source.setEffect(null);
-        if (cardOnIt != null) {
-            double sourceX = cardOnIt.getLayoutX() + cardOnIt.getTranslateX();
-            double sourceY = cardOnIt.getLayoutY() + cardOnIt.getTranslateY();
+    public void getDecks(Stack<PyramidCard> deck, Stack<PyramidCard> vastPile, ImageView emptyDeck, ImageView finalPozzicion) {
+        this.deck = deck;
+        this.vastPile = vastPile;
+        this.emptyDeck = emptyDeck;
+        this.finalPozzicion = finalPozzicion;
+    }
 
-            double targetX = cardOnIt.getLayoutX();
-            double targetY = cardOnIt.getLayoutY();
+    public void doubleClikPozicion(PyramidCard card) {
 
-            if (!(sourceX == targetX && sourceY == targetY)) {
-                Path path = new Path();
-                path.getElements().add(new MouseGesturesUpsideDownPiramid.MoveToAbs(cardOnIt, sourceX, sourceY));
-                path.getElements().add(new MouseGesturesUpsideDownPiramid.LineToAbs(cardOnIt, targetX, targetY));
+        if (card.getRank().equals(Rank.KING)) {
+            putOnFinalPlace(card, finalPozzicion);
+            card.toFront();
+            DropShadow shadow = new DropShadow();
+            shadow.setColor(Color.PURPLE);
+            card.setEffect(shadow);
+        }
 
-                PathTransition pathTransition = new PathTransition();
-                pathTransition.setDuration(Duration.millis(100));
-                pathTransition.setNode(cardOnIt);
-                pathTransition.setPath(path);
-                pathTransition.setCycleCount(1);
-                pathTransition.setAutoReverse(true);
+    }
 
-                pathTransition.play();
-
+    private void putOnFinalPlace(PyramidCard card, Node pickedPlace) {
+        if (pickedPlace.getId() != null && pickedPlace.getId().contains("row")) {
+            movedCard = card;
+            if (card.getCardBeforeIt() != null) {
+                sorceCard = card.getCardBeforeIt();
+                card.removeConnection();
+                actionType = ActionType.TOFINAL;
+            } else {
+                sorceCard = null;
+                actionType = ActionType.FROMDECK;
+                if (!card.isVaistpile()&&card.isInDeck()){
+                showDeck();
+                }
             }
-            recursiveTranslateBack(cardOnIt);
+            if (card.getCardBeforeIt2() != null) {
+                card.removeConnection2();
+            }
+            targetCard = null;
+            cardX = cardXtemp;
+            cardY = cardYtemp;
+            card.setSticked(true);
+            card.setFinalPozicion(true);
+            card.setInDeck(false);
+            fixPosition(card, pickedPlace);
+            addScore(card);
+        }
+        else {
+            moveToSource(card);
         }
     }
+    protected void showDeck() {
+        setActionType(ActionType.DECK);
+        if (!deck.empty()) {
+            int db = Math.min(deck.size(), 1);
+            for (int i = 0; i < db; i++) {
+                PyramidCard actual = deck.pop();
+                actual.flippCard();
+                setMouseGestures(actual);
+                actual.toFront();
+                actual.setInDeck(true);
+                vastPile.push(actual);
+            }
+        }
 
-    public ActionType getActionType() {
-        return actionType;
+    }
+    private void putOnAnEmptyPlace(PyramidCard card, Node pickedPlace) {
+        if (pickedPlace.getId() != null && pickedPlace.getId().contains("col")) {
+            movedCard=card;
+            sorceCard=null;
+            actionType=ActionType.FROMDECK;
+            targetCard=null;
+            cardX=cardXtemp;
+            cardY=cardYtemp;
+            fixPosition(card, pickedPlace);
+            showDeck();
+            card.setInDeck(true);
+           card.setVaistpile(true);
+        }
+        else {
+            moveToSource(card);
+        }
     }
 
     public void setActionType(ActionType actionType) {
         this.actionType = actionType;
     }
 
-    private void putOnAnEmptyPlace(Card card, ImageView pickedPlace) {
-        if (pickedPlace.getId() != null && pickedPlace.getId().contains("col")) {
+    private void putOnACard(PyramidCard card, PyramidCard pikedCard) {
+        if (isValidSimplePlacement(card, pikedCard)) {
+            ifFinalPozicion(card,pikedCard);
+        }else if ( pikedCard.isVaistpile()&&pikedCard.isInDeck()){
             movedCard=card;
-            if (card.getCardBeforeIt() != null) {
-                sorceCard=card.getCardBeforeIt();
-                card.removeConnection();
-                actionType=ActionType.SIMPLE;
-            }else {
-                sorceCard=null;
-                actionType=ActionType.FROMDECK;
-            }
+            sorceCard=null;
+            actionType=ActionType.FROMDECK;
             targetCard=null;
             cardX=cardXtemp;
             cardY=cardYtemp;
-            card.setSticked(true);
-            card.setInDeck(false);
-            fixPosition(card, pickedPlace);
-        } else {
-            moveToSource(card);
-            recursiveTranslateBack(card);
+            fixPosition(card, pikedCard);
+            if (!card.isVaistpile()&&card.isInDeck()) {
+                showDeck();
+            }
+            card.setVaistpile(true);
+            card.setInDeck(true);
         }
-    }
-
-    private void putOnACard(Card card, Card pikedCard) {
-        if (isValidSimplePlacement(card, pikedCard)) {
-            onAnyCardInGame(card, pikedCard);
-        } else {
-            ifFinalPozicion(card, pikedCard);
+        else {
+            moveToSource(card);
         }
     }
 
     private boolean isValidSimplePlacement(Card card, Card pikedCard) {
-        return !pikedCard.isColorEqual(card) || !pikedCard.isRankLess(card) || card.getCardOnIt() != null || !pikedCard.isFinalPozicion();
+        return card.getRank().getValue()+pikedCard.getRank().getValue()==13;
     }
 
-    private void onAnyCardInGame(Card card, Card pikedCard) {
-        if (isValidPlacement(card, pikedCard)) {
-            if (!pikedCard.isInDeck()) {
-                movedCard=card;
-                if (card.getCardBeforeIt() != null) {
-                    sorceCard=card.getCardBeforeIt();
-                    card.removeConnection();
-                    actionType= ActionType.SIMPLE;
-                }else if (card.getCardOnIt()!=null){
-                    sorceCard=null;
-                    actionType=ActionType.SIMPLE;
-                }else {
-                    sorceCard=null;
-                    actionType=ActionType.FROMDECK;
-                }
-                targetCard=pikedCard;
-                pikedCard.setConnection(card);
-                card.setSticked(true);
-                card.setInDeck(false);
-                cardX=cardXtemp;
-                cardY=cardYtemp;
-                fixPosition(card, pikedCard);
-            } else {
-                moveToSource(card);
-                recursiveTranslateBack(card);
+    private void ifFinalPozicion(PyramidCard card,PyramidCard target) {
+        movedCard = card;
+        if (card.getCardBeforeIt() != null) {
+            sorceCard = card.getCardBeforeIt();
+            card.removeConnection();
+            actionType = ActionType.TOFINAL;
+            if (!target.isVaistpile()&&target.isInDeck()) {
+                showDeck();
             }
         } else {
-            moveToSource(card);
-            recursiveTranslateBack(card);
+            sorceCard = null;
+            actionType = ActionType.FROMDECK;
+            if (!card.isVaistpile()&&card.isInDeck()) {
+                showDeck();
+            }else if (card.isVaistpile()&&card.isInDeck()&&target.isInDeck()&&!target.isVaistpile()){
+                showDeck();
+            }
         }
+        if (target.getCardBeforeIt() != null){
+            target.removeConnection();
+        }
+        if (card.getCardBeforeIt2() != null) {
+        card.removeConnection2();
+        }
+        if (target.getCardBeforeIt2() != null) {
+            target.removeConnection2();
+        }
+        targetCard = null;
+        cardX = cardXtemp;
+        cardY = cardYtemp;
+        card.setSticked(true);
+        card.setFinalPozicion(true);
+        target.setFinalPozicion(true);
+        card.setInDeck(false);
+        fixPosition(card, finalPozzicion);
+        fixPosition(target, finalPozzicion);
+        addScore(card,target);
     }
 
-    private void ifFinalPozicion(Card card, Card pikedCard) {
-        movedCard=card;
-        if (card.getCardBeforeIt() != null) {
-            sorceCard=card.getCardBeforeIt();
-            card.removeConnection();
-            actionType=ActionType.TOFINAL;
-        }else {
-            sorceCard=null;
-            actionType=ActionType.FROMDECK;
-        }
-        targetCard=pikedCard;
-        cardX=cardXtemp;
-        cardY=cardYtemp;
-        pikedCard.setConnection(card);
-        //card.setSticked(true);
-        card.setInDeck(false);
-        card.setFinalPozicion(true);
+    private void addScore(Card card) {
         db++;
-        finalPosition(card, pikedCard);
-        finalPozzicions.remove(pikedCard);
-        finalPozzicions.add(card);
-
         int score = mainController.getCurrentScore();
         int total = mainController.getScore();
         total += card.getPoint();
@@ -277,59 +278,26 @@ public class MouseGesturesPyramid extends MouseGestures {
         mainController.setScore(total);
         mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
     }
-
-    private boolean isValidPlacement(Card card, Card pikedCard) {
-        return !card.isSticked()
-                && ((!pikedCard.isBlack() && card.isBlack()) || (pikedCard.isBlack() && !card.isBlack()))
-                && pikedCard.isRankGreater(card)
-                && (card.getCardOnIt() == null || card.getCardOnIt().isSticked())
-                && (pikedCard.getCardOnIt() == null || pikedCard.getCardOnIt().equals(card));
+    private void addScore(Card card,Card card2) {
+        db++;
+        int score = mainController.getCurrentScore();
+        int total = mainController.getScore();
+        total += card.getPoint()+card2.getPoint();
+        score += card.getPoint()+card2.getPoint();
+        mainController.setCurrentScore(score);
+        mainController.setScore(total);
+        mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
     }
-
-
-
     private void fixPosition(Card card, Node cardTo) {
-
-
         card.toFront();
         card.setEffect(null);
         double xto = cardTo.getLayoutX();
         double yto = cardTo.getLayoutY();
 
-
-        if (card.getRank().equals(Rank.KING)&&!(cardTo instanceof Card)) {
-            card.relocate(xto, yto - 5);
-        } else {
-            card.relocate(xto, yto + 25);
-        }
-
-        card.setTranslateX(0);
-        card.setTranslateY(0);
-        Card cardOnIt = card.getCardOnIt();
-        if (cardOnIt != null) {
-            xto = card.getLayoutX();
-            yto = card.getLayoutY();
-
-            cardOnIt.relocate(xto, yto + 25);
-
-            cardOnIt.setTranslateX(0);
-            cardOnIt.setTranslateY(0);
-            fixPosition(cardOnIt, card);
-        }
-
-
-    }
-
-    private void finalPosition(Card card, Node cardTo) {
-        card.toFront();
-        card.setEffect(null);
-        double xto = cardTo.getLayoutX();
-        double yto = cardTo.getLayoutY();
         card.relocate(xto, yto);
         card.setTranslateX(0);
         card.setTranslateY(0);
     }
-
     private void moveToSource(Card card) {
         double sourceX = card.getLayoutX() + card.getTranslateX();
         double sourceY = card.getLayoutY() + card.getTranslateY();
@@ -353,134 +321,93 @@ public class MouseGesturesPyramid extends MouseGestures {
         }
     }
 
-    public void undoSimple(){
-        if (movedCard!=null&&sorceCard!=null&&targetCard!=null){
+    public void undoSimple() {
+        if (movedCard != null && sorceCard != null && targetCard != null) {
             movedCard.removeConnection();
             sorceCard.setConnection(movedCard);
             movedCard.setSticked(false);
-            fixPosition(movedCard,sorceCard);
-        }else if(movedCard!=null&&sorceCard!=null){
+            fixPosition(movedCard, sorceCard);
+        } else if (movedCard != null && sorceCard != null) {
             sorceCard.setConnection(movedCard);
-            fixPosition(movedCard,sorceCard);
-        }else if(movedCard!=null&&targetCard!=null){
+            fixPosition(movedCard, sorceCard);
+        } else if (movedCard != null && targetCard != null) {
             movedCard.removeConnection();
-            Node to=movedCard;
+            Node to = movedCard;
             to.setLayoutX(cardX);
-            to.setLayoutY(cardY-25);
-            fixPosition(movedCard,to);
+            to.setLayoutY(cardY - 25);
+            fixPosition(movedCard, to);
         }
     }
-    public void undoFromDeck(){
-        if (movedCard!=null&&targetCard!=null){
-            if (targetCard.isFinalPozicion()){
-                int score = mainController.getCurrentScore();
-                int total = mainController.getScore();
-                total -= movedCard.getPoint();
-                score -= movedCard.getPoint();
-                mainController.setCurrentScore(score);
-                mainController.setScore(total);
-                mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
-                db--;
 
-                finalPozzicions.remove(movedCard);
+    public void undoFromDeck() {
+        if (movedCard != null && targetCard != null) {
+            if (targetCard.isFinalPozicion()) {
+                undoScore();
                 movedCard.setFinalPozicion(false);
-                finalPozzicions.add(targetCard);
-            }else {
-
+            } else {
                 movedCard.setSticked(false);
             }
             movedCard.removeConnection();
             movedCard.setInDeck(true);
-            movedCard.relocate(cardX,cardY);
-        }else if (movedCard!=null&&movedCard.getRank().equals(Rank.KING)){
-
-
+            movedCard.relocate(cardX, cardY);
+        } else if (movedCard != null && movedCard.getRank().equals(Rank.KING)) {
             movedCard.setSticked(false);
             movedCard.setInDeck(true);
-            movedCard.relocate(cardX,cardY);
+            movedCard.setFinalPozicion(false);
+            movedCard.relocate(cardX, cardY);
+            undoScore();
         }
 
     }
-    public void undoDeck(){
+
+    public void undoDeck() {
         if (!vastPile.empty()) {
-            int db = Math.min(vastPile.size(), 3);
+            int db = Math.min(vastPile.size(), 1);
             for (int i = 0; i < db; i++) {
-                int pozicion=deck.size();
-                Card actual = vastPile.pop();
+                int pozicion = deck.size();
+                PyramidCard actual = vastPile.pop();
                 actual.flippCard();
-                actual.relocate(((pozicion * 0.002) * actual.getFitWidth()) + 5, 10);
+                actual.relocate(((pozicion * 0.002) * actual.getFitWidth()) + 30, 50);
                 actual.toFront();
                 actual.setInDeck(true);
+                actual.setVaistpile(false);
                 deck.push(actual);
                 emptyDeck.toFront();
             }
-        } else {
-
-            while (deck.size() != 0) {
-                Card actual = deck.pop();
-                if (!actual.isSticked() && actual.isInDeck()) {
-                    actual.flippCard();
-                    actual.relocate(80, 10);
-                    vastPile.push(actual);
-                } else {
-                    actual.setInDeck(false);
-                }
-            }
-
         }
-
     }
-    public void undoToFinal(){
-        if (movedCard!=null&&sorceCard!=null&&targetCard!=null){
+
+    public void undoToFinal() {
+        if (movedCard != null && sorceCard != null && targetCard != null) {
             sorceCard.setConnection(movedCard);
-            fixPosition(movedCard,sorceCard);
-            int score = mainController.getCurrentScore();
-            int total = mainController.getScore();
-            total -= movedCard.getPoint();
-            score -= movedCard.getPoint();
-            mainController.setCurrentScore(score);
-            mainController.setScore(total);
-            mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
-            db--;
-            finalPozzicions.remove(movedCard);
+            fixPosition(movedCard, sorceCard);
+            undoScore();
             movedCard.setFinalPozicion(false);
-            //movedCard.setSticked(false);
-            finalPozzicions.add(targetCard);
-        }else  if (movedCard!=null&&targetCard!=null){
-            Node to=movedCard;
+        } else if (movedCard != null && targetCard != null) {
+            Node to = movedCard;
             to.setLayoutX(cardX);
             to.setLayoutY(cardY);
-            fixPosition(movedCard,to);
-            int score = mainController.getCurrentScore();
-            int total = mainController.getScore();
-            total -= movedCard.getPoint();
-            score -= movedCard.getPoint();
-            mainController.setCurrentScore(score);
-            mainController.setScore(total);
-            mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
-            db--;
-            finalPozzicions.remove(movedCard);
+            fixPosition(movedCard, to);
+            undoScore();
             movedCard.setFinalPozicion(false);
-            //movedCard.setSticked(false);
-            finalPozzicions.add(targetCard);
+        } else if (movedCard != null && movedCard.getRank().equals(Rank.KING)) {
+            movedCard.setFinalPozicion(false);
+            Node to = movedCard;
+            to.setLayoutX(cardX);
+            to.setLayoutY(cardY - 25);
+            fixPosition(movedCard, to);
+            undoScore();
         }
     }
 
-    public static class MoveToAbs extends MoveTo {
-
-        public MoveToAbs(Card card, double x, double y) {
-            super(x - card.getLayoutX() + card.getLayoutBounds().getWidth() / 2, y - card.getLayoutY() + card.getLayoutBounds().getHeight() / 2);
-
-        }
-
-    }
-
-    public static class LineToAbs extends LineTo {
-
-        public LineToAbs(Card card, double x, double y) {
-            super(x - card.getLayoutX() + card.getLayoutBounds().getWidth() / 2, y - card.getLayoutY() + card.getLayoutBounds().getHeight() / 2);
-
-        }
-
+    private void undoScore() {
+        int score = mainController.getCurrentScore();
+        int total = mainController.getScore();
+        total -= movedCard.getPoint();
+        score -= movedCard.getPoint();
+        mainController.setCurrentScore(score);
+        mainController.setScore(total);
+        mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
+        db--;
     }
 }

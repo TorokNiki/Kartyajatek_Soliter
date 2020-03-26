@@ -1,6 +1,6 @@
 package frontEnd.settings;
 
-import backEnd.domain.Back;
+import backEnd.domain.enums.Back;
 import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
 import javafx.collections.ObservableList;

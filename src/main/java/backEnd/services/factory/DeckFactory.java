@@ -1,8 +1,9 @@
 package backEnd.services.factory;
 
 import backEnd.domain.Card;
-import backEnd.domain.Rank;
-import backEnd.domain.Style;
+import backEnd.domain.PyramidCard;
+import backEnd.domain.enums.Rank;
+import backEnd.domain.enums.Style;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -33,6 +34,22 @@ public class DeckFactory {
         for (Style color : Style.values()) {
             for (Rank rank : Rank.values()) {
                 Card card = new Card(this.index, rank, color);
+                card.setFront(Asset.getAssets().getOrDefault(rank.helper + "" + color.helper, new Image(DECK + Config.properties.getProperty("front") + "/" + rank.helper + color.helper + ".png")));
+                card.setBack(Asset.getAssets().getOrDefault("back", new Image(BACKOFCARD + Config.properties.getProperty("back") + ".png")));
+                card.setFitHeight(100);
+                card.setFitWidth(70);
+                deck.add(card);
+                this.index++;
+            }
+        }
+        return deck;
+    }
+    public List<Card> pyramidImageDeck() {
+        Asset.Asset();
+        List<Card> deck = new ArrayList<>();
+        for (Style color : Style.values()) {
+            for (Rank rank : Rank.values()) {
+                PyramidCard card = new PyramidCard(this.index, rank, color);
                 card.setFront(Asset.getAssets().getOrDefault(rank.helper + "" + color.helper, new Image(DECK + Config.properties.getProperty("front") + "/" + rank.helper + color.helper + ".png")));
                 card.setBack(Asset.getAssets().getOrDefault("back", new Image(BACKOFCARD + Config.properties.getProperty("back") + ".png")));
                 card.setFitHeight(100);

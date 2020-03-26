@@ -1,8 +1,8 @@
 package backEnd.services.game;
 
-import backEnd.domain.ActionType;
+import backEnd.domain.enums.ActionType;
 import backEnd.domain.Card;
-import backEnd.domain.Rank;
+import backEnd.domain.enums.Rank;
 import backEnd.services.factory.DeckFactory;
 import backEnd.services.game.mousegestures.MouseGesturesUpsideDownPiramid;
 import frontEnd.MainController;
@@ -90,9 +90,9 @@ public class UpsideDownPyramid extends Game {
             empty.setId("col:" + i);
             empty.setImage(emptyimg);
             empty.setFitWidth(70);
+            empty.setFitHeight(100);
             empty.setLayoutX((i * empty.getFitWidth() + i * 10) + 5);
             empty.setLayoutY(140);
-            empty.setPreserveRatio(true);
             empty.setOpacity(0);
             board.getChildren().add(empty);
         }

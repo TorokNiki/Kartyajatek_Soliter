@@ -1,7 +1,7 @@
 package backEnd.services.factory;
 
-import backEnd.domain.Rank;
-import backEnd.domain.Style;
+import backEnd.domain.enums.Rank;
+import backEnd.domain.enums.Style;
 import javafx.scene.image.Image;
 
 import java.util.HashMap;

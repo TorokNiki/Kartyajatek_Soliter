@@ -1,17 +1,13 @@
 package backEnd.services.game;
 
-import backEnd.domain.ActionType;
+import backEnd.domain.PyramidCard;
+import backEnd.domain.enums.ActionType;
 import backEnd.domain.Card;
-import backEnd.domain.Rank;
 import backEnd.services.factory.DeckFactory;
-import backEnd.services.game.mousegestures.MouseGestureKlondike;
 import backEnd.services.game.mousegestures.MouseGesturesPyramid;
-import backEnd.services.game.mousegestures.MouseGesturesUpsideDownPiramid;
 import frontEnd.MainController;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -21,64 +17,77 @@ import java.util.Stack;
 
 public class Pyramid extends Game{
     public List<Card> simlpeDeck;
-    public Stack<Card> deck, vastPile;
+    public Stack<PyramidCard> deck, vastPile;
     public ImageView emptyDeck;
     public boolean restart;
-    private ImageView[] acePlace;
+    public PyramidCard[][] connections;
 
-    private List<Card> finalPozicionList;
+    private ImageView finalPozicion;
     public Pyramid(MainController controller) {
-        super(new DeckFactory().simpleImageDeck());
+        super(new DeckFactory().pyramidImageDeck());
         mouseGestures = new MouseGesturesPyramid(controller);
         restart = false;
         start();
-        ((MouseGesturesPyramid)mouseGestures).getDecks(deck,vastPile,emptyDeck,finalPozicionList);
+        ((MouseGesturesPyramid)mouseGestures).getDecks(deck,vastPile,emptyDeck,finalPozicion);
     }
 
     private void start() {
-        finalPozicionList = new ArrayList<>();
-        acePlace=new ImageView[4];
+        connections= new PyramidCard[7][7];
         simlpeDeck = new ArrayList<>(fullDeck);
         deck = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard();
     }
 
-
     @Override
     public void placeCardsOnBoard() {
-        emptySpace(50, 2, board);
-        ImageView empty = new ImageView();
-        Image emptyimg = new Image("img/emptyCardSlot.png");
-        empty.setId("col:");
-        empty.setImage(emptyimg);
-        empty.setFitWidth(70);
-        empty.setLayoutX(700);
-        empty.setLayoutY(140);
-        empty.setPreserveRatio(true);
-        empty.setOpacity(0.5);
-        board.getChildren().add(empty);
+        emptySpace(board);
+        finalPozicion = new ImageView();
+        Image emptyimg = new Image("/img/emptyCardSlot.png");
+        finalPozicion.setImage(emptyimg);
+        finalPozicion.setFitWidth(70);
+        finalPozicion.setFitHeight(100);
+        finalPozicion.setLayoutX(700);
+        finalPozicion.setLayoutY(140);
+        finalPozicion.setId("row:");
+        finalPozicion.setOpacity(0);
+        board.getChildren().add(finalPozicion);
         if (!restart) {
             Collections.shuffle(simlpeDeck);
         }
         int actual = 0;
         Card card = null;
-        int space=0;
+
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < i + 1; j++) {
-                space=7-j;
-                actual = placeCards(actual, i, j, board);
+
+                placeCards(actual, i, j, board);
 
                 if (card != null) {
-                    card.setConnection(simlpeDeck.get(actual));
+                    connections[i][j]= (PyramidCard) simlpeDeck.get(actual);
+                }else {
+                    connections[i][j]=null;
                 }
                 card = simlpeDeck.get(actual);
+                connections[i][j]= (PyramidCard) simlpeDeck.get(actual);
                 actual++;
             }
             card=null;
         }
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (connections[i][j]!=null){
+                    if (i+1<=6){
+                    connections[i][j].setConnection(connections[i+1][j]);
+                    connections[i][j].setConnection2(connections[i+1][j+1]);
+                        }
+                }
+                //System.out.print(connections[i][j]+"  ");
+            }
+            //System.out.println();
+        }
         for (int i = 0; i <= 23; i++) {
-            deck.addElement(simlpeDeck.get(actual));
+            deck.addElement((PyramidCard) simlpeDeck.get(actual));
             simlpeDeck.get(actual).setLayoutX(((i * 0.002) * simlpeDeck.get(actual).getFitWidth()) + 30);
             simlpeDeck.get(actual).setLayoutY(50);
             simlpeDeck.get(actual).flippCard();
@@ -87,115 +96,44 @@ public class Pyramid extends Game{
 
             actual++;
         }
+        PyramidCard cardFromDec = deck.pop();
+        cardFromDec.flippCard();
+        mouseGestures.setMouseGestures(cardFromDec);
+        //cardFromDec.setVaistpile(true);
+        cardFromDec.setInDeck(true);
+
+        vastPile.push((PyramidCard) cardFromDec);
+
         emptyDeck = new ImageView();
-        Image img = new Image("/img/emptyCardSlot.png");
-        emptyDeck.setImage(img);
-        emptyDeck.setFitWidth(85);
-        emptyDeck.setFitHeight(110);
-        emptyDeck.setLayoutX(30);
-        emptyDeck.setLayoutY(10);
+        emptyDeck.setImage(emptyimg);
+        emptyDeck.setFitWidth(70);
+        emptyDeck.setFitHeight(100);
+        emptyDeck.setLayoutX(( emptyDeck.getFitWidth() + 60));
+        emptyDeck.setLayoutY(50);
         emptyDeck.setOpacity(0);
-        emptyDeck.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                showDeck();
-            }
-        });
+        emptyDeck.setId("col");
+        //emptyDeck.setOnMousePressed(mouseEvent -> showDeck());
         board.getChildren().add(emptyDeck);
 
-/*        emptySpace(15, 2, board);
-        //emptySpace(140, 7, board);
-
-        for (int i = 0; i < 10; i++) {
-            ImageView empty = new ImageView();
-            Image emptyimg = new Image("img/emptyCardSlot.png");
-            empty.setId("col:" + i);
-            empty.setImage(emptyimg);
-            empty.setFitWidth(70);
-            empty.setLayoutX((i * empty.getFitWidth() + i * 30) + 30);
-            empty.setLayoutY(140);
-            empty.setPreserveRatio(true);
-            empty.setOpacity(0);
-            board.getChildren().add(empty);
-        }
-
-        int index=0;
-        for (int i = 3; i < 7; i++) {
-            ImageView empty = new ImageView();
-            Image img = new Image("img/kuka.png");
-            empty.setImage(img);
-            empty.setFitWidth(70);
-            empty.setLayoutX((i * empty.getFitWidth() + i * 30) + 30);
-            empty.setLayoutY(15);
-            empty.setPreserveRatio(true);
-            empty.toBack();
-            board.getChildren().add(empty);
-            ImageView empty2 = new ImageView();
-            Image emptyimg = new Image("img/emptyCardSlot.png");
-            empty2.setId("row:" + i);
-
-
-            empty2.setImage(emptyimg);
-            empty2.setFitWidth(70);
-            empty2.setLayoutX((i * empty.getFitWidth() + i * 30) + 30);
-            empty2.setLayoutY(15);
-            empty2.setPreserveRatio(true);
-            empty2.setOpacity(0.5);
-            acePlace[index]=empty;
-            index++;
-            board.getChildren().add(empty2);
-        }
-     */
     }
 
-    private void showDeck() {
-        ((MouseGesturesPyramid)mouseGestures).setActionType(ActionType.DECK);
-        if (!deck.empty()) {
-            int db = Math.min(deck.size(), 1);
-            for (int i = 0; i < db; i++) {
-                Card actual = deck.pop();
-                actual.flippCard();
-                mouseGestures.setMouseGestures(actual);
-                actual.relocate(120, 50);
-                actual.toFront();
-                actual.setInDeck(true);
-                vastPile.push(actual);
-            }
-        } else {
-            int i = 0;
-            while (vastPile.size() != 0) {
-                Card actual = vastPile.pop();
-                if (!actual.isSticked() && actual.isInDeck()) {
-                    actual.flippCard();
-                    actual.relocate(((i * 0.002) * actual.getFitWidth()) + 30, 50);
-                    deck.push(actual);
-                } else {
-                    actual.setInDeck(false);
-                }
-                i++;
-            }
-            emptyDeck.toFront();
-        }
-    }
-
-    private int placeCards(int actual, int i, int j, Pane panel) {
+    private void placeCards(int actual, int i, int j, Pane panel) {
         int space = ((j)+(7-i))*40;
         simlpeDeck.get(actual).setLayoutX(j*40+space+100);
         simlpeDeck.get(actual).setLayoutY((i * simlpeDeck.get(actual).getFitWidth()) +10);
         simlpeDeck.get(actual).flippCard();
         mouseGestures.setMouseGestures(simlpeDeck.get(actual));
         panel.getChildren().add(simlpeDeck.get(actual));
-        return actual;
     }
 
-    private void emptySpace(int y, int length, Pane panel) {
-        for (int i = 0; i < length; i++) {
+    private void emptySpace(Pane panel) {
+        for (int i = 0; i < 2; i++) {
             ImageView empty = new ImageView();
             Image img = new Image("img/kuka.png");
             empty.setImage(img);
             empty.setFitWidth(70);
             empty.setLayoutX((i * empty.getFitWidth() + i * 30) + 30);
-            empty.setLayoutY(y);
+            empty.setLayoutY(50);
             empty.setPreserveRatio(true);
             empty.toBack();
             panel.getChildren().add(empty);

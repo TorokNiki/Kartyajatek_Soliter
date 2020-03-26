@@ -1,4 +1,4 @@
-package backEnd.domain;
+package backEnd.domain.enums;
 
 public enum ActionType {
     TOFINAL,

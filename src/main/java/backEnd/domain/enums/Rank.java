@@ -1,4 +1,4 @@
-package backEnd.domain;
+package backEnd.domain.enums;
 
 public enum Rank implements Comparable<Rank> {
     ACE(1, "Ace", "A"),

@@ -1,4 +1,4 @@
-package backEnd.domain;
+package backEnd.domain.enums;
 
 import java.util.ArrayList;
 import java.util.List;

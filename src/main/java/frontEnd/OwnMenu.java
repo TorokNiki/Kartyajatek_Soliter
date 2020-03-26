@@ -56,7 +56,7 @@ public class OwnMenu {
     private void setMenuItemsFile(Menu menu) {
         secondery=new Stage();
         this.miUndoLastMove = new javafx.scene.control.MenuItem("Utolsó lépés visszavonása");
-
+        setUndoEnabled();
         javafx.scene.control.MenuItem miShowScoreBoard = new javafx.scene.control.MenuItem("Eredménytábla");
         javafx.scene.control.SeparatorMenuItem separatorMenuItem=new javafx.scene.control.SeparatorMenuItem();
         javafx.scene.control.MenuItem miExit = new MenuItem("Bezár");
@@ -67,6 +67,12 @@ public class OwnMenu {
 
     public void setUndoAction(){
         this.miUndoLastMove.setOnAction(mainController.actualGame.getMouseGestures().getOnUndo());
+    }
+    public void setUndoDisabled(){
+        miUndoLastMove.setDisable(true);
+    }
+    public void setUndoEnabled(){
+        miUndoLastMove.setDisable(false);
     }
     private void setMenuItemsTure(Menu menu) {
         this.miStartNewTure = new MenuItem("Új Túra inditása");

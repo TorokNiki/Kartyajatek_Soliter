@@ -1,6 +1,6 @@
 package frontEnd.settings;
 
-import backEnd.domain.Background;
+import backEnd.domain.enums.Background;
 import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
 import frontEnd.MainController;

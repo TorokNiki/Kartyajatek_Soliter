@@ -1,10 +1,9 @@
 package backEnd.services.game;
 
-import backEnd.domain.ActionType;
+import backEnd.domain.enums.ActionType;
 import backEnd.domain.Card;
 import backEnd.services.factory.DeckFactory;
 import backEnd.services.game.mousegestures.MouseGestureKlondike;
-import backEnd.services.game.mousegestures.MouseGestures;
 import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -55,9 +54,9 @@ public class Klondike extends Game {
             empty.setId("col:" + i);
             empty.setImage(emptyimg);
             empty.setFitWidth(70);
+            empty.setFitHeight(100);
             empty.setLayoutX((i * empty.getFitWidth() + i * 30) + 30);
             empty.setLayoutY(140);
-            empty.setPreserveRatio(true);
             empty.setOpacity(0);
             board.getChildren().add(empty);
         }
@@ -80,9 +79,9 @@ public class Klondike extends Game {
             finalPozicionList.add(empty2);
             empty2.setImage(emptyimg);
             empty2.setFitWidth(70);
+            empty2.setFitHeight(100);
             empty2.setLayoutX((i * empty.getFitWidth() + i * 30) + 30);
             empty2.setLayoutY(15);
-            empty2.setPreserveRatio(true);
             empty2.setOpacity(0);
             acePlace[index]=empty;
             index++;

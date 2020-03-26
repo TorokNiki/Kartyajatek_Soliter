@@ -1,8 +1,8 @@
 package backEnd.services.game.mousegestures;
 
-import backEnd.domain.ActionType;
+import backEnd.domain.enums.ActionType;
 import backEnd.domain.Card;
-import backEnd.domain.Rank;
+import backEnd.domain.enums.Rank;
 import frontEnd.MainController;
 import frontEnd.settings.Alerts;
 import javafx.animation.PathTransition;

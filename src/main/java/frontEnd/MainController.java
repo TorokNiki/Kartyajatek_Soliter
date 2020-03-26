@@ -68,6 +68,7 @@ public class MainController {
         actualGame = upsideDownPyramid;
         this.root.getChildren().add(actualGame.getBoard());
         upsideDownPyramid.restartGame(true);
+        ownMenu.setUndoEnabled();
         ownMenu.setUndoAction();
     }
 
@@ -86,15 +87,16 @@ public class MainController {
             actualGame = klondike;
             ownMenu.setUndoAction();
         }
-//        else if (actualGame.equals(klondike)){
-//            pyramid = new Pyramid(this);
-//            this.name = "Pyramid (2/2)";
-//            this.currentScore = 0;
-//            defaultSettings();
-//            actualGame.getBoard().getChildren().clear();
-//            actualGame = pyramid;
-//            ownMenu.setUndoAction();
-//        }
+        else if (actualGame.equals(klondike)){
+            pyramid = new Pyramid(this);
+            this.name = "Pyramid (3/3)";
+            this.currentScore = 0;
+            defaultSettings();
+            actualGame.getBoard().getChildren().clear();
+            actualGame = pyramid;
+            ownMenu.setUndoDisabled();
+            //ownMenu.setUndoAction();
+        }
         this.root.getChildren().add(actualGame.getBoard());
     }
 

@@ -1,6 +1,6 @@
 package frontEnd.settings;
 
-import backEnd.domain.Front;
+import backEnd.domain.enums.Front;
 import backEnd.services.factory.Config;
 import backEnd.services.game.Game;
 import javafx.event.EventHandler;

@@ -1,6 +1,6 @@
 package backEnd.services.game.mousegestures;
 
-import backEnd.domain.ActionType;
+import backEnd.domain.enums.ActionType;
 import backEnd.domain.Card;
 import frontEnd.MainController;
 import javafx.event.ActionEvent;

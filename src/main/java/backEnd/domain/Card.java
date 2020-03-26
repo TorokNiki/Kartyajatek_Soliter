@@ -1,5 +1,7 @@
 package backEnd.domain;
 
+import backEnd.domain.enums.Rank;
+import backEnd.domain.enums.Style;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -32,6 +34,7 @@ public class Card extends ImageView {
         this.faceup = false;
         this.isSticked =false;
         this.inDeck=false;
+        this.finalPozicion=false;
     }
 
     @Override

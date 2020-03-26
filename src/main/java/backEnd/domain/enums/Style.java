@@ -1,4 +1,4 @@
-package backEnd.domain;
+package backEnd.domain.enums;
 
 public enum Style implements Comparable<Style> {
     HEARTS(1, "Hearts", 'H'),
