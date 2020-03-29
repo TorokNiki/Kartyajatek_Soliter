@@ -30,7 +30,7 @@ public class Klondike extends Game {
         mouseGestures = new MouseGestureKlondike(controller);
         restart = false;
         start();
-        ((MouseGestureKlondike)mouseGestures).getDecks(deckRemain,vastPile,emptyDeck,finalPozicionList);
+
     }
 
     private void start() {
@@ -40,6 +40,7 @@ public class Klondike extends Game {
         deckRemain = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard();
+        ((MouseGestureKlondike)mouseGestures).getDecks(deckRemain,vastPile,emptyDeck,finalPozicionList);
     }
 
 
@@ -213,6 +214,7 @@ public class Klondike extends Game {
         deckRemain = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard();
+        ((MouseGestureKlondike)mouseGestures).getDecks(deckRemain,vastPile,emptyDeck,finalPozicionList);
     }
 
     public void flippCardsonDefault() {

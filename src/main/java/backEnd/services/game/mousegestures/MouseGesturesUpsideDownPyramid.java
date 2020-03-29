@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 
-public class MouseGesturesUpsideDownPiramid extends MouseGestures{
+public class MouseGesturesUpsideDownPyramid extends MouseGestures{
     private Stack<Card> deck,vastPile;
     private ImageView emptyDeck;
     List<Card> finalPozzicions;
@@ -30,7 +30,7 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
         this.emptyDeck=emptyDeck;
         this.finalPozzicions=finalPozzicions;
     }
-    public MouseGesturesUpsideDownPiramid(MainController mainController) {
+    public MouseGesturesUpsideDownPyramid(MainController mainController) {
         super(mainController);
         super.onUndo= actionEvent -> {
             switch (actionType){
@@ -127,7 +127,6 @@ public class MouseGesturesUpsideDownPiramid extends MouseGestures{
             Card finalPositionCard = optionalCard.get();
             ifFinalPozicion(card,finalPositionCard);
             finalpozzicion.remove(finalPositionCard);
-            finalpozzicion.add(card);
         }
 
     }

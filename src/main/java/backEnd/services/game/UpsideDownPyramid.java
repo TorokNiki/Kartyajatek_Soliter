@@ -4,7 +4,7 @@ import backEnd.domain.enums.ActionType;
 import backEnd.domain.Card;
 import backEnd.domain.enums.Rank;
 import backEnd.services.factory.DeckFactory;
-import backEnd.services.game.mousegestures.MouseGesturesUpsideDownPiramid;
+import backEnd.services.game.mousegestures.MouseGesturesUpsideDownPyramid;
 import frontEnd.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -26,11 +26,11 @@ public class UpsideDownPyramid extends Game {
     private List<Card> finalPozicionList;
     public UpsideDownPyramid(MainController controller) {
         super(new DeckFactory().doubleDeck());
-        mouseGestures = new MouseGesturesUpsideDownPiramid(controller);
+        mouseGestures = new MouseGesturesUpsideDownPyramid(controller);
         restart = false;
         ase = new Card[8];
         start();
-        ((MouseGesturesUpsideDownPiramid)mouseGestures).getDecks(getDeck(),getVastPile(),getEmptyDeck(),finalPozicionList);
+
     }
 
     public Stack<Card> getDeck() {
@@ -51,6 +51,7 @@ public class UpsideDownPyramid extends Game {
         deck = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard();
+        ((MouseGesturesUpsideDownPyramid)mouseGestures).getDecks(getDeck(),getVastPile(),getEmptyDeck(),finalPozicionList);
     }
 
     @Override
@@ -66,6 +67,7 @@ public class UpsideDownPyramid extends Game {
         deck = new Stack<>();
         vastPile = new Stack<>();
         placeCardsOnBoard();
+        ((MouseGesturesUpsideDownPyramid)mouseGestures).getDecks(getDeck(),getVastPile(),getEmptyDeck(),finalPozicionList);
     }
 
 
@@ -196,7 +198,7 @@ public class UpsideDownPyramid extends Game {
     }
 
     private void showDeck() {
-        ((MouseGesturesUpsideDownPiramid)mouseGestures).setActionType(ActionType.DECK);
+        ((MouseGesturesUpsideDownPyramid)mouseGestures).setActionType(ActionType.DECK);
         if (!deck.empty()) {
             int db = Math.min(deck.size(), 3);
             for (int i = 0; i < db; i++) {

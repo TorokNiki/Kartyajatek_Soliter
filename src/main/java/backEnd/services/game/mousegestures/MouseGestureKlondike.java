@@ -65,7 +65,7 @@ public class MouseGestureKlondike extends MouseGestures {
                         source.setMouseTransparent(true);
                         if (t.getClickCount() == 2 && !t.isConsumed()) {
                             t.consume();
-                            doubleClikPozicion(finalPozzicions, source);
+                            doubleClikPozicion( source);
                             DropShadow shadow = new DropShadow();
                             shadow.setColor(Color.PURPLE);
                             source.setEffect(shadow);
@@ -176,23 +176,21 @@ public class MouseGestureKlondike extends MouseGestures {
         this.actionType = actionType;
     }
 
-    public void doubleClikPozicion(List<Node> finalpozzicion, Card card) {
+    public void doubleClikPozicion(Card card) {
 
         if (card.getRank().equals(Rank.ACE)) {
-            Optional<Node> optionalNode = finalpozzicion.stream()
+            Optional<Node> optionalNode = finalPozzicions.stream()
                     .filter(pickedPlace -> pickedPlace.getId() != null && pickedPlace.getId().contains("row"))
                     .findFirst();
             if (optionalNode.isPresent()) {
                 Node finalPositionCard = optionalNode.get();
                 if (finalPositionCard instanceof ImageView) {
                     putOnAnEmptyPlaceAnAce(card, (ImageView) finalPositionCard);
-                    finalpozzicion.remove(finalPositionCard);
-                    finalpozzicion.add(card);
                 }
             }
 
         } else {
-            Optional<Node> optionalCard = finalpozzicion.stream()
+            Optional<Node> optionalCard = finalPozzicions.stream()
                     .filter(o -> o instanceof Card)
                     .filter(pickedCard -> !isValidSimplePlacement(card, ((Card) pickedCard)))
                     .findFirst();
@@ -200,8 +198,6 @@ public class MouseGestureKlondike extends MouseGestures {
                 Node finalPositionCard = optionalCard.get();
                 if (finalPositionCard instanceof Card) {
                     ifFinalPozicion(card, (Card) finalPositionCard);
-                    finalpozzicion.remove(finalPositionCard);
-                    finalpozzicion.add(card);
                 }
             }
         }
@@ -255,6 +251,8 @@ public class MouseGestureKlondike extends MouseGestures {
             cardY = cardYtemp;
             card.setSticked(true);
             card.setFinalPozicion(true);
+            finalPozzicions.remove(pickedPlace);
+            finalPozzicions.add(card);
             card.setInDeck(false);
             fixPosition(card, pickedPlace, 25);
             db++;

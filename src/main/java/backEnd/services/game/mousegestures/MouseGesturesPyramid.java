@@ -16,12 +16,14 @@ import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.List;
 import java.util.Stack;
 
 public class MouseGesturesPyramid extends MouseGestures {
     ImageView finalPozzicion;
     private Stack<PyramidCard> deck, vastPile;
     private ImageView emptyDeck;
+    private List<PyramidCard> pyramid;
 
     public MouseGesturesPyramid(MainController mainController) {
         super(mainController);
@@ -61,6 +63,14 @@ public class MouseGesturesPyramid extends MouseGestures {
                         if (t.getClickCount() == 2 && !t.isConsumed()) {
                             t.consume();
                             doubleClikPozicion(source);
+                            if (pyramid.size()<=0) {
+                                Alerts a = new Alerts();
+                                a.win();
+                                a.score(mainController.getScore(), mainController.getCurrentScore());
+                                a.getName(mainController);
+                                new ScoreBoard(new Stage());
+                                mainController.desableMenuItem();
+                            }
 
                         }
                     }
@@ -95,7 +105,7 @@ public class MouseGesturesPyramid extends MouseGestures {
                     moveToSource(card);
                 }
                 card.setMouseTransparent(false);
-                if (db == 13 * 4) {
+                if (pyramid.size()<=0) {
                     Alerts a = new Alerts();
                     a.win();
                     a.score(mainController.getScore(), mainController.getCurrentScore());
@@ -117,11 +127,12 @@ public class MouseGesturesPyramid extends MouseGestures {
         }
     }
 
-    public void getDecks(Stack<PyramidCard> deck, Stack<PyramidCard> vastPile, ImageView emptyDeck, ImageView finalPozzicion) {
+    public void getDecks(Stack<PyramidCard> deck, Stack<PyramidCard> vastPile, ImageView emptyDeck, ImageView finalPozzicion, List<PyramidCard> pyramid) {
         this.deck = deck;
         this.vastPile = vastPile;
         this.emptyDeck = emptyDeck;
         this.finalPozzicion = finalPozzicion;
+        this.pyramid=pyramid;
     }
 
     public void doubleClikPozicion(PyramidCard card) {
@@ -152,6 +163,9 @@ public class MouseGesturesPyramid extends MouseGestures {
             }
             if (card.getCardBeforeIt2() != null) {
                 card.removeConnection2();
+            }
+            if (pyramid.contains(card)){
+                pyramid.remove(card);
             }
             targetCard = null;
             cardX = cardXtemp;
@@ -262,6 +276,12 @@ public class MouseGesturesPyramid extends MouseGestures {
         if (target.getCardBeforeIt2() != null) {
             target.removeConnection2();
         }
+        if (pyramid.contains(card)){
+            pyramid.remove(card);
+        }
+        if (pyramid.contains(target)){
+            pyramid.remove(target);
+        }
         targetCard = null;
         cardX = cardXtemp;
         cardY = cardYtemp;
@@ -313,8 +333,8 @@ public class MouseGesturesPyramid extends MouseGestures {
 
         if (!(sourceX == targetX && sourceY == targetY)) {
             Path path = new Path();
-            path.getElements().add(new MouseGesturesUpsideDownPiramid.MoveToAbs(card, sourceX, sourceY));
-            path.getElements().add(new MouseGesturesUpsideDownPiramid.LineToAbs(card, targetX, targetY));
+            path.getElements().add(new MouseGesturesUpsideDownPyramid.MoveToAbs(card, sourceX, sourceY));
+            path.getElements().add(new MouseGesturesUpsideDownPyramid.LineToAbs(card, targetX, targetY));
 
             PathTransition pathTransition = new PathTransition();
             pathTransition.setDuration(Duration.millis(100));

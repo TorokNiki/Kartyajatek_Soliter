@@ -20,6 +20,7 @@ public class Pyramid extends Game {
     public ImageView emptyDeck;
     public boolean restart;
     public PyramidCard[][] connections;
+    public List<PyramidCard> pyramid;
 
     private ImageView finalPozicion;
 
@@ -28,7 +29,7 @@ public class Pyramid extends Game {
         mouseGestures = new MouseGesturesPyramid(controller);
         restart = false;
         start();
-        ((MouseGesturesPyramid) mouseGestures).getDecks(deck, vastPile, emptyDeck, finalPozicion);
+
     }
 
     private void start() {
@@ -36,7 +37,9 @@ public class Pyramid extends Game {
         simlpeDeck = new ArrayList<>(fullDeck);
         deck = new Stack<>();
         vastPile = new Stack<>();
+        pyramid =new ArrayList<>();
         placeCardsOnBoard();
+        ((MouseGesturesPyramid) mouseGestures).getDecks(deck, vastPile, emptyDeck, finalPozicion,pyramid);
     }
 
     @Override
@@ -77,9 +80,11 @@ public class Pyramid extends Game {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 if (connections[i][j] != null) {
+                    pyramid.add(connections[i][j]);
                     if (i + 1 <= 6) {
                         connections[i][j].setConnection(connections[i + 1][j]);
                         connections[i][j].setConnection2(connections[i + 1][j + 1]);
+
                     }
                 }
             }
@@ -148,22 +153,24 @@ public class Pyramid extends Game {
         flippCardsonDefault();
         deck = new Stack<>();
         vastPile = new Stack<>();
+        pyramid=new ArrayList<>();
         placeCardsOnBoard();
+        ((MouseGesturesPyramid) mouseGestures).getDecks(deck, vastPile, emptyDeck, finalPozicion,pyramid);
     }
 
     public void flippCardsonDefault() {
         for (Card c : fullDeck) {
-            c.setFaceup(false);
-            c.setCardOnIt(null);
-            c.setCardBeforeIt(null);
-            c.setFinalPozicion(false);
-            c.setSticked(false);
-            c.setInDeck(false);
-            /*
-            c.setVaistpile(false);
-            c.setConnection2(null);
-            c.setCardBeforeIt2(null);
-            */
+            PyramidCard p=((PyramidCard)c);
+            p.setFaceup(false);
+            p.setCardOnIt(null);
+            p.setCardBeforeIt(null);
+            p.setFinalPozicion(false);
+            p.setSticked(false);
+            p.setInDeck(false);
+            p.setVaistpile(false);
+            p.setCardBeforeIt2(null);
+            p.setCardOnIt2(null);
+
         }
     }
 }
