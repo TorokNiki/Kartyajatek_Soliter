@@ -73,9 +73,7 @@ public class MouseGestureKlondike extends MouseGestures {
                                 Alerts a = new Alerts();
                                 a.win();
                                 a.score(mainController.getScore(), mainController.getCurrentScore());
-                                a.getName(mainController);
-                                new ScoreBoard(new Stage());
-                                mainController.desableMenuItem();
+                                mainController.goToNextGame();
                             }
                         }
                     }
@@ -116,7 +114,6 @@ public class MouseGestureKlondike extends MouseGestures {
                     Alerts a = new Alerts();
                     a.win();
                     a.score(mainController.getScore(), mainController.getCurrentScore());
-                    a.getName(mainController);
                     mainController.goToNextGame();
                 }
             }

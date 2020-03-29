@@ -6,7 +6,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 
-public class Indito extends Application {
+public class Starter extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -15,8 +15,7 @@ public class Indito extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Config.loadProp();
-        SQLite.createNewDatabase();
-        SQLite.createNewTable();
+        SQLite.selectAll();
         MainController mainController = new MainController(primaryStage);
     }
 

@@ -9,12 +9,12 @@ import javafx.scene.input.MouseEvent;
 
 public abstract class MouseGestures {
 
-    public double orgTranslateX;
-    public double orgTranslateY;
-    public double orgSceneX;
-    public double orgSceneY;
+    protected double orgTranslateX;
+    protected double orgTranslateY;
+    protected double orgSceneX;
+    protected double orgSceneY;
     public int db = 0;
-    public MainController mainController;
+    protected MainController mainController;
 
 
 
@@ -31,10 +31,10 @@ public abstract class MouseGestures {
         return onUndo;
     }
 
-    EventHandler<ActionEvent> onUndo;
-    EventHandler<MouseEvent> onMousePressedEventHandler;
-    EventHandler<MouseEvent> onMouseDraggedEventHandler;
-    EventHandler<MouseEvent> onMouseReleasedEventHandler;
+    protected EventHandler<ActionEvent> onUndo;
+    protected EventHandler<MouseEvent> onMousePressedEventHandler;
+    protected EventHandler<MouseEvent> onMouseDraggedEventHandler;
+    protected EventHandler<MouseEvent> onMouseReleasedEventHandler;
 
     public MouseGestures(MainController mainController) {
         this.mainController = mainController;

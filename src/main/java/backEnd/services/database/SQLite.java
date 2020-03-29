@@ -38,7 +38,7 @@ public class SQLite {
         }
     }
 
-    private Connection connect() {
+    private static Connection connect() {
         String url = "jdbc:sqlite:score.sqlite";
         Connection conn = null;
         try {
@@ -60,6 +60,25 @@ public class SQLite {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+    public  static void selectAll(){
+        String sql = "SELECT * FROM winners";
+
+        try {
+            Connection conn = connect();
+            Statement stmt  = conn.createStatement();
+            ResultSet rs    = stmt.executeQuery(sql);
+
+         //   while (rs.next()) {
+//                System.out.println(rs.getInt("id") +  "\t" +
+//                        rs.getString("name") + "\t" +
+//                        rs.getDouble("score"));
+        //    }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            createNewDatabase();
+            createNewTable();
         }
     }
 

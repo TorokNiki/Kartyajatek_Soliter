@@ -76,7 +76,7 @@ public abstract class Game {
 
     public void backgoundChange() {
         if (Config.tempBackground.equals("image")) {
-            if (!Config.tempBackgroundimage.equals(Config.properties.getProperty("bacgroundimage"))) {
+            if (!Config.tempBackgroundimage.equals(Config.properties.getProperty("bacgroundimage"))||Config.properties.getProperty("bacground").equals("color")) {
                 Config.properties.setProperty("bacground", Config.tempBackground);
                 Config.properties.setProperty("bacgroundimage", Config.tempBackgroundimage);
                 Config.writeProp();
@@ -93,7 +93,7 @@ public abstract class Game {
                 board.setBackground(background);
             }
         } else if (Config.tempBackground.equals("color")) {
-            if (!Config.tempBackgroundcolor.equals(Config.properties.getProperty("bacgroundcolor"))) {
+            if (!Config.tempBackgroundcolor.equals(Config.properties.getProperty("bacgroundcolor"))||Config.properties.getProperty("bacground").equals("image")) {
                 Config.properties.setProperty("bacgroundcolor", Config.tempBackgroundcolor);
                 Config.properties.setProperty("bacground", Config.tempBackground);
                 Config.writeProp();

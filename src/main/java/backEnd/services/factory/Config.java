@@ -9,7 +9,7 @@ public class Config {
     public static Properties properties = new Properties();
     public static String tempBack = "blue";
     public static String tempFront = "pakli4";
-    public static String tempBackground = "image";
+    public static String tempBackground = "color";
     public static String tempBackgroundcolor = "lightblue";
     public static String tempBackgroundimage = "gb03.jpg";
 
@@ -27,7 +27,7 @@ public class Config {
         try {
             properties.setProperty("front", "pakli4");
             properties.setProperty("back", "blue");
-            properties.setProperty("bacground", "image");
+            properties.setProperty("bacground", "color");
             properties.setProperty("bacgroundimage", "gb03.jpg");
             properties.setProperty("bacgroundcolor", "lightblue");
             FileOutputStream fileInputStream = new FileOutputStream("config.properties");

@@ -206,7 +206,13 @@ public class MouseGesturesPyramid extends MouseGestures {
     private void putOnACard(PyramidCard card, PyramidCard pikedCard) {
         if (isValidSimplePlacement(card, pikedCard)) {
             ifFinalPozicion(card,pikedCard);
-        }else if ( pikedCard.isVaistpile()&&pikedCard.isInDeck()){
+        }else if (card.getRank().getValue()==13){
+            putOnFinalPlace(card, finalPozzicion);
+            if (!card.isVaistpile()&&card.isInDeck()) {
+                showDeck();
+            }
+        }
+        else if ( pikedCard.isVaistpile()&&pikedCard.isInDeck()){
             movedCard=card;
             sorceCard=null;
             actionType=ActionType.FROMDECK;

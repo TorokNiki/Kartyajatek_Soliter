@@ -126,7 +126,7 @@ public class OwnMenu {
         miChangeCardLook.setOnAction(o -> new ChangeDeckLook(secondery, mainController.actualGame));
         MenuItem miChangeCardBack = new MenuItem("Kártya hátlapja");
         miChangeCardBack.setOnAction(o -> new ChangeCardBack(secondery, mainController.actualGame));
-        MenuItem miChangeBackgroundColour = new MenuItem("Játékterület szine");
+        MenuItem miChangeBackgroundColour = new MenuItem("Játékterület háttere");
         miChangeBackgroundColour.setOnAction(o -> new ChangeBackgroundColour(secondery, mainController.actualGame));
         menu.getItems().addAll(miChangeCardLook, miChangeCardBack, miChangeBackgroundColour);
     }
