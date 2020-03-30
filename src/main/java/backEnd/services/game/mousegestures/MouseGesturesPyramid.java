@@ -63,7 +63,7 @@ public class MouseGesturesPyramid extends MouseGestures {
                         if (t.getClickCount() == 2 && !t.isConsumed()) {
                             t.consume();
                             doubleClikPozicion(source);
-                            if (pyramid.size()<=0) {
+                            if (pyramid.size() <= 0) {
                                 Alerts a = new Alerts();
                                 a.win();
                                 a.score(mainController.getScore(), mainController.getCurrentScore());
@@ -97,15 +97,15 @@ public class MouseGesturesPyramid extends MouseGestures {
                     putOnACard(card, pikedCard);
                 } else if (picked instanceof ImageView && card.getRank() == Rank.KING && (card.getCardOnIt() == null || card.getCardOnIt().isSticked())) {
                     ImageView pickedPlace = (ImageView) picked;
-                    placeAKing(card,pickedPlace);
+                    placeAKing(card, pickedPlace);
                 } else if (picked instanceof Node) {
-                    Node pickedPlace =  picked;
-                    putOnAnEmptyPlace(card,pickedPlace);
-                }else {
+                    Node pickedPlace = picked;
+                    putOnAnEmptyPlace(card, pickedPlace);
+                } else {
                     moveToSource(card);
                 }
                 card.setMouseTransparent(false);
-                if (pyramid.size()<=0) {
+                if (pyramid.size() <= 0) {
                     Alerts a = new Alerts();
                     a.win();
                     a.score(mainController.getScore(), mainController.getCurrentScore());
@@ -119,11 +119,12 @@ public class MouseGesturesPyramid extends MouseGestures {
             card.setMouseTransparent(false);
         };
     }
-    public void placeAKing(PyramidCard card,Node pickedPlace){
-        if (pickedPlace.getId() != null && pickedPlace.getId().contains("row")){
+
+    public void placeAKing(PyramidCard card, Node pickedPlace) {
+        if (pickedPlace.getId() != null && pickedPlace.getId().contains("row")) {
             putOnFinalPlace(card, pickedPlace);
-        }else {
-            putOnAnEmptyPlace(card,pickedPlace);
+        } else {
+            putOnAnEmptyPlace(card, pickedPlace);
         }
     }
 
@@ -132,7 +133,7 @@ public class MouseGesturesPyramid extends MouseGestures {
         this.vastPile = vastPile;
         this.emptyDeck = emptyDeck;
         this.finalPozzicion = finalPozzicion;
-        this.pyramid=pyramid;
+        this.pyramid = pyramid;
     }
 
     public void doubleClikPozicion(PyramidCard card) {
@@ -157,14 +158,14 @@ public class MouseGesturesPyramid extends MouseGestures {
             } else {
                 sorceCard = null;
                 actionType = ActionType.FROMDECK;
-                if (!card.isVaistpile()&&card.isInDeck()){
-                showDeck();
+                if (!card.isVaistpile() && card.isInDeck()) {
+                    showDeck();
                 }
             }
             if (card.getCardBeforeIt2() != null) {
                 card.removeConnection2();
             }
-            if (pyramid.contains(card)){
+            if (pyramid.contains(card)) {
                 pyramid.remove(card);
             }
             targetCard = null;
@@ -175,11 +176,11 @@ public class MouseGesturesPyramid extends MouseGestures {
             card.setInDeck(false);
             fixPosition(card, pickedPlace);
             addScore(card);
-        }
-        else {
+        } else {
             moveToSource(card);
         }
     }
+
     protected void showDeck() {
         setActionType(ActionType.DECK);
         if (!deck.empty()) {
@@ -195,20 +196,22 @@ public class MouseGesturesPyramid extends MouseGestures {
         }
 
     }
+
     private void putOnAnEmptyPlace(PyramidCard card, Node pickedPlace) {
         if (pickedPlace.getId() != null && pickedPlace.getId().contains("col")) {
-            movedCard=card;
-            sorceCard=null;
-            actionType=ActionType.FROMDECK;
-            targetCard=null;
-            cardX=cardXtemp;
-            cardY=cardYtemp;
+            movedCard = card;
+            sorceCard = null;
+            actionType = ActionType.FROMDECK;
+            targetCard = null;
+            cardX = cardXtemp;
+            cardY = cardYtemp;
             fixPosition(card, pickedPlace);
-            showDeck();
+            if (!card.isVaistpile() && card.isInDeck()) {
+                showDeck();
+            }
             card.setInDeck(true);
-           card.setVaistpile(true);
-        }
-        else {
+            card.setVaistpile(true);
+        } else {
             moveToSource(card);
         }
     }
@@ -219,67 +222,65 @@ public class MouseGesturesPyramid extends MouseGestures {
 
     private void putOnACard(PyramidCard card, PyramidCard pikedCard) {
         if (isValidSimplePlacement(card, pikedCard)) {
-            ifFinalPozicion(card,pikedCard);
-        }else if (card.getRank().getValue()==13){
+            ifFinalPozicion(card, pikedCard);
+        } else if (card.getRank().getValue() == 13) {
             putOnFinalPlace(card, finalPozzicion);
-            if (!card.isVaistpile()&&card.isInDeck()) {
+            if (!card.isVaistpile() && card.isInDeck()) {
                 showDeck();
             }
-        }
-        else if ( pikedCard.isVaistpile()&&pikedCard.isInDeck()){
-            movedCard=card;
-            sorceCard=null;
-            actionType=ActionType.FROMDECK;
-            targetCard=null;
-            cardX=cardXtemp;
-            cardY=cardYtemp;
+        } else if (pikedCard.isVaistpile() && pikedCard.isInDeck()) {
+            movedCard = card;
+            sorceCard = null;
+            actionType = ActionType.FROMDECK;
+            targetCard = null;
+            cardX = cardXtemp;
+            cardY = cardYtemp;
             fixPosition(card, pikedCard);
-            if (!card.isVaistpile()&&card.isInDeck()) {
+            if (!card.isVaistpile() && card.isInDeck()) {
                 showDeck();
             }
             card.setVaistpile(true);
             card.setInDeck(true);
-        }
-        else {
+        } else {
             moveToSource(card);
         }
     }
 
     private boolean isValidSimplePlacement(Card card, Card pikedCard) {
-        return card.getRank().getValue()+pikedCard.getRank().getValue()==13;
+        return card.getRank().getValue() + pikedCard.getRank().getValue() == 13;
     }
 
-    private void ifFinalPozicion(PyramidCard card,PyramidCard target) {
+    private void ifFinalPozicion(PyramidCard card, PyramidCard target) {
         movedCard = card;
         if (card.getCardBeforeIt() != null) {
             sorceCard = card.getCardBeforeIt();
             card.removeConnection();
             actionType = ActionType.TOFINAL;
-            if (!target.isVaistpile()&&target.isInDeck()) {
+            if (!target.isVaistpile() && target.isInDeck()) {
                 showDeck();
             }
         } else {
             sorceCard = null;
             actionType = ActionType.FROMDECK;
-            if (!card.isVaistpile()&&card.isInDeck()) {
+            if (!card.isVaistpile() && card.isInDeck()) {
                 showDeck();
-            }else if (card.isVaistpile()&&card.isInDeck()&&target.isInDeck()&&!target.isVaistpile()){
+            } else if (card.isVaistpile() && card.isInDeck() && target.isInDeck() && !target.isVaistpile()) {
                 showDeck();
             }
         }
-        if (target.getCardBeforeIt() != null){
+        if (target.getCardBeforeIt() != null) {
             target.removeConnection();
         }
         if (card.getCardBeforeIt2() != null) {
-        card.removeConnection2();
+            card.removeConnection2();
         }
         if (target.getCardBeforeIt2() != null) {
             target.removeConnection2();
         }
-        if (pyramid.contains(card)){
+        if (pyramid.contains(card)) {
             pyramid.remove(card);
         }
-        if (pyramid.contains(target)){
+        if (pyramid.contains(target)) {
             pyramid.remove(target);
         }
         targetCard = null;
@@ -291,7 +292,7 @@ public class MouseGesturesPyramid extends MouseGestures {
         card.setInDeck(false);
         fixPosition(card, finalPozzicion);
         fixPosition(target, finalPozzicion);
-        addScore(card,target);
+        addScore(card, target);
     }
 
     private void addScore(Card card) {
@@ -304,16 +305,18 @@ public class MouseGesturesPyramid extends MouseGestures {
         mainController.setScore(total);
         mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
     }
-    private void addScore(Card card,Card card2) {
+
+    private void addScore(Card card, Card card2) {
         db++;
         int score = mainController.getCurrentScore();
         int total = mainController.getScore();
-        total += card.getPoint()+card2.getPoint();
-        score += card.getPoint()+card2.getPoint();
+        total += card.getPoint() + card2.getPoint();
+        score += card.getPoint() + card2.getPoint();
         mainController.setCurrentScore(score);
         mainController.setScore(total);
         mainController.setScoreText(mainController.getOwnMenu().setTFScore(mainController.getScoreText(), mainController.getScore(), mainController.getCurrentScore()));
     }
+
     private void fixPosition(Card card, Node cardTo) {
         card.toFront();
         card.setEffect(null);
@@ -324,6 +327,7 @@ public class MouseGesturesPyramid extends MouseGestures {
         card.setTranslateX(0);
         card.setTranslateY(0);
     }
+
     private void moveToSource(Card card) {
         double sourceX = card.getLayoutX() + card.getTranslateX();
         double sourceY = card.getLayoutY() + card.getTranslateY();

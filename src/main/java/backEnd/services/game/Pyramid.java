@@ -37,9 +37,9 @@ public class Pyramid extends Game {
         simlpeDeck = new ArrayList<>(fullDeck);
         deck = new Stack<>();
         vastPile = new Stack<>();
-        pyramid =new ArrayList<>();
+        pyramid = new ArrayList<>();
         placeCardsOnBoard();
-        ((MouseGesturesPyramid) mouseGestures).getDecks(deck, vastPile, emptyDeck, finalPozicion,pyramid);
+        ((MouseGesturesPyramid) mouseGestures).getDecks(deck, vastPile, emptyDeck, finalPozicion, pyramid);
     }
 
     @Override
@@ -77,10 +77,11 @@ public class Pyramid extends Game {
             }
             card = null;
         }
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
+        for (int i = 0; i < connections.length; i++) {
+            for (int j = 0; j < connections[i].length; j++) {
                 if (connections[i][j] != null) {
                     pyramid.add(connections[i][j]);
+                    connections[i][j].setPoint((connections.length - i) * 9);
                     if (i + 1 <= 6) {
                         connections[i][j].setConnection(connections[i + 1][j]);
                         connections[i][j].setConnection2(connections[i + 1][j + 1]);
@@ -89,6 +90,7 @@ public class Pyramid extends Game {
                 }
             }
         }
+
         for (int i = 0; i <= 23; i++) {
             deck.addElement((PyramidCard) simlpeDeck.get(actual));
             simlpeDeck.get(actual).setLayoutX(((i * 0.002) * simlpeDeck.get(actual).getFitWidth()) + 30);
@@ -153,14 +155,14 @@ public class Pyramid extends Game {
         flippCardsonDefault();
         deck = new Stack<>();
         vastPile = new Stack<>();
-        pyramid=new ArrayList<>();
+        pyramid = new ArrayList<>();
         placeCardsOnBoard();
-        ((MouseGesturesPyramid) mouseGestures).getDecks(deck, vastPile, emptyDeck, finalPozicion,pyramid);
+        ((MouseGesturesPyramid) mouseGestures).getDecks(deck, vastPile, emptyDeck, finalPozicion, pyramid);
     }
 
     public void flippCardsonDefault() {
         for (Card c : fullDeck) {
-            PyramidCard p=((PyramidCard)c);
+            PyramidCard p = ((PyramidCard) c);
             p.setFaceup(false);
             p.setCardOnIt(null);
             p.setCardBeforeIt(null);

@@ -21,20 +21,19 @@ public class Card extends ImageView {
     private boolean isSticked;
     private boolean finalPozicion;
 
-
-
-    protected Card() {}
+    protected Card() {
+    }
 
     public Card(int id, Rank rank, Style color) {
         this.id = id;
-        this.point=rank.getValue()*color.getValue();
+        this.point = rank.getValue() * 4;
         this.name = rank + " of " + color;
         this.rank = rank;
         this.color = color;
         this.faceup = false;
-        this.isSticked =false;
-        this.inDeck=false;
-        this.finalPozicion=false;
+        this.isSticked = false;
+        this.inDeck = false;
+        this.finalPozicion = false;
     }
 
     @Override
@@ -84,7 +83,6 @@ public class Card extends ImageView {
         return this.color.equals(Style.CLUBS) || this.color.equals(Style.SPADES);
     }
 
-
     public Rank getRank() {
         return rank;
     }
@@ -133,11 +131,13 @@ public class Card extends ImageView {
     public void setCardOnIt(Card cardOnIt) {
         this.cardOnIt = cardOnIt;
     }
-    public void setConnection(Card cardOnIt){
+
+    public void setConnection(Card cardOnIt) {
         this.cardOnIt = cardOnIt;
         cardOnIt.setCardBeforeIt(this);
     }
-    public void removeConnection(){
+
+    public void removeConnection() {
         this.getCardBeforeIt().setCardOnIt(null);
         this.setCardBeforeIt(null);
     }
@@ -168,6 +168,10 @@ public class Card extends ImageView {
 
     public int getPoint() {
         return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
     }
 
     public boolean isFinalPozicion() {

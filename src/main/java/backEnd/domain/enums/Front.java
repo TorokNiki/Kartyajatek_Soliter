@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum  Front {
     DECK0("Alapértelmezett", "img/cards/paklik/pakli4/KD.png", "img/cards/paklik/pakli4/AD.png", "img/cards/paklik/pakli4/2D.png","pakli4"),
-    DECK1("Alap kicsit csicsázva", "img/cards/paklik/pakli11/KD.png", "img/cards/paklik/pakli11/AD.png", "img/cards/paklik/pakli11/2D.png","pakli11"),
+    DECK1("Alap kicsit dekoratívan", "img/cards/paklik/pakli11/KD.png", "img/cards/paklik/pakli11/AD.png", "img/cards/paklik/pakli11/2D.png","pakli11"),
     DECK2("Angry Birds", "img/cards/paklik/pakli5/KD.png", "img/cards/paklik/pakli5/AD.png", "img/cards/paklik/pakli5/2D.png","pakli5"),
     DECK3("ChunkFive", "img/cards/paklik/pakli7/KD.png", "img/cards/paklik/pakli7/AD.png", "img/cards/paklik/pakli7/2D.png","pakli7"),
     DECK4("Díszes", "img/cards/paklik/pakli3/KD.png", "img/cards/paklik/pakli3/AD.png", "img/cards/paklik/pakli3/2D.png","pakli3"),
