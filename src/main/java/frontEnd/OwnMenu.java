@@ -132,18 +132,26 @@ public class OwnMenu {
     }
 
     private void setMenuItemsHelp(Menu menu) {
-        MenuItem miRools = new MenuItem("Játékszabály");
-        miRools.setOnAction(o -> rules());
-        menu.getItems().addAll(miRools);
+        MenuItem miRools = new MenuItem("Játékszabály(EN)");
+        MenuItem miRoolsHUN = new MenuItem("Játékszabály(HUN)");
+        miRools.setOnAction(o -> rulesEN());
+        miRoolsHUN.setOnAction(o -> rulesHUN());
+        menu.getItems().addAll(miRoolsHUN,miRools);
     }
 
-    public void rules() {
-        openRools();
+    public void rulesEN() {
+        String s="roolsdocx.pdf";
+        openRools(s);
+    }
+    public void rulesHUN() {
+        String s="szabalyzat.pdf";
+        openRools(s);
     }
 
-    public void openRools() {
+
+    public void openRools(String file) {
         try {
-            String inputPdf = "roolsdocx.pdf";
+            String inputPdf = file;
             Path tempOutput = Files.createTempFile("roolsdocx", ".pdf");
             tempOutput.toFile().deleteOnExit();
             System.out.println("tempOutput: " + tempOutput);

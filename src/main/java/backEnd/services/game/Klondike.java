@@ -69,7 +69,7 @@ public class Klondike extends Game {
             empty.setImage(img);
             empty.setFitWidth(70);
             empty.setLayoutX((i * empty.getFitWidth() + i * 30) + 30);
-            empty.setLayoutY(15);
+            empty.setLayoutY(10);
             empty.setPreserveRatio(true);
             empty.toBack();
             board.getChildren().add(empty);
@@ -146,7 +146,7 @@ public class Klondike extends Game {
                 Card actual = deckRemain.pop();
                 actual.flippCard();
                 mouseGestures.setMouseGestures(actual);
-                actual.relocate(120, 10);
+                actual.relocate(125, 10);
                 actual.toFront();
                 actual.setInDeck(true);
                 vastPile.push(actual);
