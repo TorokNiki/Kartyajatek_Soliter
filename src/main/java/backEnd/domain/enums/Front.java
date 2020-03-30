@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum  Front {
-    DECK0("Lilás Kék", "img/cards/paklik/pakli0/KD.png", "img/cards/paklik/pakli0/AD.png", "img/cards/paklik/pakli0/2D.png","pakli0"),
-    DECK1("Normál csillogós", "img/cards/paklik/pakli1/KD.png", "img/cards/paklik/pakli1/AD.png", "img/cards/paklik/pakli1/2D.png","pakli1"),
-    DECK2("Fekete Fehér csillogós", "img/cards/paklik/pakli2/KD.png", "img/cards/paklik/pakli2/AD.png", "img/cards/paklik/pakli2/2D.png","pakli2"),
-    DECK3("Díszes", "img/cards/paklik/pakli3/KD.png", "img/cards/paklik/pakli3/AD.png", "img/cards/paklik/pakli3/2D.png","pakli3"),
-    DECK4("Alapértelmezett", "img/cards/paklik/pakli4/KD.png", "img/cards/paklik/pakli4/AD.png", "img/cards/paklik/pakli4/2D.png","pakli4"),
-    DECK5("Angry Birds", "img/cards/paklik/pakli5/KD.png", "img/cards/paklik/pakli5/AD.png", "img/cards/paklik/pakli5/2D.png","pakli5"),
-    DECK6("Normál díszesen", "img/cards/paklik/pakli6/KD.png", "img/cards/paklik/pakli6/AD.png", "img/cards/paklik/pakli6/2D.png","pakli6"),
-    DECK7("ChunkFive", "img/cards/paklik/pakli7/KD.png", "img/cards/paklik/pakli7/AD.png", "img/cards/paklik/pakli7/2D.png","pakli7"),
+    DECK0("Alapértelmezett", "img/cards/paklik/pakli4/KD.png", "img/cards/paklik/pakli4/AD.png", "img/cards/paklik/pakli4/2D.png","pakli4"),
+    DECK1("Alap kicsit csicsázva", "img/cards/paklik/pakli11/KD.png", "img/cards/paklik/pakli11/AD.png", "img/cards/paklik/pakli11/2D.png","pakli11"),
+    DECK2("Angry Birds", "img/cards/paklik/pakli5/KD.png", "img/cards/paklik/pakli5/AD.png", "img/cards/paklik/pakli5/2D.png","pakli5"),
+    DECK3("ChunkFive", "img/cards/paklik/pakli7/KD.png", "img/cards/paklik/pakli7/AD.png", "img/cards/paklik/pakli7/2D.png","pakli7"),
+    DECK4("Díszes", "img/cards/paklik/pakli3/KD.png", "img/cards/paklik/pakli3/AD.png", "img/cards/paklik/pakli3/2D.png","pakli3"),
+    DECK5("Díszes világos", "img/cards/paklik/pakli12/KD.png", "img/cards/paklik/pakli12/AD.png", "img/cards/paklik/pakli12/2D.png","pakli12"),
+    DECK6("Díszes sötét", "img/cards/paklik/pakli13/KD.png", "img/cards/paklik/pakli13/AD.png", "img/cards/paklik/pakli13/2D.png","pakli13"),
+    DECK7("Fekete Fehér csillogós", "img/cards/paklik/pakli2/KD.png", "img/cards/paklik/pakli2/AD.png", "img/cards/paklik/pakli2/2D.png","pakli2"),
     DECK8("Gotikus", "img/cards/paklik/pakli8/KD.png", "img/cards/paklik/pakli8/AD.png", "img/cards/paklik/pakli8/2D.png","pakli8"),
     DECK9("Gyerek", "img/cards/paklik/pakli9/KD.png", "img/cards/paklik/pakli9/AD.png", "img/cards/paklik/pakli9/2D.png","pakli9"),
     DECK10("Gyémánt", "img/cards/paklik/pakli10/KD.png", "img/cards/paklik/pakli10/AD.png", "img/cards/paklik/pakli10/2D.png","pakli10"),
-    DECK11("alap kicsit csicsázva", "img/cards/paklik/pakli11/KD.png", "img/cards/paklik/pakli11/AD.png", "img/cards/paklik/pakli11/2D.png","pakli11"),
-    DECK12("Díszes világos", "img/cards/paklik/pakli12/KD.png", "img/cards/paklik/pakli12/AD.png", "img/cards/paklik/pakli12/2D.png","pakli12"),
-    DECK13("Díszes sötét", "img/cards/paklik/pakli13/KD.png", "img/cards/paklik/pakli13/AD.png", "img/cards/paklik/pakli13/2D.png","pakli13"),
+    DECK11("Lilás Kék", "img/cards/paklik/pakli0/KD.png", "img/cards/paklik/pakli0/AD.png", "img/cards/paklik/pakli0/2D.png","pakli0"),
+    DECK12("Normál csillogós", "img/cards/paklik/pakli1/KD.png", "img/cards/paklik/pakli1/AD.png", "img/cards/paklik/pakli1/2D.png","pakli1"),
+    DECK13("Normál díszesen", "img/cards/paklik/pakli6/KD.png", "img/cards/paklik/pakli6/AD.png", "img/cards/paklik/pakli6/2D.png","pakli6"),
     DECK14("Narancssárga", "img/cards/paklik/pakli14/KD.png", "img/cards/paklik/pakli14/AD.png", "img/cards/paklik/pakli14/2D.png","pakli14"),
     DECK15("Rajzolt hatásu", "img/cards/paklik/pakli15/KD.png", "img/cards/paklik/pakli15/AD.png", "img/cards/paklik/pakli15/2D.png","pakli15");
 

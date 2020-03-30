@@ -41,9 +41,9 @@ public class OwnMenu {
         menuBar.getMenus().add(file);
         Menu ture = new Menu("Túra");
         menuBar.getMenus().add(ture);
-        Menu options = new Menu("Opciók");
+        Menu options = new Menu("Beállítások");
         menuBar.getMenus().add(options);
-        Menu help = new Menu("Segitség");
+        Menu help = new Menu("Súgó");
         menuBar.getMenus().add(help);
         menuBar.prefWidthProperty().bind(width);
         setMenuItemsFile(file);
@@ -59,7 +59,7 @@ public class OwnMenu {
         setUndoEnabled();
         javafx.scene.control.MenuItem miShowScoreBoard = new javafx.scene.control.MenuItem("Eredménytábla");
         javafx.scene.control.SeparatorMenuItem separatorMenuItem = new javafx.scene.control.SeparatorMenuItem();
-        javafx.scene.control.MenuItem miExit = new MenuItem("Bezár");
+        javafx.scene.control.MenuItem miExit = new MenuItem("Kilépés");
         miExit.setOnAction(o -> System.exit(0));
         miShowScoreBoard.setOnAction(o -> new ScoreBoard(secondery));
         menu.getItems().addAll(miUndoLastMove, miShowScoreBoard, separatorMenuItem, miExit);
@@ -79,7 +79,7 @@ public class OwnMenu {
 
     private void setMenuItemsTure(Menu menu) {
         this.miStartNewTure = new MenuItem("Új Túra inditása");
-        this.miRestartCurrentTure = new MenuItem("Aktuális Túra újraindítása");
+        this.miRestartCurrentTure = new MenuItem("Aktuális játék újraindítása");
         this.miStartNewGame = new MenuItem("Következő játék indítása");
         this.miEndCurrentTure = new MenuItem("Túra befejezése");
         miStartNewTure.setOnAction(o -> {
@@ -180,6 +180,7 @@ public class OwnMenu {
         score.setText(currentScore + "/" + allScore);
         score.setAlignment(Pos.CENTER);
         score.setEditable(false);
+        score.setDisable(true);
         score.setFocusTraversable(false);
         score.setLayoutX(336.0);
         return score;

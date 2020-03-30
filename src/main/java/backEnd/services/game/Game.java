@@ -34,7 +34,7 @@ public abstract class Game {
             board.setStyle("-fx-background-color: " + Config.properties.getProperty("bacgroundcolor") + ";");
         }
         board.setLayoutY(25);
-        board.setPrefHeight(600);
+        board.setPrefHeight(610);
         board.setPrefWidth(809);
     }
 

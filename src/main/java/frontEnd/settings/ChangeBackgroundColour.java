@@ -27,11 +27,11 @@ public class ChangeBackgroundColour {
         backgroundImagesList = BackgroundImages.getBackground();
         Group root = new Group(deckLook());
         secondery.getIcons().add(new Image("img/ace.png"));
-        secondery.setTitle("Játéktér Hátterének a kiválasztása");
+        secondery.setTitle("Játéktér hátterének a kiválasztása");
         secondery.setScene(new Scene(root, 600, 400));
         secondery.setResizable(false);
         addItems();
-        selectedIndex = 2;
+        selectedIndex = 22;
         select.scrollTo(selectedIndex);
         select.getSelectionModel().select(selectedIndex);
         select.getFocusModel().focus(selectedIndex);

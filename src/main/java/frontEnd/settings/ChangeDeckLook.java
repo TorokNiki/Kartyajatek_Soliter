@@ -32,7 +32,7 @@ public class ChangeDeckLook {
         primaryStage.setScene(new Scene(root, 550, 400));
         primaryStage.setResizable(false);
         addItems();
-        selectedIndex = 4;
+        selectedIndex = 0;
         select.scrollTo(selectedIndex);
         select.getSelectionModel().select(selectedIndex);
         select.getFocusModel().focus(selectedIndex);

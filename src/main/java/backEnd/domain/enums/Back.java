@@ -44,18 +44,11 @@ public enum Back {
         backList.add(Back.DEFAULT);
         backList.add(Back.RED);
         backList.add(Back.ANGRYBIRD);
-        backList.add(Back.BLUE);
-        backList.add(Back.BLUEWHITE);
-        backList.add(Back.BLUEBLACK);
         backList.add(Back.GOLD);
         backList.add(Back.GOLDWHITE);
-        backList.add(Back.GREEN);
-        backList.add(Back.GREENBLACK);
-        backList.add(Back.GREENWHITE);
-        backList.add(Back.PURPLE);
-        backList.add(Back.PURPLEBLACK);
         backList.add(Back.BROWN);
         backList.add(Back.BLACK);
+        backList.add(Back.WHITE);
         backList.add(Back.BLACKWHITE);
         backList.add(Back.BLACKWHITE1);
         backList.add(Back.BLACKWHITE2);
@@ -63,8 +56,15 @@ public enum Back {
         backList.add(Back.BLACKWHITE4);
         backList.add(Back.BLACKWHITE5);
         backList.add(Back.BLACKWHITE6);
-        backList.add(Back.WHITE);
+        backList.add(Back.BLUEBLACK);
+        backList.add(Back.BLUEWHITE);
+        backList.add(Back.BLUE);
+        backList.add(Back.PURPLE);
+        backList.add(Back.PURPLEBLACK);
         backList.add(Back.ORANGE);
+        backList.add(Back.GREEN);
+        backList.add(Back.GREENBLACK);
+        backList.add(Back.GREENWHITE);
         return backList;
     }
 
